@@ -1,0 +1,9 @@
+# django=1.6.4
+djangorestframework
+markdown
+django-filter
+django-rest-swagger
+authomatic
+python-openid
+simplejson
+python-dateutil
