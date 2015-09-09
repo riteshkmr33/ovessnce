@@ -1,0 +1,69 @@
+<?php
+$status = (isset($status) && count($status) > 0) ? $status->toArray() : array();
+$statusArray = array('1' => 'success', '2' => 'warning', '3' => 'danger');
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <?php if (isset($successMsgs) && count($successMsgs) > 0): ?>
+            <div class="note note-success">
+                <?php foreach ($successMsgs as $msg) {
+                    echo '<p> ' . $msg . ' </p>';
+                } ?>
+            </div>
+            <?php endif; ?>
+            <?php if (isset($errors) && count($errors) > 0): ?>
+            <div class="note note-danger">
+            <?php foreach ($errors as $msg) {
+                echo '<p> ' . $msg . ' </p>';
+            } ?>
+            </div>
+<?php endif; ?>
+        <div class="note" id="error" style="display:none;"></div>
+        <div class="portlet grey box">
+            <div class="portlet-title">
+                <div class="caption"> <i class="fa fa-random"></i>Subscription Plans List </div>
+                <div class="actions"> 
+                    <a class="btn default btn-sm" href="<?php echo $this->url('admin/subscriptionplans'); ?>"> <i class="fa fa-list"></i> Subscription Plans List </a>
+                    <a class="btn default btn-sm" href="<?php echo $this->url('admin/subscriptiondurations', array('action' => 'add', 'subscription_id' => $this->subscription_id)); ?>"> <i class="fa fa-pencil"></i> Add New Subscription Duration </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th> Duration </th>
+                                <th> Price </th>
+                                <th> Status </th>
+                                <th width="230" >Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+<?php if (isset($subscriptiondurations) && count($subscriptiondurations) > 0) : ?>
+    <?php foreach ($subscriptiondurations as $subscriptionduration) : ?>
+                                    <tr>
+                                        <td><?php echo ($subscriptionduration->duration_in != 4)?$this->escapeHtml($subscriptionduration->duration . " " . $subscriptionduration->durationin):$this->escapeHtml($subscriptionduration->durationin); ?> </td>
+                                        <td><?php echo $this->escapeHtml('$' . $subscriptionduration->price); ?> </td>
+                                        <td><span class="label label-sm label-<?php echo (array_key_exists($subscriptionduration->status_id, $statusArray)) ? $statusArray[$subscriptionduration->status_id] : 'default'; ?>" id="<?php echo $subscriptionduration->id; ?>"><?php echo $this->escapeHtml(ucwords($subscriptionduration->status)); ?></span></td>
+                                        <td>
+                                            <a class="btn default btn-xs default" href="<?php echo $this->url('admin/subscriptiondurations', array('action' => 'edit', 'subscription_id' => $this->subscription_id, 'id' => $subscriptionduration->id)); ?>"><i class="fa fa-edit" title="Edit"></i></a>
+                                            <?php if ($subscriptionduration->id != 1) {?><a class="btn default btn-xs default" href="<?php echo $this->url('admin/subscriptiondurations', array('action' => 'delete', 'subscription_id' => $this->subscription_id, 'id' => $subscriptionduration->id)); ?>"><i class="fa fa-trash-o" title="Delete"></i></a><?php }?>
+                                        </td>
+                                    </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                        </tbody>
+                    </table>
+                    <?php
+                    echo $this->paginationControl(
+                            $subscriptiondurations, // the paginator object
+                            'sliding', // the scrolling style; see http://zf2.readthedocs.org/en/release-2.1.4/modules/zend.paginator.usage.html#rendering-pages-with-view-scripts
+                            array('partial/paginator.phtml', 'Admin'), // the partial to use to render the control
+                            array('route' => 'admin/subscriptiondurations')  // the route to link to when a user clicks a control link
+                    );
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

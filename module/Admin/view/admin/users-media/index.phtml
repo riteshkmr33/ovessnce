@@ -1,0 +1,131 @@
+<?php
+$form->setAttribute('action', '');
+$form->setAttribute('method', 'post');
+$form->setAttribute('id', 'users_media_filter');
+$form->prepare();
+$status = (isset($status) && count($status)>0)?$status->toArray():array();
+$statusArray = array('9' => 'success', '5' => 'warning', '10' => 'danger');
+?>
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+	  <?php if (isset($successMsgs) && count($successMsgs)>0): ?>
+		<div class="note note-success">
+			<?php foreach ($successMsgs as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<?php if (isset($errors) && count($errors)>0): ?>
+		<div class="note note-danger">
+			<?php foreach ($errors as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<div class="note" id="error" style="display:none;"></div>
+    <div class="portlet grey box">
+      <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-picture-o"></i> Users Media List </div>
+        <div class="actions"> 
+			<a class="btn default btn-sm" href="<?php echo $this->url('admin/users');?>"> <i class="fa fa-list"></i> Users List </a>
+			<a class="btn default btn-sm" href="<?php echo $this->url('admin/usersmedia', array('action'=>'add', 'user_id' => $this->user_id));?>"> <i class="fa fa-pencil"></i> Add New Media </a>
+		</div>
+        <div class="table-group-actions pull-right" style="margin: -4px 10px 0 0;">
+			<?php if (isset($status)  &&  count($status)>0) { 
+				echo '<select class="table-group-action-input form-control input-inline input-medium input-sm action" id="" ><option value="" >--Select Status--</option>';
+					foreach ($status as $value) { echo '<option value="'.$value['status_id'].'" >'.ucwords($value['status']).'</option>';}
+				echo '</select>';
+			}?>
+			<button class="btn btn-sm default table-group-action-submit changeStatus" data-path='<?php echo $this->url('admin/usersmedia', array('action'=>'changestatus', 'user_id' => $this->user_id));?>' ><i class="fa fa-check"></i>Apply</button>
+		</div>
+      </div>
+      <div class="portlet-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-striped" data-path="<?php echo $this->url('admin/usersmedia', array('user_id' => $this->user_id));?>" id="users_media_table">
+            <thead>
+				<tr>
+					<th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'title') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='title'>Media Title</th>
+					<th width="100">Media</th>
+					<th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'date') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='date' width="155">Created On</th>
+					<th width="100" class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'status') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='status'>Status</th>
+					<th width="161" class="table-checkbox" >Action <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"/></th>
+				</tr>
+				<tr class="filter" role="row">
+					<?php  echo $this->form()->openTag($form); ?>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formInput($form->get('title')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						&nbsp;
+					</td>
+					<td rowspan="1" colspan="1">
+						<div class="input-group date date-picker margin-bottom-5" data-date-format="dd-mm-yyyy">
+							<?php  echo $this->formInput($form->get('from')); ?>
+							<span class="input-group-btn">
+								<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
+							</span>
+						</div>
+						<div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+							<?php  echo $this->formInput($form->get('to')); ?>
+							<span class="input-group-btn">
+								<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
+							</span>
+						</div>
+					</td>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formSelect($form->get('status_id')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						<button class="btn btn-sm default filter-submit margin-bottom search" data-form="users_media_filter" data-tbl="users_media_table" data-path='<?php echo $this->url('admin/usersmedia', array('user_id' => $this->user_id));?>'><i class="fa fa-search"></i> Search</button>
+						<button class="btn btn-sm default filter-cancel" type="reset" onclick="$('input, select').val(''); $('.select2').select2('val', '');"><i class="fa fa-times"></i> Reset</button>
+					</td>
+				<?php  echo $this->form()->closeTag();?>
+				</tr>
+            </thead>
+            <tbody>
+              <?php if (isset($usersmedia) && count($usersmedia)>0) : ?>
+              <?php foreach ($usersmedia as $record) : ?>
+              <tr>
+                <td><?php echo $this->escapeHtml($record->media_title);?></td>
+                <td><?php echo '<a class="btn default" data-toggle="modal" href="#image" onclick=" $(\'body\').find(\'h4.image:hidden\').last().html(\''.$this->escapeHtml($record->media_title).'\'); $(\'body\').find(\'img:hidden\').last().attr(\'src\', \''.$this->escapeHtml($record->media_url).'\');" >
+								<img src="'.$this->escapeHtml(str_replace('Media','Media_thumb',$record->media_url)).'" height="50" width="50" ></a>';?></td>
+                
+                <td><?php echo $this->escapeHtml(date('d-m-Y h:i:s', strtotime($record->created_date)));?></td>
+                <td><span class="label label-sm status label-<?php  echo (array_key_exists($record->status_id, $statusArray))?$statusArray[$record->status_id]:'default';?>" id="<?php echo $record->id;?>"><?php echo $this->escapeHtml(ucwords($record->status));?></span></td>
+                <td>
+					<a class="btn default btn-xs default" href="<?php echo $this->url('admin/usersmedia',array('action'=>'avtar', 'user_id' => $record->user_id, 'id' => $record->id));?>" title='Set as Avatar'><i class="fa fa-smile-o"></i> </a>
+					<a class="btn default btn-xs default" href="<?php echo $this->url('admin/usersmedia',array('action'=>'edit', 'user_id' => $record->user_id, 'id' => $record->id));?>" title='Edit'><i class="fa fa-edit"></i> </a>
+					<a class="btn default btn-xs default" href="<?php echo $this->url('admin/usersmedia',array('action'=>'delete', 'user_id' => $record->user_id, 'id' => $record->id));?>" title='Delete'><i class="fa fa-trash-o"></i> </a>
+					<input class="checkboxes" type="checkbox" value="<?php echo $record->id;?>">
+              </tr>
+              <?php endforeach; ?>
+              <?php endif; ?>
+            </tbody>
+          </table>
+          <?php 
+			echo $this->paginationControl(
+						$usersmedia,  // the paginator object
+						'sliding',   // the scrolling style; see http://zf2.readthedocs.org/en/release-2.1.4/modules/zend.paginator.usage.html#rendering-pages-with-view-scripts
+						array('partial/paginator.phtml', 'Admin'),  // the partial to use to render the control
+						array('route' => 'admin/usersmedia', 'routeParams' => $this->postedData)  // the route to link to when a user clicks a control link
+					);
+		  ?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Image popup start -->
+<div class="modal fade bs-modal-lg" id="image" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title image"></h4>
+			</div>
+			<div class="modal-body">
+				<img src="" style="width:100%" />
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- image popup end -->

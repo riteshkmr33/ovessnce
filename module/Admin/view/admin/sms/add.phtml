@@ -1,0 +1,81 @@
+<?php
+$title = 'Add New Sms Template';
+$this->headTitle($title);
+
+$form = $this->form;
+$form->setAttribute('action', $this->url('admin/sms', array('action' => 'add')));
+$form->prepare();
+
+?>
+<div class="portlet box grey">
+  <div class="portlet-title">
+    <div class="caption"> <i class="fa fa-reorder"></i> <?php echo $this->escapeHtml($title); ?> </div>
+    <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->basePath()?>/admin/sms"> <i class="fa fa-pencil"></i>Sms List</a> <a class="btn default btn-sm" href="javascript: history.go(-1);"> <i class="fa fa-pencil"></i> Back</a> </div>
+  </div>
+  <div class="portlet-body form">
+    <div class="form-body">
+	    <!--PAGE CONTENT BEGINS-->
+		<?php if (isset($errors) && count($errors)>0): ?>  
+		<div class="alert alert-danger"><button class="close" data-close="alert"></button>
+			<?php foreach ($errors as $field => $msg) {echo ucfirst(strtolower(strip_tags($this->formLabel($form->get($field)).' '.end($msg)))).'<br />';}?>
+		</div>
+		<?php endif;?>
+		
+		<?php echo $this->form()->openTag($form); echo $this->formHidden($form->get('id')); ?>
+		<div class="form-body">
+			<h3 class="form-section">Sms Template</h3>
+			<div class="row">
+				<?php $subject = $form->get('subject'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($subject) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($subject); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formInput($subject); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($subject); ?>
+						</span> 
+					</div> 
+				</div>
+			</div>
+			<div class="row">
+				<?php $message = $form->get('message'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($message) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($message); ?></label>
+					<div class="col-md-11">
+						You can type a message of maximum 
+						<script type="text/javascript">
+							document.write("<input type=text name=limit size=4 readonly value="+count+">");
+						</script>
+						characters 
+						<?php echo $this->formTextarea($message); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($message); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<?php $status_id = $form->get('status_id'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($status_id) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo strip_tags($this->formLabel($status_id)); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formRadio($status_id); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($status_id); ?>
+						</span>
+					</div>
+				</div>			
+			</div>
+        </div>        
+		<div class="form-actions fluid">
+			<div class="row">
+				<div class="col-md-offset-3 col-md-9">
+					<button type="submit" class="btn green">Submit</button>
+					<button type="reset" class="btn default">Reset</button>
+				</div>
+			</div>				
+		</div>
+		<?php  echo $this->form()->closeTag();?>
+		<!-- END FORM-->
+	  </div>
+	</div>
+</div>

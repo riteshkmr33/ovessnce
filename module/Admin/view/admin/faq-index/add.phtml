@@ -1,0 +1,75 @@
+<?php
+$title = 'Add Faq Index';
+$this->headTitle($title);
+
+$form = $this->form; 
+$form->setAttribute('action', $this->url('admin/faqindex', array('action' => 'add')));
+$form->prepare();
+
+?>
+<div class="portlet box grey">
+  <div class="portlet-title">
+    <div class="caption"> <i class="fa fa-reorder"></i> <?php echo $this->escapeHtml($title); ?> </div>
+    <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->basePath()?>/admin/faqindex"> <i class="fa fa-pencil"></i>Faq Index List</a> <a class="btn default btn-sm" href="javascript: history.go(-1);"> <i class="fa fa-pencil"></i> Back</a> </div>
+  </div>
+  <div class="portlet-body form">
+    <div class="form-body">
+	    <!--PAGE CONTENT BEGINS-->
+		<?php if (isset($errors) && count($errors)>0): ?>  
+		<div class="alert alert-danger"><button class="close" data-close="alert"></button>
+			<?php foreach ($errors as $field => $msg) {echo ucfirst(strtolower(strip_tags($this->formLabel($form->get($field)).' '.end($msg)))).'<br />';}?>
+		</div>
+		<?php endif;?>
+		
+		<?php echo $this->form()->openTag($form); echo $this->formHidden($form->get('id')); ?>
+            <div class="form-body">
+                <div class="row">
+                    <?php $index_name = $form->get('index_name'); ?>		
+                    <div class="form-group  <?php echo ($this->formElementErrors($index_name) != "") ? "has-error" : ""; ?>">
+                        <label class="control-label col-md-1"><?php echo $this->formLabel($index_name); ?></label>
+                        <div class="col-md-11">
+                            <?php echo $this->formInput($index_name); ?>	
+                            <span class="help-block">
+                                <?php echo $this->formElementErrors($index_name); ?>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <?php $order_by = $form->get('order_by'); ?>		
+                    <div class="form-group  <?php echo ($this->formElementErrors($order_by) != "") ? "has-error" : ""; ?>">
+                        <label class="control-label col-md-1"><?php echo $this->formLabel($order_by); ?></label>
+                        <div class="col-md-11">
+                            <?php echo $this->formInput($order_by); ?>	
+                            <span class="help-block">
+                                <?php echo $this->formElementErrors($order_by); ?>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <?php $status_id = $form->get('status_id'); ?>		
+                    <div class="form-group  <?php echo ($this->formElementErrors($status_id) != "") ? "has-error" : ""; ?>">
+                        <label class="control-label col-md-1"><?php echo strip_tags($this->formLabel($status_id)); ?></label>
+                        <div class="col-md-11">
+                            <?php echo $this->formSelect($status_id); ?>	
+                            <span class="help-block">
+                                <?php echo $this->formElementErrors($status_id); ?>
+                            </span>
+                        </div>
+                    </div>			
+                </div>
+            </div>        
+		<div class="form-actions fluid">
+			<div class="row">
+				<div class="col-md-offset-3 col-md-9">
+					<button type="submit" class="btn green">Submit</button>
+					<button type="reset" class="btn default">Reset</button>
+				</div>
+			</div>				
+		</div>
+		<?php  echo $this->form()->closeTag();?>
+		<!-- END FORM-->
+	  </div>
+	</div>
+</div>

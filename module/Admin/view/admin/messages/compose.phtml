@@ -1,0 +1,93 @@
+<?php 
+	
+	$form = $this->form;
+	$form->setAttribute('action', $this->url('admin/messages', array('action' => 'compose')));
+	$form->prepare(); 
+?>
+<div class="portlet box grey">
+  <div class="portlet-title">
+    <div class="caption"> <i class="fa fa-reorder"></i> Compose Message </div>
+    <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->basePath()?>/admin/messgaes/inbox"> <i class="fa fa-pencil"></i>Inbox</a> <a class="btn default btn-sm" href="javascript: history.go(-1);"> <i class="fa fa-pencil"></i> Back</a> </div>
+  </div>
+  <div class="portlet-body form">
+	   <div class="form-body">
+		   <!--PAGE CONTENT BEGINS-->
+			<?php if (isset($errors) && count($errors)>0): ?>  
+			<div class="alert alert-danger"><button class="close" data-close="alert"></button>
+				<?php foreach ($errors as $field => $msg) {echo ucfirst(strtolower(strip_tags($this->formLabel($form->get($field)).' '.end($msg)))).'<br />';}?>
+			</div>
+			<?php endif;?>
+			
+			<?php echo $this->form()->openTag($form); echo $this->formHidden($form->get('from_user_id'));  echo $this->formHidden($form->get('id')); ?>    
+			<div class="form-body">
+				<h3 class="form-section">Compose Message</h3>
+				<div class="row">
+					<?php $from_name = $form->get('from_name'); ?>		
+					<div class="form-group  <?php echo ($this->formElementErrors($from_name) != "")?"has-error":"";?>">
+						<label class="control-label col-md-1"><?php echo $this->formLabel($from_name); ?></label>
+						<div class="col-md-11">
+							<?php echo $this->formInput($from_name); ?>	
+							<span class="help-block">
+								 <?php echo $this->formElementErrors($from_name); ?>
+							</span>
+						</div>
+					</div>
+				</div>
+				<!--/row-->	
+				<div class="row">
+					<?php $to_user_id = $form->get('to_user_id'); ?>		
+					<div class="form-group  <?php echo ($this->formElementErrors($to_user_id) != "")?"has-error":"";?>">
+						<label class="control-label col-md-1"><?php echo $this->formLabel($to_user_id); ?></label>
+						<div class="col-md-11">
+							<?php echo $this->formSelect($to_user_id); ?>	
+							<span class="help-block">
+								 <?php echo $this->formElementErrors($to_user_id); ?>
+							</span>
+						</div>
+					</div>
+				</div>
+				<!--/row-->	
+				<div class="row">
+					<?php $subject = $form->get('subject'); ?>		
+					<div class="form-group  <?php echo ($this->formElementErrors($subject) != "")?"has-error":"";?>">
+						<label class="control-label col-md-1"><?php echo $this->formLabel($subject); ?></label>
+						<div class="col-md-11">
+							<?php echo $this->formInput($subject); ?>	
+							<span class="help-block">
+								 <?php echo $this->formElementErrors($subject); ?>
+							</span>
+						</div>
+					</div>
+				</div>
+				<!--/row-->	
+				<div class="row">
+					<?php $message = $form->get('message'); ?>		
+					<div class="form-group  <?php echo ($this->formElementErrors($message) != "")?"has-error":"";?>">
+						<label class="control-label col-md-1"><?php echo $this->formLabel($message); ?></label>
+						<div class="col-md-11">
+							<?php echo $this->formTextarea($message); ?>	
+							<span class="help-block">
+								 <?php echo $this->formElementErrors($message); ?>
+							</span>
+						</div>
+					</div>
+				</div>
+				<!--/row-->	
+			</div>
+			<div class="form-actions fluid">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="col-md-offset-3 col-md-9">
+							<button type="submit" class="btn green">Submit</button>
+							<button type="reset" class="btn default">Reset</button>
+						</div>
+					</div>
+					<div class="col-md-6">
+					</div>
+				</div>
+			</div>
+			<?php  echo $this->form()->closeTag();?>
+			<!-- END FORM-->
+		</div>
+	</div>
+</div>

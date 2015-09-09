@@ -1,0 +1,57 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url(
+    'admin/login',
+    array(
+        //'action'     => 'authenticate',
+        'action'     => 'login',
+    )
+));
+
+if ($this->messages){
+	echo '<ul>';
+	foreach($this->messages as $message){
+		echo '<li>'.$message.'</li>';
+	}
+	echo '</ul>';
+}
+
+$form->prepare();
+echo $this->form()->openTag($form); ?>
+
+<h3 class="form-title">Login to your account</h3> 
+<div class="form-group">
+	<?php $username = $form->get('username')->setAttribute('placeholder','Username')->setAttribute('class','form-control placeholder-no-fix'); ?>
+	<label class="control-label visible-ie8 visible-ie9"><?php echo $this->formLabel($username); ?></label>
+	<div class="input-icon">
+		<i class="fa fa-user"></i>
+		<!--<input type="text" value="" required="required" name="username" placeholder="Username" class="form-control placeholder-no-fix">--->
+		<?php echo $this->formInput($username); ?>
+	</div>
+</div>
+<div class="form-group">
+	<?php 
+	
+	$password = $form->get('password')->setAttribute('placeholder','Password')
+									  ->setAttribute('class','form-control placeholder-no-fix')
+									  ->setValue($passwordVal);
+											?>
+	<label class="control-label visible-ie8 visible-ie9"><?php echo $this->formLabel($password); ?></label>
+	<div class="input-icon">
+		<i class="fa fa-lock"></i>
+		<!--<input type="password" value="" required="required" name="password" placeholder="Password" class="form-control placeholder-no-fix">--->
+		<?php echo $this->formInput($password); ?>
+	</div>
+</div>
+<div class="form-actions">
+	<?php $rememberme = $form->get('rememberme')->setAttribute("class",'checkbox'); ?>
+	<label class="checkbox">
+	<?php echo $this->formLabel($rememberme).' '.$this->formCheckbox($rememberme); ?> </label>
+	<button type="submit" class="btn green pull-right">
+	Login <i class="m-icon-swapright m-icon-white"></i>
+	</button>
+</div>
+<?php
+echo $this->form()->closeTag();
+?>
+

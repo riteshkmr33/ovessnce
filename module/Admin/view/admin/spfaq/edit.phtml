@@ -1,0 +1,106 @@
+<?php 
+
+$title = 'Edit Question';
+$this->headTitle($title);
+ 
+$form = $this->form; 
+$form->setAttribute('action', $this->url(
+    'admin/spfaq',
+    array(
+        'action' => 'edit',
+        'id'     => $this->id,
+    )
+));
+$form->prepare();
+?>
+<div class="portlet box grey">
+  <div class="portlet-title">
+    <div class="caption"> <i class="fa fa-reorder"></i> <?php echo $this->escapeHtml($title); ?> </div>
+    <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->basePath()?>/admin/page"> <i class="fa fa-pencil"></i>Question List</a> <a class="btn default btn-sm" href="javascript: history.go(-1);"> <i class="fa fa-pencil"></i> Back</a> </div>
+  </div>
+  <div class="portlet-body form">
+	  <div class="form-body">
+	    <!--PAGE CONTENT BEGINS-->
+		<?php if (isset($errors) && count($errors)>0): ?>  
+		<div class="alert alert-danger"><button class="close" data-close="alert"></button>
+			<?php foreach ($errors as $field => $msg) {echo ucfirst(strtolower(strip_tags($this->formLabel($form->get($field)).' '.end($msg)))).'<br />';}?>
+		</div>
+		<?php endif;?>
+		
+		<?php echo $this->form()->openTag($form); echo $this->formHidden($form->get('id')); ?>
+		<div class="form-body">
+			<h3 class="form-section">Question Info</h3>
+			<div class="row">
+				<?php $from_user = $form->get('from_user_id'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($from_user) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($from_user); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formSelect($from_user); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($from_user); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<?php $to_user = $form->get('to_user_id'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($to_user) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($to_user); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formSelect($to_user); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($to_user); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<?php $question = $form->get('question'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($question) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($question); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formTextarea($question); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($question); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<?php $answer = $form->get('answer'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($answer) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($answer); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formTextarea($answer); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($answer); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<?php $status_id = $form->get('status_id'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($status_id) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo strip_tags($this->formLabel($status_id)); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formSelect($status_id); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($status_id); ?>
+						</span>
+					</div>
+				</div>			
+			</div>
+        </div>        
+		<div class="form-actions fluid">
+			<div class="row">
+				<div class="col-md-offset-3 col-md-9">
+					<button type="submit" class="btn green">Submit</button>
+					<button type="reset" class="btn default">Reset</button>
+				</div>
+			</div>				
+		</div>
+		<?php  echo $this->form()->closeTag();?>
+		<!-- END FORM-->
+	  </div>
+	</div>
+</div>

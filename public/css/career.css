@@ -1,0 +1,57 @@
+.table-section{
+	display:table;
+}
+.table-section figure{
+	display:table-cell;
+	width:41%;
+}
+.table-section article{
+	display:table-cell;
+	vertical-align: middle;
+	text-align: left;
+	padding-left:40px;
+}
+.table-section article h1:after,.table-section article h1:before{
+	display:none;
+}
+.table-section article h1{
+	color:#2d2d2d;
+	padding:0px;
+	display:block;
+	text-align:left;
+	margin:0px 0 10px;
+}
+.explode{
+	display:none;
+	max-width: none;
+}
+.our-core-value{
+	background:url(../img/career-para.jpg) 50% center;
+}
+.our-core-value h2 small{
+	background:#172024;
+}
+.our-core-value article{
+	padding-bottom:30px;
+}
+.address h2:after,
+.address h2:before{
+	display:none;
+}
+.address{
+	padding:70px 0;
+}
+.address h2{
+	margin-bottom:0px;
+	color:#2d2d2d;
+	padding:0px;
+}
+.address .green-btn{
+	width:auto;
+	display: inline-block;
+	padding:0 42px;
+	font-size: 2em;
+	line-height: 2;
+	font-weight: 400;
+	text-transform: none;
+}

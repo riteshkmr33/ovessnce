@@ -1,0 +1,134 @@
+<?php 
+	$form = $this->form;
+	$form->setAttribute('action', $this->url('admin/banneruploads', array('action' => 'edit', 'id' => $this->id, 'booking_id' => $this->booking_id)));
+	$form->prepare(); 
+?>
+<div class="portlet box grey">
+  <div class="portlet-title">
+    <div class="caption"> <i class="fa fa-reorder"></i> Edit Banner </div>
+    <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->basePath()?>/admin/banneruploads/<?php echo $this->booking_id;?>"> <i class="fa fa-list"></i> Banners List</a> <a class="btn default btn-sm" href="javascript: history.go(-1);"> <i class="fa fa-pencil"></i> Back</a> </div>
+  </div>
+  <div class="portlet-body form">
+    <div class="form-body">
+	    <!--PAGE CONTENT BEGINS-->
+		<?php if (isset($errors) && count($errors)>0): ?>  
+		<div class="alert alert-danger"><button class="close" data-close="alert"></button>
+			<?php foreach ($errors as $field => $msg) {echo ucfirst(strtolower(strip_tags($this->formLabel($form->get($field)).' '.end($msg)))).'<br />';}?>
+		</div>
+		<?php endif;?>
+		
+		<?php if (isset($file_errors) && count($file_errors)>0): ?>  
+		<div class="alert alert-danger"><button class="close" data-close="alert"></button>
+			<?php foreach ($file_errors as $field => $msg) {echo ucfirst(strtolower(strip_tags($msg))).'<br />';}?>
+		</div>
+		<?php endif;?>
+		
+		<?php echo $this->form()->openTag($form); echo $this->formHidden($form->get('id')); echo $this->formHidden($form->get('booking_id')->setValue($this->booking_id)); ?>
+		<div class="form-body">
+			<div class="row">
+				<?php $field = $form->get('banner_title'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($field); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formInput($field); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($field); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<?php $field = $form->get('target_url'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($field); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formInput($field); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($field); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<?php $field = $form->get('banner_type'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo strip_tags($this->formLabel($field)); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formRadio($field); ?>	
+						<span class="help-block">
+							 <?php echo strip_tags($this->formElementErrors($field)); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row file" <?php echo ($bannerUpload->banner_type == '3')?'style="display:none;"':'';?>>
+				<?php $field = $form->get('banner_content')->setAttributes(array('class' => '')); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($field); ?></label>
+					<div class="col-md-9">
+						<div class="fileinput fileinput-new" data-provides="fileinput">
+							<span class="btn default btn-file">
+								<span class="fileinput-new">
+									 Select file
+								</span>
+								<span class="fileinput-exists">
+									 Change
+								</span>
+								<?php echo $this->formFile($field);?>
+							</span>
+							<span class="fileinput-filename">
+							</span>
+							 &nbsp;
+							<a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">
+							</a>
+							<span class="help-block">
+								<?php echo 'Image size should be '.$details->banner_width.'x'.$details->banner_height.' px'; ?>
+							</span>
+							<?php if ($bannerUpload->banner_type == '1') {echo '<br /><br /><img src="'.$bannerUpload->banner_content.'" height="100" width="100" />';}?>
+						</div>
+					</div>
+				</div>			
+			</div>
+			
+			<div class="row textarea" <?php echo ($bannerUpload->banner_type != '3')?'style="display:none;"':'';?> >
+				<?php $field = $form->get('banner_content')->setAttributes(array('class' => 'ckeditor form-control')); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($field); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formTextarea($field); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($field); ?>
+						</span>
+					</div>
+				</div>			
+			</div>
+			
+			<div class="row">
+				<?php $field = $form->get('status_id'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($field); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formSelect($field); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($field); ?>
+						</span>
+					</div>
+				</div>			
+			</div>
+			
+        </div>        
+		<div class="form-actions fluid">
+			<div class="row">
+				<div class="col-md-offset-3 col-md-9">
+					<button type="submit" class="btn green">Submit</button>
+					<button type="reset" class="btn default">Reset</button>
+				</div>
+			</div>				
+		</div>
+		<?php  echo $this->form()->closeTag();?>
+		<!-- END FORM-->
+	  </div>
+	</div>
+</div>

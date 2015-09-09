@@ -1,0 +1,53 @@
+<?php
+
+/*======================================================================*\
+|| #################################################################### ||
+|| # Rhino Socket 2.0                                                 # ||
+|| # ---------------------------------------------------------------- # ||
+|| # Copyright 2014 Rhino All Rights Reserved.                        # ||
+|| # This file may not be redistributed in whole or significant part. # ||
+|| #   ---------------- Rhino IS NOT FREE SOFTWARE ----------------   # ||
+|| #                  http://www.livesupportrhino.com                 # ||
+|| #################################################################### ||
+\*======================================================================*/
+
+// Database connection and setup
+define('DB_HOST', 'localhost'); // Database host ## Datenbank Server
+define('DB_PORT', 3306); // Enter the database port for your mysql server
+define('DB_USER', ''); // Database user ## Datenbank Benutzername
+define('DB_PASS', ''); // Database password ## Datenbank Passwort
+define('DB_NAME', ''); // Database name ## Datenbank Name
+define('DB_PREFIX', ''); // Database prefix use (a-z) and (_)
+
+// Define a unique key for your site, don't change after, or people can't login anymore for example: 3l2kLOk2so
+define('DB_PASS_HASH', 'your_secret_key');
+
+// Define your site url, for example: www.livesupportrhino.com (if www. has been used you have to call the shop with www. vice versa)
+define('FULL_SITE_DOMAIN', 'your_domain_goes_here');
+// Define your socket url
+define('FULL_SOCKET_DOMAIN', 'your_ws_goes_here:9000/server');
+// If installed in subfolder, please enter the subfolder here. For example: /mysubfolder
+define('SOCKET_SUBFOLDER_IF', '');
+
+// Define cookie path and lifetime
+define('LS_COOKIE_PATH', '/');  // Available in the whole domain
+define('LS_COOKIE_TIME', 60*60*24*30); // 30 days by default
+
+// MySQL or MySQLi
+define('LS_MYSQL_CONNECTION', 1); // Use 1 for MySQLi or 2 for MySQL
+
+// Choose a cache directory to reduce page and server load
+define('LS_CACHE_DIRECTORY', 'cache');
+
+// Choose the userfiles directory, rename if you like different location
+define('LS_FILES_DIRECTORY', 'files');
+
+// Operator Time
+define('OPERATOR_CHAT_EXPIRE', '7200');
+
+// Important Stuff
+define('LS_SUPERADMIN', '1'); // Undeletable and SuperADMIN User, more user seperate with comma. e.g. 1,4,5,6 (userid)
+
+// Show new version alert
+define('LS_NV_ALERT', 1); // Set 0 for not showing an alert when a new version is available
+?>

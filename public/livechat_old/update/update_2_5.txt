@@ -1,0 +1,23 @@
+/*======================================================================*\
+|| #################################################################### ||
+|| # Rhino 2.5                                                        # ||
+|| # ---------------------------------------------------------------- # ||
+|| # Copyright 2014 Rhino All Rights Reserved.                        # ||
+|| # This file may not be redistributed in whole or significant part. # ||
+|| #   ---------------- Rhino IS NOT FREE SOFTWARE ----------------   # ||
+|| #                  http://www.livesupportrhino.com                 # ||
+|| #################################################################### ||
+\*======================================================================*/
+
+Update to 2.5
+
+Please follow this steps carefully. There are a few database changes.
+
+Most of the files has been changed, please replace anything (except cache and files folder).
+
+Open the update file in your browser:
+
+http://www.yourdomain.com/install/update.php
+
+Thank you and enjoy the new release
+Jerome Kaegi - Rhino

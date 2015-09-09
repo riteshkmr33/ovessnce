@@ -1,0 +1,81 @@
+<?php 
+if( count($sp_list['result']) > 0 ){
+	foreach($sp_list['result'] as $list){ 
+?> 
+<li>
+	<div class="find-profile-img">
+		<div class="pro-pic">
+			<img src="<?php echo isset($list['avtar_url']) ? $list['avtar_url'] : '//ovessence.loc/img/profile-pic-1.jpg' ; ?>" alt="" /> 
+		</div>
+		<div class="social-icon">
+			<ul>
+				<li><a href="javascript:;" class="facebook"></a></li>
+				<li><a href="javascript:;" class="twitter"></a></li>
+				<li><a href="javascript:;" class="google"></a></li>
+				<li><a href="javascript:;" class="linkdin"></a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="find-profile-detail">
+		<div class="rating-top">
+			<div class="head">
+				<h3>
+					<a href="<?php echo $this->basePath(); ?>/practitioner/view/<?php echo isset($list['id']) ? $list['id'] : '' ; ?>">
+						<?php echo isset($list['first_name']) ? $list['first_name'] : 'Practitioner' ; ?>&nbsp;
+						<?php echo isset($list['last_name']) ? $list['last_name'] : 'Name' ; ?>
+					</a>
+				</h3>
+			</div>
+			<div class="rating">
+				<form>
+				<input type="radio" name="rating-input-1" id="rating-input-1-5" class="rating-input">
+				<label class="rating-star" for="rating-input-1-5"></label>
+				<input type="radio" name="rating-input-1" id="rating-input-1-4" class="rating-input">
+				<label class="rating-star" for="rating-input-1-4"></label>
+				<input type="radio" name="rating-input-1" id="rating-input-1-3" class="rating-input">
+				<label class="rating-star" for="rating-input-1-3"></label>
+				<input type="radio" name="rating-input-1" id="rating-input-1-2" class="rating-input">
+				<label class="rating-star" for="rating-input-1-2"></label>
+				<input type="radio" name="rating-input-1" id="rating-input-1-1" class="rating-input">
+				<label class="rating-star" for="rating-input-1-1"></label>
+				</form>
+				<div class="view-all">
+					<a href="javascript:;">view all rating</a>
+				</div>
+			</div>
+			
+	  </div>
+	  <div class="find-pro-detail">
+		<div class="pro-detail">
+			<div class="row">
+				<span class="name-head">Speciality</span>
+				<span class="name-text">Physiotherapist</span>
+			</div>
+			<div class="row">
+				<span class="name-head">Degrees</span>
+				<span class="name-text">M.D. of Medicine</span>
+			</div>
+			<div class="row">
+				<span class="name-head">Experience</span>
+				<span class="name-text"><?php echo isset($list['years_of_experience']) ? $list['years_of_experience'].' years' : '0 years' ; ?></span>
+			</div>
+			<div class="row">
+				<span class="name-head">Work days</span>
+				<span class="name-text">Monday to Friday</span>
+			</div>
+			<div class="row">
+				<span class="name-head">Booking</span>
+				<span class="book-text"><?php echo isset($list['bookings_count']) ? $list['bookings_count'] : '0' ; ?></span>
+			</div>
+		</div>
+		<div class="book-know">
+			<a href="javascript:;">
+				Book Now
+			</a>
+		</div>
+	  </div>
+	</div>
+</li>
+<?php } ?>
+	<input type="hidden" name="grid_next" value="<?php echo isset($sp_list['next']) ? $sp_list['next'] : '0' ; ?>">
+<?php }else{ echo "<li>No record found</li>"; } ?>

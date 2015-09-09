@@ -1,0 +1,118 @@
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main dashboard">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home'); ?>">Home</a>
+            </li>
+            <li>
+                <a href="<?php echo $this->url('consumer', array('action' => 'dashboard')); ?>">
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                Sent
+            </li>
+        </ul>
+        <h2>
+            Dashboard
+            <span>
+                <small>
+                    &nbsp;
+                </small>
+            </span>
+        </h2>
+        <!-- Practitioner Section-->
+        <div class="practitioner-section">
+            <div class="success-msg" style="display: none;"></div>
+            <div class="error-msg" style="display: none;"></div>
+            <!-- start profile right panel here-->
+            <div class="profile-add-left">
+                <div class="profile-wrapper">
+                    <?php if (!empty($avtar_url)) { ?>
+                        <img src="<?php echo $avtar_url; ?>" alt="" />
+                    <?php } else { ?>
+                        <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/profile-pic.jpg" alt="" /> 
+                    <?php } ?>
+                    <!---
+                    <div class="social-icon">
+                            <ul>
+                                    <li><a class="facebook" href="javascript:;">Facebook</a></li>
+                                    <li><a class="twitter" href="javascript:;">twitter</a></li>
+                                    <li><a class="google" href="javascript:;">google</a></li>
+                                    <li><a class="linkdin" href="javascript:;">linkdin</a></li>
+                            </ul>
+                    </div>
+                    ----->
+                </div>
+                <div class="dashboard-nav">
+                    <ul>
+                        <li>
+                            <a href="javascript:;" class="active" >Messages</a><span><?php echo isset($notifications['inbox']) ? $notifications['inbox'] : ''; ?></span>
+                            <ul class="dashboard-submenu" style="display: block;" >
+                                <li><a href="<?php echo $this->basePath(); ?>/consumer/compose">Compose</a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/consumer/inbox">Inbox  ( <?php echo isset($notifications['inbox']) ? $notifications['inbox'] : ''; ?> )</a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/consumer/sent">Sent</a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/consumer/trash">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li><a id="total_notification" href="javascript:;">Notification</a><?php echo (isset($notifications['total']) && $notifications['total'] > 0) ? '<span>' . $notifications['total'] . '</span>' : ''; ?>
+                            <ul class="dashboard-submenu">
+                                <li id='booking_notification' ><?php echo (isset($notifications['booking']) && $notifications['booking'] > 0) ? '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '?tab=booking" >' . $notifications['booking'] . ' New Bookings</a>' : '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '?tab=booking">No New Bookings</a>'; ?></li>
+                                <!--<li><?php echo (isset($notifications['review']) && $notifications['review'] > 0) ? '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '?tab=review" ">' . $notifications['review'] . ' New Review</a>' : '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '?tab=review">No New Review</a>'; ?></li>
+                                <li><?php echo (isset($notifications['invites']) && $notifications['invites'] > 0) ? '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '">' . $notifications['invites'] . ' Invite</a>' : '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '">No Invites</a>'; ?></li>-->
+                            </ul>
+                        </li>
+                        <li><a href="<?php echo $this->basePath(); ?>/consumer/settings">Setting</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- end profile left panel here-->
+            <div class="profile-add-right">
+                <div class="book-block">
+                    <div class="rating-top">
+                        <div class="head">
+                            <h3><?php echo!empty($first_name) ? $first_name : ''; ?>&nbsp;<?php echo!empty($last_name) ? $last_name : ''; ?></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="message-section">
+                    <h3>Sent</h3>
+                    <div class="message-section-wrapper">
+                        <div class="shorting">
+                            <div class="select-form">
+                                <form id="msg-action-form" name="msg-action-form" >
+                                    <label for="select-all">
+                                        <input type="checkbox" value="" id="checkAllmsgs" ><span></span>
+                                    </label>
+                                    <select name="msg-action" id="msg-action">
+                                        <option value="0">--options--</option>
+                                        <option value="trash">Trash</option>
+                                    </select>
+                                    <input type="submit" >
+                                    <div class="short-display">
+                                        <div class="count"></div>
+                                        <span class="prev" data-url="" onclick="paginateMsgs(this)" >Prev</span>
+                                        <span class="next" data-url="" onclick="paginateMsgs(this)" >Next</span>
+                                        <input type="hidden" name="page" id="page" value="1">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <table id="sp_sent_messages" >
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- start profile right panel here-->
+        </div>
+        <!-- /Practitioner Section-->
+    </div>
+</div>
+<!-- CONTENT END HERE -->

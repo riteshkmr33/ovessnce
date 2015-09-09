@@ -1,0 +1,53 @@
+<?php
+$title = 'Read Message';
+$this->headTitle($title);
+?>
+<?php if(isset($replyMessage) && !empty($replyMessage)) { ?>
+	<div class="note note-success">
+		<p><?php echo $replyMessage; ?></p>	
+	</div>	
+<?php }?>
+<div class="portlet box grey">
+  <div class="portlet-title">
+    <div class="caption"> <i class="fa fa-reorder"></i> <?php echo $this->escapeHtml($title); ?> </div>
+    <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->basePath()?>/admin/messages/inbox"> <i class="fa fa-pencil"></i>Inbox</a> <a class="btn default btn-sm" href="javascript: history.go(-1);"> <i class="fa fa-pencil"></i> Back</a> </div>
+  </div>
+  <div class="portlet-body form">
+    <div class="form-body">
+	    <!--PAGE CONTENT BEGINS-->
+		<?php if (isset($errors) && count($errors)>0): ?>  
+		<div class="alert alert-danger"><button class="close" data-close="alert"></button>
+			<?php foreach ($errors as $field => $msg) {echo ucfirst(strtolower(strip_tags($this->formLabel($form->get($field)).' '.end($msg)))).'<br />';}?>
+		</div>
+		<?php endif;?>
+		
+		<div class="form-body">
+			Subject: <h3 class="form-section"><?php echo isset($master_message->subject) ? $master_message->subject : '' ; ?></h3>
+		<?php if(isset($replies) && count($replies) > 0) { ?>
+			<?php foreach($replies as $reply) { ?>
+				<div class="row">
+					<div class="form-group">
+						<label class="control-label col-md-1">From:</label>
+						<div class="col-md-11">
+							<span class="help-block">
+								<?php echo $reply->from_name; ?>&nbsp;&nbsp;&nbsp;(<?php echo $reply->created_date; ?>)	
+							</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-1">Message:</label>
+						<div class="col-md-6">
+							<span class="help-block">
+								<?php echo $reply->message; ?>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="row">&nbsp;</div>
+			
+			<?php } ?>		
+                    </div>
+		<?php } ?>
+	  </div>
+	</div>
+</div>

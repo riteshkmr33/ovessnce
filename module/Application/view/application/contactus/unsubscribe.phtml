@@ -1,0 +1,17 @@
+<!-- CONTENT START HERE -->
+<div id="content">
+<div id="banner">
+		<img src="https://s3-us-west-2.amazonaws.com/ovessence/img/contact.jpg" alt="">
+	</div>
+<?php
+	if($status['status'] == 1){
+		echo "<div class='subscribe-msg'>".$status['msg']."</div>";
+	} elseif ($status['status'] == 0) {
+		echo "<div class='subscribe-msg'>".$status['err']."</div>";
+	}
+?>
+        
+</div>
+<!-- CONTENT END HERE -->
+
+

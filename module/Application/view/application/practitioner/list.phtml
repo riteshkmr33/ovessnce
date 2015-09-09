@@ -1,0 +1,1040 @@
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main practitioner-Profile">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home');?>">Home</a>
+            </li>
+            <li>
+                Find Practitioners
+            </li>
+        </ul>
+
+        <h2>
+            find practitioners
+            <span>
+                <small></small>
+            </span>
+        </h2>
+
+        <div class="search find">
+            <?php
+            $search_form->setAttribute('action', $this->url('practitioner', array('action' => 'list')));
+            $search_form->prepare();
+            echo $this->form()->openTag($search_form);
+            ?>
+            <ul>
+                <li>
+                    <?php
+                    $name = $search_form->get('idorname');
+                    echo $this->formInput($name);
+                    ?>
+                    <!--<i class="pro icon"></i>-->						
+                </li>
+                <li>
+                    <?php
+                    $location = $search_form->get('location');
+                    echo $this->formInput($location);
+                    ?>
+                    <!--<i class="pro icon"></i>-->
+                </li>
+                <li>
+                    <?php
+                    $treatment = $search_form->get('treatment');
+                    echo $this->formSelect($treatment);
+                    ?>
+
+                </li>
+                <li>
+                    <?php
+                    $when = $search_form->get('datetime');
+                    echo $this->formInput($when);
+                    ?>
+                    <i class="time icon"></i>						
+                </li>
+                <li>
+                    <input type="submit" class="black" value="Search" name="set_filter">
+
+                </li>
+            </ul>
+
+<?php echo $this->form()->closeTag(); ?>
+        </div>	
+        <!-- find-practitioner Section-->
+        <div class="find-practitioner">
+            <!-- start find-left section-->
+            <div class="find-left">
+                <ul class="tab-menu">
+                    <!-- <li id="navigation-tab" class="active">Navigation</li> -->
+                    <li id="filters-tab" class="active" style="width: 100%;">Filters</li>
+                </ul>
+
+                <div class="tab-content">
+
+                    <!-- Navigation Section Commented as per new Changes -->                            
+                    <!--
+                                                    <div class="navigation-tab" style="display:block;">
+                                                            <div class="find-map">
+                                                                    <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/find-map.jpg" alt="map" />
+                                                            </div>
+                                                            <div class="accordion">
+                                                                    <ul>
+                                                                            <li>
+                                                                                    <h4>Distance<i class="arrow-icon"></i></h4>
+                                                                                    <div class="accordion-data">
+                                                                                            <form>
+                                                                                                    <div id="awesome2"></div>
+                                                                                                    <input type="hidden" name="distance" id="distance" >
+                                                                                                    <div class="distance-form">
+                                                                                                            <select>
+                                                                                                                    <option>City Center</option>
+                                                                                                                    <option>City Center</option>
+                                                                                                                    <option>City Center</option>
+                                                                                                            </select>
+                                                                                                            <input type="text" placeholder="Address" />
+                                                                                                    </div>
+                                                                                            </form>
+                                                                                    </div>
+                                                                            </li>
+                                                                            <li>
+                                                                                    <h4>City<i class="arrow-icon"></i></h4>
+                                                                                    <div class="accordion-data">
+                                                                                            <ul class="city">
+                                                                                                    <li>Gurgaon<span>41</span></li>
+                                                                                            </ul>
+                                                                                    </div>
+                                                                            </li>
+                                                                            <li>
+                                                                                    <h4>Neighborhood<i class="arrow-icon"></i></h4>
+                                                                                    <div class="accordion-data">
+                                                                                            <ul class="city">
+                                                                                                    <li>Gurgaon<span>2</span></li>
+                                                                                                    <li>Gurgaon<span>5</span></li>
+                                                                                                    <li>Gurgaon<span>1</span></li>
+                                                                                                    <li>Gurgaon<span>10</span></li>
+                                                                                                    <li>Gurgaon<span>0</span></li>
+                                                                                                    <li>Gurgaon<span>2</span></li>
+                                                                                                    <li>Gurgaon<span>3</span></li>
+                                                                                            </ul>
+                                                                                            
+                                                                                    </div>
+                                                                            </li>
+                                                                    </ul>
+                                                            </div>
+                                                    </div>
+                    -->
+                    <div class="filters-tab" style="display:block;">
+                        <div class="accordion">
+                            <ul>
+                                <li>
+                                    <h4>Ratings<i class="arrow-icon"></i></h4>
+                                    <div class="accordion-data">
+                                        <div class="fill-star" id="avg_rating" >
+                                            <ul>
+                                                <li data-value="1" ><div class="star-value">1<span></span></div></li>
+                                                <li data-value="2" ><div class="star-value">2<span></span></div></li>
+                                                <li data-value="3" ><div class="star-value">3<span></span></div></li>
+                                                <li data-value="4" ><div class="star-value">4<span></span></div></li>
+                                                <li data-value="5" ><div class="star-value">5<span></span></div></li> 
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+<?php //print_r($state); exit; ?>
+                                <?php /*?><li>
+                                    <h4>Location<i class="arrow-icon"></i></h4> 
+                                    <div class="accordion-data">
+                                            <!--
+                                            <div class="distance">
+                                                    <img src="<?php // echo $this->basePath();   ?>/img/distance-slider.jpg" alt="" />
+                                            </div>
+                                            --->
+                                            <div class="distance-form">
+                                                <!--<select name="country" id="country" onchange="getStates(this.value)" >
+                                                    <option value="0">-- Select Country --</option>
+                                                    <?php
+                                                    if (count($country_list) > 0) {
+                                                        foreach ($country_list as $key => $value) {
+                                                            ?>		
+                                                            <option value="<?php echo $key; ?>" <?php if ($address->country_id != "" && $address->country_id == $key) echo 'selected="selected"'; ?>><?php echo $value; ?></option>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <select name="state" id="state" onchange="getList()" >
+                                                    <option value="0">-- Select State --</option>
+                                                    <?php
+                                                    if (count($state) > 0) {
+                                                        foreach ($state as $key => $value) {
+                                                            ?>		
+                                                            <option value="<?php echo $key; ?>" <?php if ($address->state_id != "" && $address->state_id == $key) echo 'selected="selected"'; ?>><?php echo $value; ?></option>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <input type="text" placeholder="City" name="city" value="<?php echo $address->city; ?>"/>
+                                                <input type="text" placeholder="Zip" name="zip" id="zip"  value="<?php echo $address->zip_code; ?>"/>-->
+                                                <input class="address-autofill" autofocus onchange="getList()" type="text" name="q" placeholder="Enter Address" >
+                                            </div>
+                                    </div>
+                                </li><?php */?>
+                                <li>
+                                    <h4>Distance (Miles)<i class="arrow-icon"></i></h4>
+                                    <div class="accordion-data">
+                                            <div id="awesome2"></div>
+                                            <input type="hidden" name="distance" id="distance" > 
+                                            <!--
+                                                    <input type="hidden" name="distance" id="distance" >
+                                                    <div class="distance-form">
+                                                            <select>
+                                                                    <option>City Center</option>
+                                                                    <option>City Center</option>
+                                                                    <option>City Center</option>
+                                                            </select>
+                                                            <input type="text" placeholder="Address" />
+                                                    </div>
+                                            -->
+                                    </div>
+                                </li>
+                                <li>
+                                    <h4>Name or Company<i class="arrow-icon"></i></h4> 
+                                    <div class="accordion-data">
+                                            <div class="distance-form">
+                                                <!--Commented as per New Changes -->
+                                                <!--
+                                                <input type="text" placeholder="Name" name="practitioners_name" value=""/>
+                                                -->
+                                                <input type="text" placeholder="Name or Company Name" class="idorname" name="company_name" value=""/>
+                                            </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h4>Type of Treatment<i class="arrow-icon"></i></h4>
+                                    <div class="accordion-data">
+                                        <div class="fill-type-dis" id="type_of_treatment">
+                                            <ul>
+                                                <?php
+                                                if (count($treatment_list) > 0) {
+                                                    foreach ($treatment_list as $key => $value) {
+                                                        ?>
+                                                        <li data-value="<?php echo $key; ?>"><?php echo $value; ?></li>
+                                                    <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h4>Price <i class="arrow-icon"></i></h4>
+                                    <div class="accordion-data">
+                                            <div id="awesome3"></div>
+                                            <input type="hidden" id="minPrice" name="minPrice" >
+                                            <input type="hidden" id="maxPrice" name="maxPrice" >
+                                            <!--<input id="Slider1" type="slider" name="price" value="30000;60000" />-->
+                                    </div>
+                                </li>
+                                <li>
+                                    <h4>Treatment Length (Mins)<i class="arrow-icon"></i></h4>
+                                    <div class="accordion-data">
+                                            <div id="awesome4"></div>
+                                            <input type="hidden" id="treatmentLength" name="treatmentLength" >
+                                    </div>
+                                </li>
+                                <!--
+                                <li>
+                                        <h4>Where do you prefer the service to be<br />performed<i class="arrow-icon"></i></h4>
+                                        <div class="accordion-data">
+                                                <div class="fill-type-dis">
+                                                        <ul>
+                                                                <li class="active">Et iusto odio</li>
+                                                                <li>Ducimus qui</li>
+                                                                <li>Blanditiis</li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </li>
+                                -->
+                                <!-- Availabity section removed as per new changes -->
+                                <!--
+                                <li>
+                                        <h4>Availability (Weekdays) <i class="arrow-icon"></i></h4>
+                                        <div class="accordion-data">
+                                        <div class="fill-type-dis" id="weekdays_id">
+                                                        <ul>
+                                                                <li data-value="1" >Monday</li>
+                                                                <li data-value="2" >Tuesday</li>
+                                                                <li data-value="3" >Wednesday</li>
+                                                                <li data-value="4" >Thrusday</li>
+                                                                <li data-value="5" >Friday</li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </li>
+                                <li>
+                                        <h4>Availability (Week end) <i class="arrow-icon"></i></h4>
+                                        <div class="accordion-data">
+                                        <div class="fill-type-dis" id="weekend_id">
+                                                        <ul>
+                                                                <li data-value="6" >Saturday</li>
+                                                                <li data-value="7" >Sunday</li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </li>
+                                -->
+                                <!-- Date and time section added as per new changes-->
+
+                                <li>
+                                    <h4>Date/Time <i class="arrow-icon"></i></h4>
+                                    <div class="accordion-data">
+                                        <div class="fill-type-dis distance-form" id="weekdays_id">
+                                            <input id="dateRangePicker" type="text" placeholder="Select one or more dates"/>
+                                            <span>Select a time or time range</span>
+                                            <div id="datepairExample">
+                                                <span><input type="text" id="startTime" class="time start" /></span> 
+                                                <span class="to">to</span>
+                                                <span><input type="text" id="endTime" class="time end" /></span>
+                                            </div>
+                                            <input type="button" id="dateTimeRange" class="black" value="Filter By Range"/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- New Location Type Section Added as per new Changes -->
+                                <li>
+                                    <h4>Location Type <i class="arrow-icon"></i></h4>
+                                    <div class="accordion-data">
+                                        <div class="fill-type-dis" id="location_type">
+                                            <ul>
+                                                <?php //echo "<pre>"; print_r($location_types);?>
+                                                <?php foreach ($location_types as $location_type): ?>
+                                                    <li data-value="<?php echo $location_type['id'];?>" ><?php echo $location_type['location_type']?></li>
+                                                <?php endforeach;?>
+                                                    <li data-value="4" >Offering a home service</li>
+                                                    <li data-value="5" >Offering service at your work office</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h4>Are you looking for a practitioner who<br /> is member of an association ?  <i class="arrow-icon"></i></h4>
+                                    <div class="accordion-data">
+                                        <div class="fill-type-dis" id="association_member">
+                                            <ul class="checkbox-icon-none">
+                                                <li>
+                                                    <input type="radio" name="association_member" value="1">
+                                                    Yes</li>
+                                                <li>
+                                                    <input type="radio" name="association_member" value="0">	
+                                                    No</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!----
+                                <li>
+                                        <h4>Do you prefer ? <i class="arrow-icon"></i></h4>
+                                        <div class="accordion-data">
+                                        <div class="fill-type-dis">
+                                                        <ul>
+                                                                <li>At vero eos</li>
+                                                                <li>Etaccusamus</li>
+                                                                <li class="active">Et iusto odio</li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </li>
+                                ------>
+                                <li>
+                                    <h4>Do you need a treatment for physically disabled individuals ? <i class="arrow-icon"></i></h4>
+                                    <div class="accordion-data">
+                                        <div class="fill-type-dis checkbox-icon-none" id="disability" >
+                                            <ul class="checkbox-icon-none">
+                                                <li>
+                                                    <input type="radio" name="disability" value="1" >	
+                                                    Yes
+                                                </li>
+                                                <li>
+                                                    <input type="radio" name="disability" value="0" >
+                                                    No</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h4>Do you need an insurance receipt ? <i class="arrow-icon"></i></h4>
+                                    <div class="accordion-data">
+                                        <div class="fill-type-dis" id="auth_to_issue_insurence_rem_receipt" >
+                                            <ul class="checkbox-icon-none">
+                                                <li>
+                                                    <input type="radio" name="insurance" value="1" >	
+                                                    Yes
+                                                </li>
+                                                <li>
+                                                    <input type="radio" name="insurance" value="0" >
+                                                    No</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="reset-button"> 
+                    <input type="submit" class="black" value="Reset" name="reset_filter">
+                </div>
+                <div class="add-image">
+                    <!-- start Basic Jquery Slider -->
+                    <ul class="bjqs">
+                        <?php if (isset($advertisement) && is_array($advertisement)) {
+                            foreach ($advertisement as $ad) {?>
+                        <li><a href="<?php echo isset($ad['url'])?$ad['url']:'';?>" target="_blank"><img src="<?php echo isset($ad['image'])?$ad['image']:'';?>"></a></li>
+                        <?php }}?>
+                        
+                    </ul>
+                    <!-- end Basic jQuery Slider -->
+                </div>
+                
+            </div>
+            <!-- end find-left section-->
+
+            <!-- start find-right section-->
+            <div class="find-right">
+
+                <div class="find-top-search">
+
+                    <div class="short-history">
+                        <input type="hidden" id="paginateDataCount" value="0" data-paginate=""/>
+                        <div class="short"></div>
+                        <div class="history">History of search </div>
+                    </div>
+
+                    <div class="short-form">
+                        <form>
+                            <select id="feedback_filter" >
+                                <option value="0">Sort by Feedbacks</option>
+                                <option value="1">Max to Min</option>
+                                <option value="2">Min to Max</option> 
+                            </select>
+                            <select id="price_filter" >
+                                <option value="0">Sort by Price</option>
+                                <option value="1">Higher to lower</option>
+                                <option value="2">Lower to higher</option>
+                            </select>
+                            <select id="booking_no" >
+                                <option value="0">Sort by number of bookings</option>
+                                <option value="1">Higher to lower</option>
+                                <option value="2">Lower to higher</option>
+                            </select>
+                        </form>
+                        <div class="grid-list-link">
+                            <!-- <a href="javascript:" class="location"></a> --->
+                            <div class="grid-list">
+                                <a class="grid" href="javascript:;" ></a>
+                                <a class="list" href="javascript:;" ></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="list-view-data" class="find-record" >
+                    <!--
+                    <ul id="list-data"> 
+                            <li>
+                                    <div class="find-profile-img">
+                                            <div class="pro-pic">
+                                                    <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/profile-pic-1.jpg" alt="" /> 
+                                            </div>
+                                            <div class="social-icon">
+                                                    <ul>
+                                                            <li><a href="javascript:;" class="facebook"></a></li>
+                                                            <li><a href="javascript:;" class="twitter"></a></li>
+                                                            <li><a href="javascript:;" class="google"></a></li>
+                                                            <li><a href="javascript:;" class="linkdin"></a></li>
+                                                    </ul>
+                                            </div>
+                                    </div>
+                                    <div class="find-profile-detail">
+                                            <div class="rating-top">
+                                                    <div class="head">
+                                                            <h3>Practitioner Name
+                                                            </h3>
+                                                    </div>
+                                                    <div class="rating">
+                                                            <form>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-5" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-5"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-4" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-4"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-3" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-3"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-2" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-2"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-1" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-1"></label>
+                                                            </form>
+                                                            <div class="view-all">
+                                                                    <a href="javascript:;">view all rating</a>
+                                                            </div>
+                                                    </div>
+                                                    <div class="booking-reviews">
+                                                            <span class="booking">
+                                                                    <label>07</label>
+                                                                    <small>Booking</small>
+                                                            </span>
+                                                            <span class="review">
+                                                                    <label>10</label>
+                                                                    <small>Reviews</small>
+                                                            </span>
+                                                    </div>
+                                      </div>
+                                      <div class="find-pro-detail">
+                                            <div class="pro-detail">
+                                                    <div class="row">
+                                                            <span class="name-head">Speciality</span>
+                                                            <span class="name-text">Physiotherapist</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Degrees</span> 
+                                                            <span class="name-text">M.D. of Medicine</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Experience</span>
+                                                            <span class="name-text">25 years</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Work days</span>
+                                                            <span class="name-text">Monday to Friday</span>
+                                                    </div>
+                                            </div>
+                                            <div class="book-know">
+                                                    <a href="javascript:;">
+                                                            Book Now
+                                                    </a>
+                                            </div>
+                                      </div>
+                                    </div>
+                                    <div class="more-info">
+                                            <ul>
+                                                    <li><div class="km">20.5 km <span>Distance from your area</span></div></li>
+                                                    <li><div class="findform">Form <span>$60</span></div></li>
+                                                    <li><div class="find-contact">Contact</div></li>
+                                                    <li><div class="find-profile">Profile</div></li>
+                                                    <li><div class="demo-profile">Demo</div></li>
+                                            </ul>
+                                      </div>
+                            </li>
+                            <li>
+                                    <div class="find-profile-img">
+                                            <div class="pro-pic">
+                                                    <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/profile-pic-1.jpg" alt="" /> 
+                                            </div>
+                                            <div class="social-icon">
+                                                    <ul>
+                                                            <li><a href="javascript:;" class="facebook"></a></li>
+                                                            <li><a href="javascript:;" class="twitter"></a></li>
+                                                            <li><a href="javascript:;" class="google"></a></li>
+                                                            <li><a href="javascript:;" class="linkdin"></a></li>
+                                                    </ul>
+                                            </div>
+                                    </div>
+                                    <div class="find-profile-detail">
+                                            <div class="rating-top">
+                                                    <div class="head">
+                                                            <h3>Practitioner Name
+                                                            </h3>
+                                                    </div>
+                                                    <div class="rating">
+                                                            <form>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-5" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-5"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-4" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-4"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-3" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-3"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-2" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-2"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-1" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-1"></label>
+                                                            </form>
+                                                            <div class="view-all">
+                                                                    <a href="javascript:;">view all rating</a>
+                                                            </div>
+                                                    </div>
+                                                    <div class="booking-reviews">
+                                                            <span class="booking">
+                                                                    <label>07</label>
+                                                                    <small>Booking</small>
+                                                            </span>
+                                                            <span class="review">
+                                                                    <label>10</label>
+                                                                    <small>Reviews</small>
+                                                            </span>
+                                                    </div>
+                                      </div>
+                                      <div class="find-pro-detail">
+                                            <div class="pro-detail">
+                                                    <div class="row">
+                                                            <span class="name-head">Speciality</span>
+                                                            <span class="name-text">Physiotherapist</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Degrees</span>
+                                                            <span class="name-text">M.D. of Medicine</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Experience</span>
+                                                            <span class="name-text">25 years</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Work days</span>
+                                                            <span class="name-text">Monday to Friday</span>
+                                                    </div>
+                                            </div>
+                                            <div class="book-know">
+                                                    <a href="javascript:;">
+                                                            Book Now
+                                                    </a>
+                                            </div>
+                                      </div>
+                                    </div>
+                                    <div class="more-info">
+                                            <ul>
+                                                    <li><div class="km">20.5 km <span>Distance from your area</span></div></li>
+                                                    <li><div class="findform">Form <span>$60</span></div></li>
+                                                    <li><div class="find-contact">Contact</div></li>
+                                                    <li><div class="find-profile">Profile</div></li>
+                                                    <li><div class="demo-profile">Demo</div></li>
+                                            </ul>
+                                      </div>
+                            </li>
+                            <li>
+                                    <div class="find-profile-img">
+                                            <div class="pro-pic">
+                                                    <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/profile-pic-1.jpg" alt="" /> 
+                                            </div>
+                                            <div class="social-icon">
+                                                    <ul>
+                                                            <li><a href="javascript:;" class="facebook"></a></li>
+                                                            <li><a href="javascript:;" class="twitter"></a></li>
+                                                            <li><a href="javascript:;" class="google"></a></li>
+                                                            <li><a href="javascript:;" class="linkdin"></a></li>
+                                                    </ul>
+                                            </div>
+                                    </div>
+                                    <div class="find-profile-detail">
+                                            <div class="rating-top">
+                                                    <div class="head">
+                                                            <h3>Practitioner Name
+                                                            </h3>
+                                                    </div>
+                                                    <div class="rating">
+                                                            <form>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-5" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-5"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-4" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-4"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-3" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-3"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-2" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-2"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-1" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-1"></label>
+                                                            </form>
+                                                            <div class="view-all">
+                                                                    <a href="javascript:;">view all rating</a>
+                                                            </div>
+                                                    </div>
+                                                    <div class="booking-reviews">
+                                                            <span class="booking">
+                                                                    <label>07</label>
+                                                                    <small>Booking</small>
+                                                            </span>
+                                                            <span class="review">
+                                                                    <label>10</label>
+                                                                    <small>Reviews</small>
+                                                            </span>
+                                                    </div>
+                                      </div>
+                                      <div class="find-pro-detail">
+                                            <div class="pro-detail">
+                                                    <div class="row">
+                                                            <span class="name-head">Speciality</span>
+                                                            <span class="name-text">Physiotherapist</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Degrees</span>
+                                                            <span class="name-text">M.D. of Medicine</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Experience</span>
+                                                            <span class="name-text">25 years</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Work days</span>
+                                                            <span class="name-text">Monday to Friday</span>
+                                                    </div>
+                                            </div>
+                                            <div class="book-know">
+                                                    <a href="javascript:;">
+                                                            Book Now
+                                                    </a>
+                                            </div>
+                                      </div>
+                                    </div>
+                                    <div class="more-info">
+                                            <ul>
+                                                    <li><div class="km">20.5 km <span>Distance from your area</span></div></li>
+                                                    <li><div class="findform">Form <span>$60</span></div></li>
+                                                    <li><div class="find-contact">Contact</div></li>
+                                                    <li><div class="find-profile">Profile</div></li>
+                                                    <li><div class="demo-profile">Demo</div></li>
+                                            </ul>
+                                      </div>
+                            </li>
+                    </ul>
+                    ---->
+                </div>
+
+                <div id="grid-view-data" class="find-record" style="display:none;" > 
+                    <!----
+                    <ul id="grid-data">
+                            <li>
+                                    <div class="find-profile-img">
+                                            <div class="pro-pic">
+                                                    <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/profile-pic-1.jpg" alt="" /> 
+                                            </div>
+                                            <div class="social-icon">
+                                                    <ul>
+                                                            <li><a href="javascript:;" class="facebook"></a></li>
+                                                            <li><a href="javascript:;" class="twitter"></a></li>
+                                                            <li><a href="javascript:;" class="google"></a></li>
+                                                            <li><a href="javascript:;" class="linkdin"></a></li>
+                                                    </ul>
+                                            </div>
+                                    </div>
+                                    <div class="find-profile-detail">
+                                            <div class="rating-top">
+                                                    <div class="head">
+                                                            <h3>Practitioner Name
+                                                            </h3>
+                                                    </div>
+                                                    <div class="rating">
+                                                            <form>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-5" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-5"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-4" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-4"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-3" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-3"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-2" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-2"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-1" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-1"></label>
+                                                            </form>
+                                                            <div class="view-all">
+                                                                    <a href="javascript:;">view all rating</a>
+                                                            </div>
+                                                    </div>
+                                                    
+                                      </div>
+                                      <div class="find-pro-detail">
+                                            <div class="pro-detail">
+                                                    <div class="row">
+                                                            <span class="name-head">Speciality</span>
+                                                            <span class="name-text">Physiotherapist</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Degrees</span>
+                                                            <span class="name-text">M.D. of Medicine</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Experience</span>
+                                                            <span class="name-text">25 years</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Work days</span>
+                                                            <span class="name-text">Monday to Friday</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Booking</span>
+                                                            <span class="book-text">8</span>
+                                                    </div>
+                                            </div>
+                                            <div class="book-know">
+                                                    <a href="javascript:;">
+                                                            Book Now
+                                                    </a>
+                                            </div>
+                                      </div>
+                                    </div>
+                            </li>
+                            <li>
+                                    <div class="find-profile-img">
+                                            <div class="pro-pic">
+                                                    <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/profile-pic-1.jpg" alt="" /> 
+                                            </div>
+                                            <div class="social-icon">
+                                                    <ul>
+                                                            <li><a href="javascript:;" class="facebook"></a></li>
+                                                            <li><a href="javascript:;" class="twitter"></a></li>
+                                                            <li><a href="javascript:;" class="google"></a></li>
+                                                            <li><a href="javascript:;" class="linkdin"></a></li>
+                                                    </ul>
+                                            </div>
+                                    </div>
+                                    <div class="find-profile-detail">
+                                            <div class="rating-top">
+                                                    <div class="head">
+                                                            <h3>Practitioner Name
+                                                            </h3>
+                                                    </div>
+                                                    <div class="rating">
+                                                            <form>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-5" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-5"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-4" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-4"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-3" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-3"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-2" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-2"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-1" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-1"></label>
+                                                            </form>
+                                                            <div class="view-all">
+                                                                    <a href="javascript:;">view all rating</a>
+                                                            </div>
+                                                    </div>
+                                                    
+                                      </div>
+                                      <div class="find-pro-detail">
+                                            <div class="pro-detail">
+                                                    <div class="row">
+                                                            <span class="name-head">Speciality</span>
+                                                            <span class="name-text">Physiotherapist</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Degrees</span>
+                                                            <span class="name-text">M.D. of Medicine</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Experience</span>
+                                                            <span class="name-text">25 years</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Work days</span>
+                                                            <span class="name-text">Monday to Friday</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Booking</span>
+                                                            <span class="book-text">8</span>
+                                                    </div>
+                                            </div>
+                                            <div class="book-know">
+                                                    <a href="javascript:;">
+                                                            Book Now
+                                                    </a>
+                                            </div>
+                                      </div>
+                                    </div>
+                            </li>
+                            <li>
+                                    <div class="find-profile-img">
+                                            <div class="pro-pic">
+                                                    <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/profile-pic-1.jpg" alt="" /> 
+                                            </div>
+                                            <div class="social-icon">
+                                                    <ul>
+                                                            <li><a href="javascript:;" class="facebook"></a></li>
+                                                            <li><a href="javascript:;" class="twitter"></a></li>
+                                                            <li><a href="javascript:;" class="google"></a></li>
+                                                            <li><a href="javascript:;" class="linkdin"></a></li>
+                                                    </ul>
+                                            </div>
+                                    </div>
+                                    <div class="find-profile-detail">
+                                            <div class="rating-top">
+                                                    <div class="head">
+                                                            <h3>Practitioner Name
+                                                            </h3>
+                                                    </div>
+                                                    <div class="rating">
+                                                            <form>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-5" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-5"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-4" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-4"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-3" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-3"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-2" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-2"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-1" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-1"></label>
+                                                            </form>
+                                                            <div class="view-all">
+                                                                    <a href="javascript:;">view all rating</a>
+                                                            </div>
+                                                    </div>
+                                                    
+                                      </div>
+                                      <div class="find-pro-detail">
+                                            <div class="pro-detail">
+                                                    <div class="row">
+                                                            <span class="name-head">Speciality</span>
+                                                            <span class="name-text">Physiotherapist</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Degrees</span>
+                                                            <span class="name-text">M.D. of Medicine</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Experience</span>
+                                                            <span class="name-text">25 years</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Work days</span>
+                                                            <span class="name-text">Monday to Friday</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Booking</span>
+                                                            <span class="book-text">8</span>
+                                                    </div>
+                                            </div>
+                                            <div class="book-know">
+                                                    <a href="javascript:;">
+                                                            Book Now
+                                                    </a>
+                                            </div>
+                                      </div>
+                                    </div>
+                            </li>
+                            <li>
+                                    <div class="find-profile-img">
+                                            <div class="pro-pic">
+                                                    <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/profile-pic-1.jpg" alt="" /> 
+                                            </div>
+                                            <div class="social-icon">
+                                                    <ul>
+                                                            <li><a href="javascript:;" class="facebook"></a></li>
+                                                            <li><a href="javascript:;" class="twitter"></a></li>
+                                                            <li><a href="javascript:;" class="google"></a></li>
+                                                            <li><a href="javascript:;" class="linkdin"></a></li>
+                                                    </ul>
+                                            </div>
+                                    </div>
+                                    <div class="find-profile-detail">
+                                            <div class="rating-top">
+                                                    <div class="head">
+                                                            <h3>Practitioner Name
+                                                            </h3>
+                                                    </div>
+                                                    <div class="rating">
+                                                            <form>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-5" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-5"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-4" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-4"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-3" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-3"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-2" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-2"></label>
+                                                            <input type="radio" name="rating-input-1" id="rating-input-1-1" class="rating-input">
+                                                            <label class="rating-star" for="rating-input-1-1"></label>
+                                                            </form>
+                                                            <div class="view-all">
+                                                                    <a href="javascript:;">view all rating</a>
+                                                            </div>
+                                                    </div>
+                                                    
+                                      </div>
+                                      <div class="find-pro-detail">
+                                            <div class="pro-detail">
+                                                    <div class="row">
+                                                            <span class="name-head">Speciality</span>
+                                                            <span class="name-text">Physiotherapist</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Degrees</span>
+                                                            <span class="name-text">M.D. of Medicine</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Experience</span>
+                                                            <span class="name-text">25 years</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Work days</span>
+                                                            <span class="name-text">Monday to Friday</span>
+                                                    </div>
+                                                    <div class="row">
+                                                            <span class="name-head">Booking</span>
+                                                            <span class="book-text">8</span>
+                                                    </div>
+                                            </div>
+                                            <div class="book-know">
+                                                    <a href="javascript:;">
+                                                            Book Now
+                                                    </a>
+                                            </div>
+                                      </div>
+                                    </div>
+                            </li>
+                    </ul>
+                    ---->
+                </div>
+                <div class="loading" id="loading">Wait a moment... it's loading!</div>
+                <div class="loading" id="nomoreresults">Sorry, no more results.</div>
+                <input type="hidden" name="next" value="">
+            </div>
+            <!-- end find-right section-->
+        </div>
+        <!-- /find-practitioner Section-->
+    </div>
+    <!-- CONTENT END HERE -->
+    <!-- Contact Details -->
+    <div id="contact-overlay" style="display:none;">
+        <input type="hidden" name="emailId" id="emailId" value=""/>
+        <input type="hidden" name="number" id="number" value=""/>
+        <input type="hidden" name="id" id="id" value=""/>
+        <div class="rating-wrapper contact-overlay">
+            <?php if ($auth->hasIdentity()) {
+                ?>
+                <div class="rating-head ">
+
+                    <h3>Contact</h3>
+                    <span class="remove" onclick='$("div#contact-overlay").fadeOut("slow")'>x</span>
+                </div>
+                <div style="display:none;" id="mesg"></div>
+               <!--<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>-->
+                <div class="rating-value">
+
+                    <ul>
+                        <li>Message</li> 
+                        <li><textarea cols="4" rows="4" name="message" id="message" placeholder="Type your message here" ></textarea></li>
+                    </ul>
+                    <ul>
+                        <li class="btn-center"><input type="submit" name="contactdetail" id="contactdetail"/></li>
+                    </ul>
+                </div>
+                <?php } else {
+                ?>
+                <div class="rating-head ">
+                    <span class="remove" onclick='$("div#contact-overlay").fadeOut("slow")'>x</span>
+                </div>
+                <div class="over-lay-error">Please <a href="<?php echo $this->basePath(); ?>/login"> Login/Register</a> to contact any practitioner.</div>
+
+            <?php } ?>
+
+        </div>
+    </div>
+    <!-- End Contact Details -->

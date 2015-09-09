@@ -1,0 +1,71 @@
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home') ?>">Home</a>
+            </li>
+            <li>
+                <a href="<?php echo $this->url('practitioner', array('action' => 'dashboard')) ?>">Dashboard</a>
+            </li>
+            <li>
+                Send Newsletter
+            </li>
+        </ul>
+        <article class="section-block">
+            <h2>
+                Send Newsletter
+                <span>
+                    <small>
+                    </small>
+                </span>
+            </h2>
+            <form name="newsletterSend" id="newsletterSend" action="<?php echo $this->url('practitioner', array('action' => 'sendnewsletter')) ?>" method="post">
+                <input type="hidden" id="sid" value="<?php echo isset($user_id) ? $user_id : ''; ?>" />
+                <input type="hidden" id="page" value="1" />
+                <input type="hidden" id="nid" value="<?php echo isset($id) ? $id : ''; ?>" />
+                <div class="book-appointment-wrapper">
+                    <div class="error-msg" style="display: none;">
+                        <label>Wrong Entry</label>
+                    </div>
+                    <div class="success-msg" style="display: none;">
+                        <label>Wrong Entry</label>
+                    </div>
+                    <div class="member-display">
+
+                        <div class="md-head">
+                            <ul>
+                                <li>Name</li>
+                                <li>Email</li>
+                                <li>Select/Unselect All
+                                    <div class="select-form">
+                                        <form>
+                                            <label for="select-all">
+                                                <input type="checkbox" id="checkAllConsumers" ><span></span>
+                                            </label>
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="md-data" id="scrollDiv">
+                            <ul id="consumers">
+                            </ul>
+                        </div>
+                        <input class="black" id="sendNewsletter" type="submit" value="Send" />						
+                    </div>
+
+                </div>
+
+            </form>
+
+        </article>
+    </div>
+</div>
+<!-- CONTENT END HERE -->

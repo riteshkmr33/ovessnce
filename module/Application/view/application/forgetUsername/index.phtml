@@ -1,0 +1,99 @@
+<!--
+ @auther <badelalk@clavax.us>
+-->
+<!-- CONTENT START HERE -->
+<div id="content">
+    <a href="javascript:;" id="login-a" class="none-display"></a>
+    <a class="none-display" href="javascript:;" id="register-a"></a>
+    <div class="login-option slide-wrapper">
+        <div class="form-main login-section">
+            <!--<h2>Login / Login with -</h2>
+            <ul class="social-link">
+                <li class="facebook">
+                    <a href="#">
+                        <i></i>Facebook
+                    </a>
+                </li>
+                <li class="linkedin">
+                    <a href="#">
+                        <i></i>LinkedIn
+                    </a>
+                </li>
+                <li class="g-plus">
+                    <a href="#">
+                        <i></i>Google Plus
+                    </a>
+                </li>
+            </ul>-->
+        </div>
+        <div class="form-main register-section">
+            <h2>Register / Register with -</h2>
+            <!--<span>tempor incididunt ut labore et dolore magna aliqua. </span>-->
+            <ul class="social-link">
+                <li class="facebook">
+                    <a href="#">
+                        <i></i>Facebook
+                    </a>
+                </li>
+                <li class="linkedin">
+                    <a href="#">
+                        <i></i>LinkedIn
+                    </a>
+                </li>
+                <li class="g-plus">
+                    <a href="#">
+                        <i></i>Google Plus
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="form-wrapper slide-wrapper">
+        <div class="form-main  login-section">
+            <?php 
+            $form = $this->form;
+            
+            //var_dump($form->getName()); die;
+            
+            $form->setAttribute('action', $this->url(null, array('controller'=>'forgetpassword', 'action' => 'index'))); 
+            $form->setAttribute('id', 'User'); 
+            $form->setAttribute('name','User'); 
+            $form->prepare();
+            echo $this->form()->openTag($form);
+            //var_dump($form); die;
+            ?>
+                 
+                <div class="page-form">
+                    <span class="icon-image"></span>
+                    <!--<dfn>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua 456.
+                    </dfn>-->
+                    <?php if(!empty($msg)) {
+							$class = ($error)?"error-msg":"success-msg";
+						?>
+						<div class=<?php echo $class; ?> ><label><?php echo $msg;?></label></div>
+                        
+                    <?php } ?>
+                    
+                    <ul>
+                       
+                        <li>
+                            <?php $field = $form->get('email'); ?>
+                            <?php echo $this->formInput($field); if($this->formElementErrors($field)){?>
+                            <div class="error-msg"><label>  <?php echo strip_tags($this->formElementErrors($field));?> </label></div>
+                            <?php }?>
+                         <!--<span style='color:red;'>  <?php // echo strip_tags($this->formElementErrors($field));?> </span> -->
+                        </li>
+                        
+                        <li class="input-button">
+                            <?php echo $this->formSubmit($form->get('submit')); ?>
+                        </li>
+                    </ul>
+                </div>
+            
+            <?php echo $this->form()->closeTag(); ?>
+        </div>
+    </div>
+</div>
+<!-- CONTENT END HERE -->

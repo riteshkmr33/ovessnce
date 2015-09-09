@@ -1,0 +1,72 @@
+<?php
+$status = (isset($status) && count($status) > 0) ? $status->toArray() : array();
+$statusArray = array('1' => 'success', '2' => 'warning', '3' => 'danger');
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+
+        <?php if (isset($successMsgs) && count($successMsgs) > 0): ?>
+            <div class="note note-success">
+                <?php
+                foreach ($successMsgs as $msg) {
+                    echo '<p> ' . $msg . ' </p>';
+                }
+                ?>
+            </div>
+        <?php endif; ?>
+        <?php if (isset($errors) && count($errors) > 0): ?>
+            <div class="note note-danger">
+                <?php
+                foreach ($errors as $msg) {
+                    echo '<p> ' . $msg . ' </p>';
+                }
+                ?>
+            </div>
+        <?php endif; ?>
+        <div class="note" id="error" style="display:none;"></div>
+
+        <div class="portlet grey box">
+            <div class="portlet-title">
+                <div class="caption"> <i class="fa fa-file-text"></i>Site Meta List</div>
+                <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->url('admin/sitemeta', array('action' => 'add')); ?>"> <i class="fa fa-pencil"></i> Add New Meta </a> </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered table-striped">
+                        <thead>
+                            <tr>
+								<th>Meta Id</th>
+                                <th>Meta Title</th>
+                                <th>Meta Keywords</th>
+                                <th>Meta Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (isset($site_metas) && count($site_metas) > 0) : ?>
+                                <?php foreach ($site_metas as $meta) : ?>
+                                    <tr>
+                                        <td><?php echo $this->escapeHtml($meta->id); ?></td>
+                                        <td><?php echo $this->escapeHtml($meta->meta_title); ?></td>
+                                        <td><?php echo substr($this->escapeHtml($meta->meta_keyword), 0, 100); ?></td>
+                                        <td><?php echo substr($this->escapeHtml($meta->meta_description), 0, 100); ?></td>
+                                        <td>
+                                            <a class="btn default btn-xs" href="<?php echo $this->url('admin/sitemeta', array('controller' => 'sitemeta', 'action' => 'edit', 'id' => $meta->id)); ?>"><i class="fa fa-edit" title="edit" ></i></a>
+                                            <a class="btn default btn-xs" href="<?php echo $this->url('admin/sitemeta', array('controller' => 'sitemeta', 'action' => 'delete', 'id' => $meta->id)); ?>"><i class="fa fa-trash-o" title="delete" ></i></a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                    <?php
+                    echo
+                    $this->paginationControl(
+                            $site_metas, 'sliding', array('partial/paginator.phtml', 'Admin'), array('route' => 'admin/sitemeta')
+                    );
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<?php 
+$status = (isset($status) && count($status)>0)?$status->toArray():array();
+$statusArray = array('1' => 'success', '2' => 'warning', '3' => 'danger');
+?>
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+	  <?php if (isset($successMsgs) && count($successMsgs)>0): ?>
+		<div class="note note-success">
+			<?php foreach ($successMsgs as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<?php if (isset($errors) && count($errors)>0): ?>
+		<div class="note note-danger">
+			<?php foreach ($errors as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<div class="note" id="error" style="display:none;"></div>
+    <div class="portlet grey box">
+      <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-briefcase"></i><?php echo isset($name)?$name:'';?>'s Services List </div>
+        <div class="actions"> 
+			<a class="btn default btn-sm" href="<?php echo $this->url('admin/serviceproviders');?>"> <i class="fa fa-list"></i> Service Providers </a>
+			<a class="btn default btn-sm" href="<?php echo $this->url('admin/serviceproviderservices', array('action'=>'add', 'id' => $this->id));?>"> <i class="fa fa-pencil"></i> Add New Service </a> 
+        </div>
+        
+      </div>
+      <div class="portlet-body">
+        <div class="table-responsive">
+			<table class="table table-hover table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>Service</th>
+						<th>Service Duration</th>
+						<th>Fees</th>
+						<th>Status</th>
+						<th width="161" class="table-checkbox" >Action </th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php if (isset($services) && count($services)>0) : ?>
+					<?php foreach ($services as $service) : ?>
+					<tr>
+						<td><?php echo $this->escapeHtml($service->category_name);?></td>
+						<td><?php echo $this->escapeHtml($service->duration." mins");?></td>
+						<td><?php echo '$'.$this->escapeHtml($service->price);?></td>
+						<td><span class="label label-sm label-<?php echo (array_key_exists($service->status_id, $statusArray))?$statusArray[$service->status_id]:'default';?>" id="<?php echo $service->id;?>"><?php echo $this->escapeHtml(ucwords($service->status));?></span></td>
+						<td>
+							<a class="btn default btn-xs default" href="<?php echo $this->url('admin/serviceproviderservices',array('action'=>'edit', 'service_id' => $service->id, 'id' => $service->user_id));?>"><i class="fa fa-edit"></i> Edit</a>
+							<a class="btn default btn-xs default" href="<?php echo $this->url('admin/serviceproviderservices',array('action'=>'delete', 'service_id' => $service->id, 'id' => $service->user_id));?>"><i class="fa fa-trash-o"></i> Delete</a>
+							
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				<?php endif; ?>
+				</tbody>
+			</table>
+		<?php echo $this->paginationControl(
+						$services,  // the paginator object
+						'sliding',   // the scrolling style; see http://zf2.readthedocs.org/en/release-2.1.4/modules/zend.paginator.usage.html#rendering-pages-with-view-scripts
+						array('partial/paginator.phtml', 'Admin'),  // the partial to use to render the control
+						array('route' => 'admin/serviceproviderservices')  // the route to link to when a user clicks a control link
+					);
+		?>
+		</div>
+      </div>
+    </div>
+  </div>
+</div> 

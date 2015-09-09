@@ -1,0 +1,116 @@
+<?php
+	$form->setAttribute('action', '/admin/PractitionerOrganizations/');
+	$form->setAttribute('method', 'post');
+	$form->setAttribute('id', 'pract_org_filter');
+	$form->prepare();
+	$status = (isset($status) && count($status)>0)?$status->toArray():array();
+	$statusArray = array('1' => 'success', '2' => 'warning', '3' => 'danger');
+?>
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+	
+	<?php if (isset($successMsgs) && count($successMsgs)>0): ?>
+		<div class="note note-success">
+			<?php foreach ($successMsgs as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+	<?php endif;?>
+	<?php if (isset($errors) && count($errors)>0): ?>
+		<div class="note note-danger">
+			<?php foreach ($errors as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+	<?php endif;?>
+	<div class="note" id="error" style="display:none;"></div>
+	
+    <div class="portlet grey box">
+      <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-gear"></i>Practitioner's Organizations List </div>
+        <div class="actions"> 
+			<a class="btn default btn-sm" href="<?php echo (count($this->postedData) > 0)?$this->url('admin/organizations', array('action'=>'export')).'?'.http_build_query($this->postedData):$this->url('admin/organizations', array('action'=>'export'));?>"> <i class="fa fa-download"></i> Export </a> 
+			<a class="btn default btn-sm" href="<?php echo $this->url('admin/organizations', array('action'=>'add'));?>"> <i class="fa fa-pencil"></i> Add New Practitioner's Organization </a> 
+        </div>
+        <div class="table-group-actions pull-right" style="margin: -4px 10px 0 0;">
+			<?php if (isset($status)  &&  count($status)>0) { 
+				echo '<select class="table-group-action-input form-control input-inline input-medium input-sm action" id="" ><option value="" >--Select Status--</option>';
+					foreach ($status as $value) { echo '<option value="'.$value['status_id'].'" >'.ucwords($value['status']).'</option>';}
+				echo '</select>';
+			}?>
+			<button class="btn btn-sm default table-group-action-submit changeStatus" data-path='<?php echo $this->url('admin/organizations', array('action'=>'changestatus'));?>'><i class="fa fa-check"></i>Apply</button>
+		</div>
+      </div>
+      <div class="portlet-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-striped" id="pract_org_table">
+            <thead>
+              <tr>
+                <th>Organization Name</th>
+				<th>Logo</th> 
+				<th>Countries</th>
+				<th>States</th>
+				<th>Phone#</th>
+				<th>Email</th>
+				<th>Status</th>
+				<th width="161" class="table-checkbox" >Action <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"/></th>
+              </tr>
+              <tr>
+				<?php  echo $this->form()->openTag($form); ?>
+				<td> <?php  echo $this->formInput($form->get('organization_name')); ?> </td>
+				<td></td>
+				<td> <?php  echo $this->formSelect($form->get('country_id')); ?> </td>	
+				<td> <?php  echo $this->formSelect($form->get('state_id')); ?> </td>
+				<td></td>
+				<td></td>	
+				<td> <?php  echo $this->formSelect($form->get('status_id')); ?> </td>
+				<td>
+					<button class="btn btn-sm default filter-submit margin-bottom search" data-form="pract_org_filter" data-tbl="pract_org_table"  data-path='<?php echo $this->url('admin/organizations'); ?>' ><i class="fa fa-search"></i> Search</button>
+					<button class="btn btn-sm default filter-cancel" type="reset" onclick="$('input, select').val(''); $('.select2').select2('val', '');"><i class="fa fa-times"></i> Reset</button>
+				</td>
+				<?php echo $this->form()->closeTag(); ?>
+              </tr>
+            </thead> 
+            <tbody>
+             <?php if (isset($organizations) && count($organizations) > 0) { ?>
+             <?php foreach ($organizations as $organization) : ?>
+              <tr>
+					<td><?php echo $this->escapeHtml($organization->organization_name); ?></td>
+					<td><img class="" heigh="50" width="50" src="<?php echo str_replace('Original','Small',$this->escapeHtml($organization->logo)); ?>" /></td>
+					<td><?php echo $this->escapeHtml($organization->country_name) ?></td>
+					<td><?php echo $this->escapeHtml($organization->state_name); ?></td>
+					<td><?php echo $organization->phone_no; ?></td>
+					<td><?php echo $organization->email;?></td>
+					<td>
+						<span class="label label-sm status label-<?php echo (array_key_exists($organization->status_id, $statusArray))?$statusArray[$organization->status_id]:'default';?>" id="<?php echo $organization->organization_id;?>">
+						<?php 
+							if($organization->status_id == 1){
+								echo "Active";
+							}else if($organization->status_id == 2){
+								echo "Inactive";
+							}
+						?>
+						</span>
+					</td>
+					<td>
+						<a class="btn default btn-xs" href="<?php echo $this->url('admin/organizations',array('action'=>'edit', 'id' => $organization->organization_id));?>"><i class="fa fa-edit" title="edit" ></i></a>
+						<a class="btn default btn-xs" href="<?php echo $this->url('admin/organizations',array('action'=>'delete', 'id' => $organization->organization_id));?>"><i class="fa fa-trash-o" title="delete" ></i></a>
+						<input class="checkboxes" type="checkbox" value="<?php echo $organization->organization_id;?>">
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			<?php } else { ?>
+			<tr><td colspan="7" > No Record Found..!! </td></tr>
+			<?php } ?>
+            </tbody>
+          </table>
+          <?php 
+			echo 
+			$this->paginationControl(
+					$organizations, 
+					'sliding',   
+					array('partial/paginator.phtml', 'Admin'),  
+					array('route' => 'admin/organizations', 'routeParams' => $this->postedData)  
+				);
+			?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

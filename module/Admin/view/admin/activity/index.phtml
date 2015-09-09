@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+	  <?php if (isset($successMsgs) && count($successMsgs)>0): ?>
+		<div class="note note-success">
+			<?php foreach ($successMsgs as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<?php if (isset($errors) && count($errors)>0): ?>
+		<div class="note note-danger"> 
+			<?php foreach ($errors as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+    <div class="portlet grey box">
+      <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-gear"></i>Activities List</div>
+        <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->url('admin/activity', array('action'=>'add'));?>"> <i class="fa fa-pencil"></i> Add New Activity </a> </div>
+      </div>
+      <div class="portlet-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Activity</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php if (isset($activities) && count($activities)>0) : ?>
+              <?php foreach ($activities as $activity) : ?>
+              <tr>
+                <td><?php echo $this->escapeHtml($activity->activity);?></td>
+                <td><a class="btn default btn-xs" href="<?php echo $this->url('admin/activity',array('controller'=>'page','action'=>'edit', 'id' => $activity->id));?>"><i class="fa fa-edit" title="edit" ></i></a> 
+                <a class="btn default btn-xs" href="<?php echo $this->url('admin/activity',array('controller'=>'page','action'=>'delete', 'id' => $activity->id));?>"><i class="fa fa-trash-o" title="delete" ></i></a> </td>
+              </tr>
+              <?php endforeach; ?>
+              <?php endif; ?>
+            </tbody>
+          </table>
+          <?php 
+		echo $this->paginationControl(
+						$activities,  // the paginator object
+						'sliding',   // the scrolling style; see http://zf2.readthedocs.org/en/release-2.1.4/modules/zend.paginator.usage.html#rendering-pages-with-view-scripts
+						array('partial/paginator.phtml', 'Admin'),  // the partial to use to render the control
+						array('route' => 'admin/activity')  // the route to link to when a user clicks a control link
+					);
+?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0): ?>
+            <img src="<?php echo isset($banners[0]['banner_url']) ? $banners[0]['banner_url'] : ''; ?>" alt="" />
+        <?php endif; ?>
+    </div>
+    <div class="main clearfix">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home'); ?>">Home</a>
+            </li>
+            <li>
+                Contact Us
+            </li>
+        </ul>
+        <h2>
+            Contact US
+            <span>
+                <small>
+                    <!-- Lorem ispsum sit -->
+                </small>
+            </span>
+        </h2>
+		
+        <?php $form = '<div id="msg"></div>
+
+                        <div class="form">
+                            <form action="/contact/" method="post" name="Contact" id="Contact">            
+                            <ul class="clearfix">
+                                <li>
+                                    <input name="first_name" type="text" autocomplete="off" id="contact_first_name" placeholder="First Name" required="required" value="">                </li>
+                                <li>
+                                    <input name="last_name" type="text" autocomplete="off" id="contact_last_name" placeholder="Last Name" value="">                </li>
+                                <li>
+                                    <input type="email" name="email" autocomplete="off" id="contact_email" placeholder="Email Address" required="required" value="">                </li>
+                                <li>
+                                    <input type="text" name="phone" autocomplete="off" id="contact_phone" placeholder="000 000 0000" required="required" value="">                </li>
+                                <li>
+                                    <textarea name="message" id="contact_message" required="required" rows="4" cols="40" placeholder="Your Message"></textarea>                </li>
+                                <li>
+                                    <input name="contact_submit" type="submit" class="black" value="SUBMIT QUERY">                
+                                </li>
+                            </ul>
+                            </form>
+                        </div>';
+        echo str_replace('{{form}}', $form, stripslashes($content));
+        ?>
+	</div>
+	<figure class="map-section">
+            <!--<img src="https://s3-us-west-2.amazonaws.com/ovessence/img/map.jpg" alt="">-->
+            <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/Contact+us+banner+image.jpg">
+	</figure>
+</div>
+<!-- CONTENT END HERE -->

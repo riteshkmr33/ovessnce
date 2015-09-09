@@ -1,0 +1,360 @@
+@media all and (max-width:1179px) {
+  .search { max-width: 100%; left: 0px; margin-left: 0px; margin-top: 0; position: static; }
+  .main-content { padding-top: 20px; }
+  .banner-content { bottom: 60px; }
+  .social-link li { width: auto; float: none; }
+  .login-option .social-link li { float: left; width: auto; }
+  .play:after { display: none; }
+  .play:before { border-width: 10px; border-right: none; left: 16px; top: 10px; }
+  .play { margin: 0px; left: auto; top: auto; right: 10px; bottom: 10px; border-width: 5px; border-radius: 0px; width: 50px; height: 50px; background: rgba(0,0,0,0.5); }
+  .find-practitioner .find-left { width: 27%; }
+  .find-practitioner .find-right { width: 70%; }
+  .find-practitioner .find-right .find-record .more-info { text-align: center; }
+  .find-practitioner .find-right .find-record .more-info li { font-size: 11px; padding: 0 3px; }
+  #list-view-data > li { width: 48%; }
+  .many-feture { width: 64%; }
+  .many-feture li { width: 46%; }
+  .many-feture-wrapper .desktop-image { width: 35%; margin: 80px 0 0 0 !important; }
+  .tab-target { margin-bottom: 40px; }
+  .find-practitioner .find-right .find-top-search .short-form select { width: 110px; }
+  .find-practitioner .find-right .find-record li .find-profile-detail .find-pro-detail .name-text { width: 160px; }
+  .dashboard .tab-menu li { padding: 11px 9px; }
+  .add-Services form li, .add-Newsletter form li { margin-right: 20px; }
+  .add-Services form input, .add-Services form select, .add-Newsletter form input, .add-Reference form select, .add-Reference form input, .add-Reference form select { width: 100px; }
+  .visaImage { position: inherit; bottom: 0px; right: 0px; margin-top: 20px; }
+  .find-practitioner .find-right .find-record li .find-profile-detail .find-pro-detail .pro-detail { width: 54%; }
+  .find-practitioner .find-right .find-record li .find-profile-detail .find-pro-detail .book-know { margin-right: 10px; }
+  .tab-menu li { padding: 11px 6px; }
+
+  @media all and (max-width:1100px) {
+
+    .fc-event.fc-event-vert.fc-event-start.fc-event-end { max-width: 75px; }
+    #banner { max-height: 560px; }
+  }
+}
+
+@media all and (max-width:1023px) {
+  .table-section figure img { max-width: 100%; display: block; }
+  .find-practitioner .find-right .find-record .more-info li { padding: 0 2px; }
+  .find-practitioner .find-right .find-record .more-info li a { font-size: 10px; }
+  .input-field { width: 100%; }
+  .btn-submit { clear: both; float: none; margin: 0; padding: 15px 0 0; }
+  .chat-tab .add, .chat-tab .chat { width: 40%; }
+  .chat-tab .add {top:10px; text-align:center; }
+  .amount-wrapper { height: 300px; }
+  .tab-menu li { padding: 11px 10px; }
+  .bg-block { height: auto; padding: 50px 20px; }
+  .bg-block p.left-align { width: auto; float: none; margin: 0; font-size: 2.5em; }
+  .bg-block .get-started { float: none; margin: 50px auto 0; }
+  .practitioner-bg p { text-align: center; margin: 0; }
+  .practitioner-bg p.text-right { float: none; margin: 40px auto 0; }
+  .add-Services form li, .add-Newsletter form li { display: block; display: block; margin-bottom: 15px; }
+  .add-Services form label, .add-Newsletter form label, .add-Reference form label { display: inline-block; width: 90px; }
+  .add-Services form .button, .add-Newsletter form .button, .add-Reference form .button { padding-left: 0px; }
+}
+
+@media all and (max-width:1000px) {
+
+  input, textarea, select { font-size: .9em; }
+  input[type="buttom"], input[type="submit"], button, .green-btn { font-size: 1em; }
+  input[type="button"], input[type="submit"], button, .green-btn, input[type="reset"] { font-size: 1em; }
+  .green-btn { line-height: 3.66; }
+  .col-2 { float: none; width: auto; }
+  .block-topic figure { float: left; margin-left: 0px; margin-right: 18px; }
+  .block-topic .text { text-align: left; }
+  .bg-block .text { width: 100%; }
+  #footer .span-24 { clear: both; width: auto; float: none; padding-top: 30px; }
+  .social-link li { float: left; width: 25%; }
+  .span-42 { padding-right: 0px; }
+  #footer .span-17 { width: 25%; }
+  #footer .span-42 { width: 50%; }
+  .our-core-value article { width: auto; }
+  .advertising-content { padding-top: 0px; }
+  .popup { width: 750px; height: 443px; margin-top: -221px; margin-left: -375px; }
+  .close { right: 0px; top: -43px; border-radius: 45% 45% 0 0; border: 2px solid #fff; }
+  .add-chat .chat-tab { background: none; }
+  .chat-tab .add, .chat-tab .chat { border-radius: 4px; background: #77be32; }
+  .chat-tab img { margin: 8px 0 0; }
+  .tab-menu li { padding: 11px 6px; font-size: 12px; }
+  .tab-menu li:last-child { padding: 8px; }
+  .tab-menu li.arow:after { display: none; }
+  .find-practitioner .find-right .find-record > ul > li { width: 100%; margin-bottom: 15px; }
+  .find-practitioner .find-right .find-record li .find-profile-img { float: none; width: 100%; }
+  .find-practitioner .find-right .find-record li .find-profile-detail { float: none; width: 100%; }
+  .find-practitioner .find-right .find-record .more-info { position: inherit; width: 100%; }
+  #list-view-data > li { width: 100%; }
+  #list-view-data li .find-profile-img { float: left; }
+  #list-view-data li .find-profile-detail { float: left; }
+  .find-top-search { text-align: center; }
+  .find-practitioner .find-right .find-top-search .short-history, .find-practitioner .find-right .find-top-search .short-form { float: none; }
+  .main-testimonial figure { margin-left: 25px; }
+  #header ul.btn a { padding: 0 5px; font-size: 11px; }
+  .menu-wrapper { padding-top: 10px; }
+  .top-login .dashboard-link { padding: 0 5px; font-size: 11px; }
+  .tab-trigger li { width: auto; padding: 12px 20px; }
+  .testimonial-list article { width: 48%; }
+  .main-testimonial figure { margin-right: 30px; }
+  .find-practitioner .accordion-data { display: none; }
+  .services-data table tbody td:last-child, .services-data table thead th:last-child { text-align: right; width: 100px; }
+  /*.services-data table th, .services-data table td { min-width: 140px; }*/
+  .setting-section { padding: 7px; }
+  .setting-section .password, .setting-section .alert { padding-bottom: 5px; }
+  .selection textarea, .setting-section input[type="text"], .setting-section input[type="password"] { width: 100%; }
+  .setting-section .row { padding: 0 10px; margin-bottom: 5px; }
+  .setting-section .password .selection { padding: 0px; }
+  .setting-section .password .selection input[type="radio"], .setting-section .password .selection input[type="checkbox"] { float: left; }
+  .setting-section .row label, .setting-section .password .selection label { display: inline-block; margin-bottom: 10px; text-align: left; line-height: 20px; width: 80%; }
+  .message-section-wrapper table { display: block; overflow-x: scroll; }
+  .message-section-wrapper table td, .message-section-wrapper table th { min-width: 160px; }
+  .calendar-section h2 { font-size: 15px; }
+  .calendar-section .fc-header td .fc-button { padding: 2px 5px 25px; }
+  .search-block-user .user-search-form .input-wrapper { width: 70%; }
+  .search-block-user .user-search-form .input-wrapper input { width: 45%; }
+  .dashboard .select2-container { width: 45% !important; }
+  .search-block-user .user-search-form .btn-wrapper { width: 30%; }
+  .invitation .password input.black { margin: 10px 0 0; }
+  .invitation .text-center { text-align: left; }
+  .refer-section select { width: 100%; font-size: 13px; color: #7c7c7c; }
+  #grid-view-data > ul > li { margin: 0; width: 100%; }
+  #grid-view-data > ul > li .find-profile-img { width: 100%; }
+  #grid-view-data > ul > li .find-profile-detail { width: 100%; }
+  .find-practitioner .find-right .find-record li .find-profile-img .pro-pic { width: 55%; margin: 0 auto; }
+  .find-practitioner .find-right #grid-view-data li .find-profile-img .pro-pic { max-height: inherit; }
+  .find-practitioner .find-right .find-record li .find-profile-detail .find-pro-detail .book-know { float: none; margin-bottom: 25px; text-align: center; }
+  .find-practitioner .find-right .find-record li .find-profile-detail .find-pro-detail .pro-detail { width: 100%; }
+  .find-practitioner .find-right .find-record li .find-profile-detail .find-pro-detail .name-text { width: calc(100% - 100px); }
+  #grid-view-data > ul > li .find-profile-detail .find-pro-detail .name-text { width: calc(100% - 100px); }
+  #rating-overlay > div.rating-wrapper { width: 70%; }
+  #rating-overlay .rating-value li .rate { max-width: 55%; }
+  #wishlist-overlay > div.wishlist-wrapper { top: 5%; width: 90%; padding: 5px 25px; }
+  #rating-overlay > div.rating-wrapper.day-sheet { width: 95%; padding: 15px; }
+  #rating-overlay div.rating-wrapper.day-sheet li label { width: 90px; }
+  .day-sheet .rating-value li:first-child .input-box label, #rating-overlay .rating-value li .input-box select { width: 104px !important; }
+  #rating-overlay > div.rating-wrapper span.remove { left: 0px; }
+  .list-testimonial #scrolldiv li { width: 48%; }
+  .testimonial-list article { width: 100%; }
+  #booking-overlay { position: absolute; }
+  #booking-overlay > div.business-wrapper { width: auto; position: absolute; top: 20%; }
+  #booking-overlay > div.business-wrapper .booking-detail { text-align: left; }
+  #booking-overlay > div.business-wrapper .booking-detail .label { width: 100%; text-align: left; margin-bottom: 5px; }
+  #booking-overlay > div.business-wrapper .booking-detail .input { width: 100%; }
+  .services-data table thead th, .services-data table td { font-size: 12px !important; }
+  #banner { max-height: 420px; }
+  .services-data { overflow-x: scroll; }
+  .tab-menu li:last-child { padding: 11px; }
+}
+
+@media all and (max-width:768px) {
+  .add-image { max-width: 200px !important; margin: 15px auto 0; }
+  .add-image li { width: 200px !important; overflow: hidden; }
+  .fc-event.fc-event-vert.fc-event-start.fc-event-end { max-width: 50px; }
+}
+
+
+@media all and (max-width:767px) {
+  .menu-open { display: block; }
+  .menu-wrapper { position: fixed; right: 0px; top: 0px; text-align: left; top: 73px; background: rgba(0,0,0,.9); width: 100%; display: none; padding-bottom: 10px; }
+  #header ul.btn li:hover { color: #fff; background: #77BE32; }
+  #login { float: none; display: block; margin: 0px; padding: 10px; }
+  #header ul.btn { padding-top: 13px; display: block; line-height: 1; font-weight: 300; }
+  #header ul.btn li { float: none; background: #77be32; border-radius: 4px; margin: 0px 3px; display: inline-block; }
+  #header ul.btn a { padding: 8px; }
+  #banner img { max-width: none; height: 366px; width: auto; }
+  .banner-content strong { font-size: 3.5em; }
+  .banner-content strong span { padding-top: 10px; }
+  .banner-content dfn { margin-top: 30px; font-size: 1.2em; }
+  .search { padding-left: 10px; padding-right: 10px; }
+  .search li { width: 48% !important; margin: 0 1% 10px; }
+  .search li input, .search li .select2-container { width: 100% !important; }
+  p { font-size: 1.5em; }
+  .col-2 p { font-size: 1.2em; }
+  .col-2 { padding: 15px 0px 5px 0px; }
+  .col-2:last-child { padding: 15px 0px 5px 0px; }
+  .bg-block .text { display: block; }
+  h1:before, h2:before, h1:after, h2:after { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box; }
+  .bg-block section { display: block; width: auto; position: relative; padding-top: 48px; }
+  .bg-block section:last-child { padding-left: 31px; }
+  .bg-block .list { padding-left: 0px; }
+  .bg-block .icon-img { top: auto; bottom: 0px; margin-top: 0px; margin-bottom: -45px; z-index: 9; }
+  .social-link li { width: 33%; }
+  #footer .span-17 { width: 50%; }
+  #footer .span-42 { float: none; clear: both; padding-top: 30px; width: auto; }
+  #footer-logo { display: none; }
+  .our-core-value li { width: 50%; margin-bottom: 30px; }
+  .advertising-image { float: none; width: auto; display: block; margin-bottom: 80px; }
+  .advertising-image i { bottom: -68px; top: auto; margin-top: 0px; left: 50%; margin-left: -68px; }
+  .advertising-content { float: none; width: auto; }
+  .table-section figure, .table-section, .table-section article { display: block; width: auto; padding: 0px; }
+  .table-section figure { margin-bottom: 30px; }
+  .popup { width: 400px; height: 236px; margin-left: -200px; margin-top: -118px; }
+  .form, .contact-address { width: auto; float: none; }
+  .profile-add-left { float: none; margin: 0 auto 40px; width: auto; }
+  .profile-add-right { width: auto; float: none; }
+  .find-practitioner .find-left { width: 100%; float: none; }
+  .find-practitioner .find-right { float: none; width: 100%; }
+  .search.find li { width: 48% !important; }
+  .search.find li:last-child { width: 98% !important; }
+  .find-practitioner .find-right .find-record .more-info li { padding: 0 5px; }
+  .no-ie.csstransforms3d .frame ul li { margin: 0 -22px; }
+  .book-appointment-wrapper > ul > li { width: 47%; }
+  .book-appointment li { width: 47%; }
+  .many-feture { width: auto; }
+  .many-feture li { width: 48%; }
+  .many-feture-wrapper .desktop-image { float: none; width: 100%; margin: 30px 0 !important; display: inline-block; }
+  #testimonial.main-testimonial { display: none; }
+  #rating-overlay > div.rating-wrapper { width: 90%; }
+  #rating-overlay .rating-value li .rate { max-width: 45%; }
+  .check-out { width: auto; padding: 10px; }
+  .invice-wrapper { width: auto; }
+  #rating-overlay .rating-value li.desktop { display: none; }
+  #rating-overlay .rating-value li { border: 1px solid #ccc; margin-bottom: 5px; }
+  #rating-overlay div.rating-wrapper.day-sheet li label { background: none repeat scroll 0 0 #f0f0f0; display: block; float: none; padding: 7px; text-align: center; width: 100%; }
+  #rating-overlay .rating-value li .mobile label { background: none !important; text-align: left !important; }
+  #rating-overlay .rating-value li .mobile { padding: 10px; }
+  .day-sheet .rating-value li:first-child .input-box label, #rating-overlay .rating-value li .input-box select { width: 100% !important; text-align: left !important; margin: 0px; }
+  #rating-overlay.responsive { position: absolute; }
+  #rating-overlay > div.rating-wrapper.day-sheet { top: 50px; }
+  #business-overlay.business-card { position: absolute; top: 50px; }
+  #business-overlay > div.business-wrapper { width: 90%; top: 50px; }
+  #business-overlay > div.business-wrapper #businesscard { width: 100% !important; }
+  #business-overlay > div.business-wrapper #businesscard table { display: block !important; overflow: scroll !important; }
+  #contactTable th, #contactTable td { width: auto; }
+  .md-head ul li { float: none; vertical-align: middle; }
+  #banner { max-height: 364px; }
+  .referral-tab ul li { margin: 0; width: 43%; display: inline-block; padding: 11px !important; }
+  .profileForm a.btn-rating { display: block; margin: 10px 0 0 0; }
+  .fc-event.fc-event-vert.fc-event-start.fc-event-end { max-width: 30px; }
+  .helpCenterQuestion, .helpCenteAnwser {width:100%; float:none; margin-bottom:20px; min-height:inherit; height:auto; }
+}
+
+
+
+@media all and (max-width:479px) {
+  body { font-size: 56%; }
+  .social-link li { width: 50%; }
+  .bg-block h2 span, .gallery h2 span { padding-left: 0px; }
+
+  .banner-content strong { font-size: 3em; }
+  .banner-content strong span { font-size: 0.46em; }
+  .register-btn span { display: block; margin-bottom: 10px; }
+  #breadcrumb { top: -28px; }
+  .our-core-value li { width: 100%; margin-bottom: 30px; }
+  .our-core-value h2 { padding: 11px 20px 0; }
+  .popup { width: 300px; height: 177px; margin-top: -88px; margin-left: -150px; }
+
+  .review-data .review-record { width: 80%; }
+  .find-practitioner .find-right .find-record .more-info li { border: none; }
+  #list-view-data li .find-profile-img { float: none; width: 100%; }
+  #list-view-data li .find-profile-detail { float: none; width: 100%; }
+  .find-left .tab-menu li { width: 48%; }
+  .book-appointment li { margin: 0 0 5px; width: 100%; }
+  .search li { float: none; width: auto !important; }
+  .search.find { height: auto; }
+  .search.find li { float: none; width: auto !important; }
+  .search li input { font-size: 13px; }
+  .search { height: auto; margin-bottom: 30px; }
+  .aboutme-edit-wrapper .edit-head .comm-edit-button, .remove_address, .aboutme-edit-wrapper .edit-head .comm-update-button { float: none; display: inline-block; }
+  .calendar-section .fc-header td { display: block; text-align: center; width: 100%; }
+  .calendar-section .fc-content table thead th { padding: 0px; }
+  .calendar-section .fc-content { padding: 5px; }
+  .calendar-section .fc-content .fc-view-month { font-size: 12px !important; }
+  .services-tab .add-button, .newsletter .add-button, .referred-to .add-button, .newsletter .add-button { float: none; }
+  .pagination-list { float: left; margin-top: 20px; }
+  .add-Services, .add-Newsletter, .add-Reference { }
+  .editor .mce-btn button { padding: 2px 3px; }
+  .booking-reviews { background: none; float: none; top: 10px; margin-bottom: 20px; left: 20px; }
+  .find-practitioner .find-right .find-top-search .short-form select { width: 100%; margin-bottom: 10px; }
+  .find-practitioner .find-right .find-top-search .short-form .grid-list-link .grid-list { border: none; }
+  .find-practitioner .find-right .find-record li .find-profile-detail .booking-reviews { background: none; float: none; top: 10px; left: 0px; position: inherit; }
+  .find-practitioner .find-right .find-record li .find-profile-detail { padding-left: 0; }
+  .find-practitioner .find-right .find-record li .find-profile-detail .find-pro-detail .pro-detail { width: 100%; }
+  .find-practitioner .find-right .find-record li .find-profile-detail .find-pro-detail { padding-bottom: 0px; }
+  .email-verification input.black { margin-top: 15px; }
+  .wishlist-wrapper .amount-wrapper { width: 100%; }
+  .wishlist-wrapper .book-form { width: 100%; }
+  .appointment label { margin-bottom: 10px; }
+  .list-testimonial #scrolldiv li { width: 100%; }
+}
+
+@media all and (max-width:530px) {
+  .form-main { left: 0px; margin-left: 0px; width: 100%; padding: 0 10px; }
+  .many-feture li { width: 45%; }
+  .services-data table { display: block; overflow: scroll; }
+  #rating-overlay > div.rating-wrapper { width: 95%; padding: 10px 25px; }
+  #rating-overlay > div.rating-wrapper h3 { font-size: 1.5em; }
+  #rating-overlay .rating-value li { margin-bottom: 5px; }
+  #rating-overlay .rating-value li label { font-size: 12px; }
+  #rating-overlay .rating-value li .rate { height: 10px; position: relative; }
+  #rating-overlay .rating-value li span { height: 100%; position: absolute; }
+}
+
+@media all and (max-width:640px) {
+  .tab-trigger ul { display: block; }
+  .tab-trigger li { width: auto; float: none; }
+  .wishlist-wrapper .amount-wrapper { height: auto; }
+  .wishlist-wrapper .booking-form { margin-bottom: 10px; }
+  .rating-wrapper.contact-overlay { width: 280px !important; line-height: 25px; }
+}
+
+@media all and (max-width:639px) {
+  .how-it-works ul li { margin-bottom: 30px; width: auto; display: block; }
+  .search-block-user .user-search-form .input-wrapper { float: none; width: 100%; }
+  .search-block-user .user-search-form .input-wrapper input { margin: 5px 0; width: 100%; }
+  .dashboard .select2-container { margin: 5px 0; vertical-align: middle; width: 100% !important; }
+  #composemessage .select2-container { margin: 0; vertical-align: middle; width: auto !important; }
+  .search-block-user .user-search-form .btn-wrapper { float: none; width: 100%; }
+  .check-out .check-out-form { width: auto; }
+  .check-out .check-out-form .input { width: 100%; }
+  .check-out .check-out-form label { margin-bottom: 10px; }
+  #booking-overlay > div.business-wrapper { width: 90%; position: absolute; top: 20%; padding: 10px 15px; }
+  #booking-overlay > div.business-wrapper span.remove { left: 0px; }
+  .add-image { margin: 0 auto 20px; }
+}
+
+@media all and (max-width:480px) {
+  .tab-menu { text-align: center; }
+  .tab-menu li { padding: 10px 20px; font-size: 16px; margin: 5px; float: none; }
+  .menu-wrapper { text-align: center; }
+  .top-login { display: inline-block; float: none; margin-bottom: 15px; padding: 10px 15px 0; width: 100%; }
+  .top-login a.icon-message, .top-login a.icon-flag { float: none; display: inline-block; }
+  .top-login .dashboard-link { display: inline-block; float: none; font-size: 12px; padding: 0 10px; vertical-align: top; }
+  .top-login .dashboard-link:last-child { margin-right: 0px; }
+  .many-feture li { width: 96%; }
+  .testimonial-list article { width: 95%; }
+  .partner-list li { float: none; margin-bottom: 25px; }
+  .partner-list li:hover .partner-dfn { display: none; }
+  .register-btn { text-align: center; padding: 10px 0; }
+  .consumerName .btn-rating { display: block; }
+
+  .send-invite input[type="text"] { vertical-align: top; }
+  .add { clear: both; display: inline-block; margin: 10px 0; padding: 10px 0; text-align: left; width: 100%; }
+  .referred-to #add-Reference li { display: inline-block; margin: 0 0 10px; width: 100%; }
+}
+
+
+@media all and (max-width:361px) {
+  .amount-wrapper { width: 100%; height: auto; float: none; }
+  .amount-wrapper:after { display: none; }
+  .book-form { width: auto; float: none; }
+  .about-me .row { display: inline-block; width: 100%; }
+  .about-me .about-data { width: 55%; float: right; line-height: 18px; }
+  .more-video li { margin: 0 0 20px 0; }
+  .ques .ques-head { width: 80%; }
+  .ans .ans-data { width: 80%; }
+  #rating-overlay .rating-value li .rate { margin-left: 0px; max-width: 80%; }
+  .amount-wrapper .amount { padding: 20px 5px; }
+  .amount-wrapper .amount .price { font-size: 30px; }
+  .business-card .card-send a { display: inline-block; margin: 5px; }
+  .fc-agenda .fc-agenda-axis { width: 38px !important; }
+  .calendar-section .fc-content table thead th { font-size: 11px !important; }
+  #composemessage .select2-container { width: auto; }
+  .compose-message input { width: auto; }
+  .compose-message label { width: auto; margin-left: 10px; }
+  #composemessage .select2-container { margin: 0; vertical-align: middle; width: auto !important; }
+  .chat-tab .chat { background: none repeat scroll 0 0 #77be32; }
+  .chat-tab .chat img { margin-top: 5px; }
+  .tab-menu li { width: auto; display: block; }
+  .add-Services form label, .add-Newsletter form label, .add-Reference form label { width: 75px; }
+  .top-black-box .login-display { font-size: 12px; }
+  .add-Reference form label { width: 85px; }
+}

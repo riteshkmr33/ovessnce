@@ -1,0 +1,71 @@
+<?php
+$status = (isset($status) && count($status)>0)?$status->toArray():array();
+$statusArray = array('1' => 'success', '2' => 'warning', '3' => 'danger');
+?>
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+	  <?php if (isset($successMsgs) && count($successMsgs)>0): ?>
+		<div class="note note-success">
+			<?php foreach ($successMsgs as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<?php if (isset($errors) && count($errors)>0): ?>
+		<div class="note note-danger">
+			<?php foreach ($errors as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<div class="note" id="error" style="display:none;"></div>
+    <div class="portlet grey box">
+      <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-desktop"></i>Banners List </div>
+        <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->url('admin/banneruploads', array('action'=>'add', 'booking_id' => $this->booking_id));?>"> <i class="fa fa-pencil"></i> Add New Banner </a></div>
+        <div class="table-group-actions pull-right" style="margin: -4px 10px 0 0;">
+            <?php if (isset($status)  &&  count($status)>0) {
+                echo '<select class="table-group-action-input form-control input-inline input-medium input-sm action" id="" ><option value="" >--Select Status--</option>';
+                foreach ($status as $value) { echo '<option value="'.$value['status_id'].'" >'.ucwords($value['status']).'</option>';}
+                echo '</select>';
+            }?>
+            <button class="btn btn-sm default table-group-action-submit changeStatus" data-path='<?php echo $this->url('admin/banneruploads', array('action'=>'changestatus'));?>' ><i class="fa fa-check"></i>Apply</button>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Banner Title</th>
+                    <th>Target Url</th>
+                    <th>Status</th>
+                    <th width="161" >Action </th>
+                </tr>
+            </thead>
+            <tbody>
+              <?php if (isset($banneruploads) && count($banneruploads)>0) : ?>
+              <?php foreach ($banneruploads as $bannerupload) : ?>
+              <tr>
+                <td><?php echo $this->escapeHtml($bannerupload->banner_title);?></td>
+                <td><?php echo $this->escapeHtml($bannerupload->target_url);?></td>
+                <td><span class="label status label-sm label-<?php  echo (array_key_exists($bannerupload->status_id, $statusArray))?$statusArray[$bannerupload->status_id]:'default';?>" id="<?php echo $bannerupload->id;?>"><?php echo $this->escapeHtml(ucwords($bannerupload->status));?></span></td>
+                <td>
+                    <a class="btn default btn-xs default" href="<?php echo $this->url('admin/banneruploads',array('action'=>'edit', 'booking_id' => $this->booking_id, 'id' => $bannerupload->id));?>" title='Edit'><i class="fa fa-edit"></i> </a>
+                    <a class="btn default btn-xs default" href="<?php echo $this->url('admin/banneruploads',array('action'=>'delete', 'booking_id' => $this->booking_id, 'id' => $bannerupload->id));?>" title='Delete'><i class="fa fa-trash-o"></i> </a>
+                    <input class="checkboxes" type="checkbox" value="<?php echo $bannerupload->id; ?>">
+                </td>
+              </tr>
+              <?php endforeach; ?>
+              <?php endif; ?>
+            </tbody>
+          </table>
+          <?php 
+		echo $this->paginationControl(
+                        $banneruploads,  // the paginator object
+			'sliding',   // the scrolling style; see http://zf2.readthedocs.org/en/release-2.1.4/modules/zend.paginator.usage.html#rendering-pages-with-view-scripts
+			array('partial/paginator.phtml', 'Admin'),  // the partial to use to render the control
+			array('route' => 'admin/banneruploads')  // the route to link to when a user clicks a control link
+                );
+            ?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

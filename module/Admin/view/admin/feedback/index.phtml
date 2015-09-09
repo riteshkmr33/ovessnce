@@ -1,0 +1,118 @@
+<?php
+$form->setAttribute('action', '');
+$form->setAttribute('method', 'post');
+$form->setAttribute('id', 'feedback_filter');
+$form->prepare();
+$status = (isset($status) && count($status)>0)?$status->toArray():array();
+$statusArray = array('9' => 'success', '5' => 'warning', '10' => 'danger');
+?>
+<div class="row"> 
+  <div class="col-md-12 col-sm-12">
+	  <?php if (isset($successMsgs) && count($successMsgs)>0): ?>
+		<div class="note note-success">
+			<?php foreach ($successMsgs as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<?php if (isset($errors) && count($errors)>0): ?>
+		<div class="note note-danger">
+			<?php foreach ($errors as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<div class="note" id="error" style="display:none;"></div>
+    <div class="portlet grey box">
+      <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-star"></i>Feedbacks List </div>
+        <!--<div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->url('admin/feedback', array('action'=>'add'));?>"> <i class="fa fa-pencil"></i> Add New Feedback </a> </div>-->
+        <div class="table-group-actions pull-right" style="margin: -4px 10px 0 0;">
+			<?php if (isset($status)  &&  count($status)>0) { 
+				echo '<select class="table-group-action-input form-control input-inline input-medium input-sm action" id="" ><option value="" >--Select Status--</option>';
+					foreach ($status as $value) { echo '<option value="'.$value['status_id'].'" >'.ucwords($value['status']).'</option>';}
+				echo '</select>';
+			}?>
+			<button class="btn btn-sm default table-group-action-submit changeStatus" data-path='<?php echo $this->url('admin/feedback', array('action'=>'changestatus'));?>'><i class="fa fa-check"></i>Apply</button>
+		</div>
+      </div>
+      <div class="portlet-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-striped" id="feedback_table" data-path='<?php echo $this->url('admin/feedback');?>'>
+            <thead>
+				<tr>
+					<th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'name') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='name'>Practitioner</th>
+					<th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'service') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='service'>Service</th>
+					<th>Feedback</th>
+					<th>By User</th>
+					<th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'date') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='date'>Comment Date</th>
+					<th>Status</th>
+					<th class="table-checkbox">Action <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"/></th>
+				</tr>
+				<tr class="filter" role="row">
+					<?php  echo $this->form()->openTag($form); ?>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formInput($form->get('provider_name')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formSelect($form->get('serviceType')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						&nbsp;
+					</td>
+					<td rowspan="1" colspan="1">
+						&nbsp;
+					</td>
+					<td rowspan="1" colspan="1">
+						<div class="input-group date date-picker margin-bottom-5" data-date-format="dd-mm-yyyy">
+							<?php  echo $this->formInput($form->get('from')); ?>
+							<span class="input-group-btn">
+								<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
+							</span>
+						</div>
+						<div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+							<?php  echo $this->formInput($form->get('to')); ?>
+							<span class="input-group-btn">
+								<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
+							</span>
+						</div>
+					</td>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formSelect($form->get('status_id')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						<button class="btn btn-sm default filter-submit margin-bottom search" data-form="feedback_filter" data-tbl="feedback_table" data-path='<?php echo $this->url('admin/feedback');?>'><i class="fa fa-search"></i> Search</button>
+						<button class="btn btn-sm default filter-cancel" type="reset" onclick="$('input, select').val(''); $('.select2').select2('val', '');"><i class="fa fa-times"></i> Reset</button>
+					</td>
+				<?php  echo $this->form()->closeTag();?>
+				</tr>
+            </thead>
+            <tbody>
+              <?php if (isset($feedbacks) && count($feedbacks)>0) : ?>
+              <?php foreach ($feedbacks as $feedback) :?>
+              <tr>
+                <td><?php echo $this->escapeHtml($feedback->sp_first_name." ".$feedback->sp_last_name);?></td>
+                <td><?php echo $this->escapeHtml($feedback->category_name.' - '.$feedback->duration.' mins');?></td>
+                <td><?php echo $this->escapeHtml($feedback->comments);?></td>
+                <td><?php echo $this->escapeHtml($feedback->first_name." ".$feedback->last_name);?></td>
+                <td><?php echo $this->escapeHtml(date('d-m-Y',strtotime($feedback->created_date)));?></td>
+                <td><span class="label label-sm status label-<?php echo (array_key_exists($feedback->status_id, $statusArray))?$statusArray[$feedback->status_id]:'default';?>" id="<?php echo $feedback->users_id;?>" data-srvc="<?php echo $feedback->service_id;?>"><?php echo $this->escapeHtml(ucwords($feedback->status));?></span></td>
+                <td>
+					<!--<a class="btn default btn-xs blue" href="<?php echo $this->url('admin/feedback',array('controller'=>'feedback','action'=>'edit', 'user' => $feedback->users_id, 'service' => $feedback->service_id));?>"><i class="fa fa-edit"></i> Edit</a> -->
+					<a class="btn default btn-xs" href="<?php echo $this->url('admin/feedback',array('controller'=>'feedback','action'=>'delete', 'user' => $feedback->users_id, 'service' => $feedback->service_id));?>"><i class="fa fa-trash-o" title="delete"></i></a>
+					<input class="checkboxes" type="checkbox" value="<?php echo $feedback->users_id;?>" data-srvc="<?php echo $feedback->service_id;?>">
+                </td>
+              </tr>
+              <?php endforeach; ?>
+              <?php endif; ?>
+            </tbody>
+          </table>
+          <?php 
+		echo $this->paginationControl(
+						$feedbacks,  // the paginator object
+						'sliding',   // the scrolling style; see http://zf2.readthedocs.org/en/release-2.1.4/modules/zend.paginator.usage.html#rendering-pages-with-view-scripts
+						array('partial/paginator.phtml', 'Admin'),  // the partial to use to render the control
+						array('route' => 'admin/feedback', 'routeParams' => $this->postedData)  // the route to link to when a user clicks a control link
+					);
+?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

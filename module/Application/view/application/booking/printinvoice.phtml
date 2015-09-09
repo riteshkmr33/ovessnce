@@ -1,0 +1,125 @@
+<?php /*print_r($booking_details); exit;*/ 
+    $status = array('7' => 'Paid', '8' => 'Unpaid', '11' => 'Refund');
+    $address = (isset($user_details['address']['street1_address']) && !empty($user_details['address']['street1_address']))?$user_details['address']['street1_address'].', <br />':'';
+    $address .= (isset($user_details['address']['city']) && !empty($user_details['address']['city']))?$user_details['address']['city'].', <br />':'';
+    $address .= (isset($user_details['address']['state_name']) && !empty($user_details['address']['state_name']))?$user_details['address']['state_name'].', ':'';
+    $address .= (isset($user_details['address']['zip_code']) && !empty($user_details['address']['zip_code']))?$user_details['address']['zip_code'].', <br />':'';
+    $address .= (isset($user_details['address']['country_name']) && !empty($user_details['address']['country_name']))?$user_details['address']['country_name']:'';
+    
+    if (isset($service_rendering_address) && is_array($service_rendering_address)) {
+        $rendering_address = (isset($service_rendering_address['street1_address']) && !empty($service_rendering_address['street1_address'])) ? $service_rendering_address['street1_address'] . ', <br />' : '';
+        $rendering_address .= (isset($service_rendering_address['city']) && !empty($service_rendering_address['city'])) ? $service_rendering_address['city'] . ', <br />' : '';
+        $rendering_address .= (isset($service_rendering_address['state_name']) && !empty($service_rendering_address['state_name'])) ? $service_rendering_address['state_name'] . ', <br />' : '';
+        $rendering_address .= (isset($service_rendering_address['zip_code']) && !empty($service_rendering_address['zip_code'])) ? $service_rendering_address['zip_code'] . ', <br />' : '';
+        $rendering_address .= (isset($service_rendering_address['country_name']) && !empty($service_rendering_address['country_name'])) ? $service_rendering_address['country_name'] : '';
+    } else {
+        $rendering_address = $service_rendering_address;
+    }
+?>
+
+<!DOCTYPE HTML>
+	<html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			<style>
+				body{}
+				td {text-align: center;}
+				.leftFloater{float: right; margin-right: 10px;}
+				h1{font-size: 24px !important;}
+				h2{font-size: 20px !important;}
+				.theadercol{font-size: 16px;}
+				.billing_add{margin:15px 0; font-size:11px;}
+				.billing_add p{margin-bottom:5px;}
+			</style>
+		</head>
+		<body style="width: 725px; font-family:\'roboto\'; font-size:15px; border:1px solid #ccc;">
+			<table width="100%" border="0" cellspacing="0" cellpadding="4">
+			  <tr>
+				<td align="center"><img src="./public/img/business-logo.png" style="margin: 10px 10px 0;"/></td>
+			  </tr>
+			  <tr>
+				<td align="center"><h1 style="font-size: 30px !important; margin:0 0 10px 0; font-weight:normal; color:#77BE32; font-family:\'roboto\';">INVOICE</h1></td>
+			  </tr>
+			  <tr>
+			  	<td style="padding:8px;">
+					<table style="border:1px solid #ccc; width:100%; border-collapse: collapse; font-family:\'roboto\';">
+						<thead>
+							<tr>
+								<th style="border-right:1px solid #ccc; padding:7px; background:#F0F0F0;">Invoice Number</th>
+								<th style="border-right:1px solid #ccc; padding:7px; background:#F0F0F0;">Invoice Date</th>
+								<th style="padding:7px; background:#F0F0F0;">Invoice Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr style="border:1px solid #ccc; text-align:center;">
+								<td style="border-right:1px solid #ccc; padding:5px;"><?php echo isset($booking_details[0]['invoice_id'])?$booking_details[0]['invoice_id']:'N/A'; ?></td>
+								<td style="border-right:1px solid #ccc; padding:5px;"><?php echo isset($booking_details[0]['created_date'])?date('l d-m-Y', strtotime($booking_details[0]['created_date'])):'N/A'; ?></td>
+								<td style="padding:5px;"><?php echo isset($booking_details[0]['payment_status'])?$status[$booking_details[0]['payment_status']]:'N/A'; ?></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			  </tr>
+			  <tr>
+			  	<td>
+					<table style="width:100%;">
+						<tr>
+							<td colspan="2" valign="top" style="border-bottom:1px solid #ccc; text-align:left;"><h1 style="font-size: 20px !important; margin:5px 0; color:#77BE32; font-family:\'roboto\';">Billing Detail</h1></td>
+						</tr>
+						<tr>
+							<td width="50%">
+								<div style="border: 1px solid #ccc; text-align:left; margin-top: 10px; padding: 10px; width:100%; height: 150px;">
+									<h2 style="margin:0 0 5px; color:#77BE32;">Bill To :</h2>
+									<b style="margin-bottom:5px; display:block;"><?php echo (isset($user_details['first_name']) && isset($user_details['last_name']))?$user_details['first_name'].' '.$user_details['last_name']:'N/A'; ?></b>
+									<?php echo isset($address)?$address:'N/A'; ?><br /><b>Phone:</b> <?php echo isset($user_details['contact']['home_phone'])?$user_details['contact']['home_phone']:'N/A'; ?>
+								</div>
+							</td>
+                                                    <td  width="50%">
+								<div style="border: 1px solid #ccc; text-align:left; margin-top: 10px; padding: 10px; width:100%; height: 150px;">
+									<h2 style="margin:0 0 5px; color:#77BE32;">Service Rendering Address :</h2>
+									<b style="margin-bottom:5px; display:block;"><?php echo (isset($user_details['first_name']) && isset($user_details['last_name']))?$user_details['first_name'].' '.$user_details['last_name']:'N/A'; ?></b>
+									<?php echo isset($rendering_address)?$rendering_address:'N/A'; ?><!--<br /><b>Phone:</b> <?php echo isset($user_details['contact']['home_phone'])?$user_details['contact']['home_phone']:'N/A'; ?>-->
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			  </tr>
+			  
+			  <tr>
+				<td colspan="2" style="border-bottom:1px solid #ccc; text-align:left; "><h1 style="font-size: 20px !important; margin:5px 0; color:#77BE32; font-family:\'roboto\';">Product Summary</h1></td>
+						</tr>
+			  
+			  <tr>
+			  	<td style="padding:15px 8px;;">
+					<table style="border:1px solid #ccc; width:100%; border-collapse: collapse; margin:0 20px 10px 0 border-collapse: collapse; font-family:\'roboto\';">
+						<thead>
+							<tr>
+								<th style="border:1px solid #ccc; padding:7px; background:#f0f0f0;">Service</th>
+								<th style="border:1px solid #ccc; padding:7px; background:#f0f0f0;">Duration</th>
+								<th style="border:1px solid #ccc; padding:7px; background:#f0f0f0;">Fee</th>
+								<th style="padding:7px; background:#f0f0f0; border:1px solid #ccc;"><?php echo ($booking_details[0]['payment_status'] == 11)?'Refunded':'Paid'; ?></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr style="border:1px solid #ccc; text-align:center;">
+								<td style="border:1px solid #ccc; padding:5px;"><?php echo isset($booking_details[0]['category_name'])?$booking_details[0]['category_name']:'N/A'; ?></td>
+								<td style="border:1px solid #ccc; padding:5px;"><?php echo isset($booking_details[0]['duration'])?$booking_details[0]['duration'].' Mins':'N/A'; ?></td>
+								<td style="border:1px solid #ccc; padding:5px;"><?php echo isset($booking_details[0]['price'])?$booking_details[0]['payment_history_currency'].' '.$booking_details[0]['price']:'N/A'; ?></td>
+								<td align="right" style="padding:5px; border:1px solid #ccc;"><?php echo isset($booking_details[0]['payment_history_amount_paid'])?$booking_details[0]['payment_history_currency'].' '.$booking_details[0]['payment_history_amount_paid']:'N/A'; ?></td>
+							</tr>
+							<tr style="border:1px solid #ccc; text-align:center;">
+								<td style="padding:5px;" colspan="4" align="right">Total: <?php echo isset($booking_details[0]['payment_history_amount_paid'])?$booking_details[0]['payment_history_currency'].' '.$booking_details[0]['payment_history_amount_paid']:'N/A'; ?></td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			  </tr>
+			  
+			  <tr>
+					<td style="padding:10px;">Thank you for your business. For billing questions, please send an email to accounting@ovessence.com</td>
+				</tr>
+  			 
+</table>	
+</body>
+</html>

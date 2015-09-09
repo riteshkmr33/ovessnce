@@ -1,0 +1,642 @@
+<?php 
+	$form->setAttribute('action', $this->url('admin/serviceproviders',array('action' => 'add'))); // $this->url('pages', array('action' => 'add'))
+	$form->setAttribute('method', 'post');
+	$form->setAttribute('class', 'form-horizontal');
+	$form->prepare();
+	//echo $this->formCollection($form); 
+?>
+
+<div class="portlet box grey">
+	<div class="portlet-title">
+		<div class="caption"> <i class="fa fa-reorder"></i> Add Service Provider</div>
+        <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->basePath()?>/admin/serviceproviders/"> <i class="fa fa-list"></i> Service Providers List</a> <a class="btn default btn-sm" href="javascript: history.go(-1);"> <i class="fa fa-share"></i> Back</a> </div>
+    </div>
+    <div class="portlet-body form">
+		<div class="form-body">
+			<?php if (isset($errors) && count($errors)>0): ?>  
+			<div class="alert alert-danger"><button class="close" data-close="alert"></button>
+				<?php foreach ($errors as $field => $msg) {echo ucfirst(strtolower(strip_tags($this->formLabel($form->get($field)).' '.end($msg)))).'<br />';}?>
+			</div>
+			<?php endif;?>
+		
+			<?php echo $this->form()->openTag($form); echo $this->formHidden($form->get('id')); echo $this->formHidden($form->get('detail_id'));?>
+			<div class="form-body">
+				<h3 class="form-section">Personal Information</h3>
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('first_name'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					<div class="col-md-6">
+						<?php $field = $form->get('last_name'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+				</div>
+				<!--/row-->
+				
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('user_name'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					<div class="col-md-6">
+						<?php $field = $form->get('phone_number'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+				</div>
+				<!--/row-->
+				
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('email'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					<div class="col-md-6">
+						<?php $field = $form->get('pass'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+				</div>
+				<!--/row-->
+				
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('cellphone'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					<div class="col-md-6">
+						<?php $field = $form->get('service_language_id'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formSelect($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+				</div>
+				<!--/row-->
+				
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('dob'); ?>
+						<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+						<div class="col-md-9">
+							<div class="input-group input-medium date date-picker" data-date-format="dd-mm-yyyy">
+								<?php echo $this->formInput($field);?>
+								<span class="input-group-btn">
+									<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+								</span>
+							</div>
+							<span class="help-block">
+								 <?php echo strip_tags($this->formElementErrors($field));?>
+							</span>
+						</div>
+					</div>
+					<!--/span-->
+					<div class="col-md-6">
+						<?php $field = $form->get('age'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+				</div>
+				<!--/row-->
+				
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('gender'); ?>
+						<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+						<div class="col-md-9">
+							<?php echo $this->formSelect($field);?>
+							<span class="help-block">
+								 <?php echo strip_tags($this->formElementErrors($field));?>
+							</span>
+						</div>
+					</div>
+					<!--/span-->
+				</div>
+				<!--/row-->
+				
+				<h3 class="form-section">Professional Information</h3>
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('company_name'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					<div class="col-md-6">
+						<?php $field = $form->get('description'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formTextarea($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+				</div>
+				<!--/row-->
+				
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('education_id'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formSelect($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					<div class="col-md-6">
+						<?php $field = $form->get('degrees'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo ($this->formElementErrors($field) != "")?strip_tags($this->formElementErrors($field)):"comma seperated";?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+				</div>
+				<!--/row-->
+				
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('years_of_experience'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					<div class="col-md-6">
+						<?php $field = $form->get('specialties'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					
+				</div>
+				<!--/row-->
+				
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('awards_and_publication'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					<div class="col-md-6">
+						<?php $field = $form->get('prof_membership'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					
+				</div>
+				<!--/row-->
+				
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('professional_license_number'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					<div class="col-md-6">
+						<?php $field = $form->get('auth_to_issue_insurence_rem_receipt'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo strip_tags($this->formLabel($field)); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formRadio($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					
+				</div>
+				<!--/row-->
+				
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('auth_to_bill_insurence_copany'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo strip_tags($this->formLabel($field)); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formRadio($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					<div class="col-md-6">
+						<?php $field = $form->get('treatment_for_physically_disabled_person'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo strip_tags($this->formLabel($field)); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formRadio($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+				</div>
+                                <div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('offering_at_home'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo strip_tags($this->formLabel($field)); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formRadio($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<?php $field = $form->get('offering_at_work_office'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formRadio($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--/row-->
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('prac_org'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo strip_tags($this->formLabel($field)); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formSelect($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<?php $field = $form->get('designation'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--/row-->
+				
+				<?php /*?><h3 class="form-section">Billing Address</h3>
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('street1_address'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					<?php /*?><div class="col-md-6">
+						<?php $field = $form->get('street2_address'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					<div class="col-md-6">
+						<?php $field = $form->get('city'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+				</div>
+				<!--/row-->
+				
+				<div class="row">
+					<div class="col-md-6">
+						<?php $field = $form->get('country_id'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formSelect($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+					
+					<div class="col-md-6">
+						<?php $field = $form->get('state_id'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formSelect($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+				</div>
+				<!--/row-->
+				
+				<div class="row">
+					
+					<div class="col-md-6">
+						<?php $field = $form->get('zip_code'); ?>
+						<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+							<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($field);?>
+								<span class="help-block">
+									 <?php echo strip_tags($this->formElementErrors($field));?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+				</div>
+				<!--/row--><?php */?>
+				
+				
+				<h3 class="form-section">Address where the services are rendered (4 Maximum)</h3>
+				<div class="repeatAddress">
+					<div class="Address">
+						<div class="row">
+							<div class="col-md-6">
+								<?php $field = $form->get('s_street1_address[]'); ?>
+								<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+									<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+									<div class="col-md-9">
+										<?php echo $this->formInput($field);?>
+										<span class="help-block">
+											 <?php echo strip_tags($this->formElementErrors($field));?>
+										</span>
+									</div>
+								</div>
+							</div>
+							<!--/span-->
+							<?php /*?><div class="col-md-6">
+								<?php $field = $form->get('s_street2_address[]'); ?>
+								<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+									<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+									<div class="col-md-9">
+										<?php echo $this->formInput($field);?>
+										<span class="help-block">
+											 <?php echo strip_tags($this->formElementErrors($field));?>
+										</span>
+									</div>
+								</div>
+							</div>
+							<!--/span--><?php */?>
+							<div class="col-md-6">
+								<?php $field = $form->get('s_city[]'); ?>
+								<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+									<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+									<div class="col-md-9">
+										<?php echo $this->formInput($field);?>
+										<span class="help-block">
+											 <?php echo strip_tags($this->formElementErrors($field));?>
+										</span>
+									</div>
+								</div>
+							</div>
+							<!--/span-->
+						</div>
+						<!--/row-->
+						
+						<div class="row">
+							<div class="col-md-6">
+								<?php $field = $form->get('s_country_id[]'); ?>
+								<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+									<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+									<div class="col-md-9">
+										<?php echo $this->formSelect($field);?>
+										<span class="help-block">
+											 <?php echo strip_tags($this->formElementErrors($field));?>
+										</span>
+									</div>
+								</div>
+							</div>
+							<!--/span-->
+							
+							<div class="col-md-6">
+								<?php $field = $form->get('s_state_id[]'); ?>
+								<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">
+									<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+									<div class="col-md-9">
+										<?php echo $this->formSelect($field);?>
+										<span class="help-block">
+											 <?php echo strip_tags($this->formElementErrors($field));?>
+										</span>
+									</div>
+								</div>
+							</div>
+							<!--/span-->
+						</div>
+						<!--/row-->
+						
+						<div class="row">
+							
+							<div class="col-md-6">
+								<?php $field = $form->get('s_zip_code[]'); ?>
+								<div class="form-group <?php echo ($this->formElementErrors($field) != "")?"has-error":"";?>">   <!-- has-error class to make error div highlighted -->
+									<label class="control-label col-md-3"><?php echo $this->formLabel($field); ?></label>
+									<div class="col-md-9">
+										<?php echo $this->formInput($field);?>
+										<span class="help-block">
+											 <?php echo strip_tags($this->formElementErrors($field));?>
+										</span>
+									</div>
+								</div>
+							</div>
+							<!--/span-->
+						</div>
+						<!--/row-->
+					<button class="btn red removeAddress" style="float:right; position:relative; bottom: 23px;">Remove Address</button>	
+					</div>
+                                        <hr />
+					<button class="btn green addMoreAddress" style="float:right; position:relative; bottom: 12px;">Add More Address</button>
+				</div>
+				
+			</div>
+			<div class="form-actions fluid">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="col-md-offset-3 col-md-9">
+							<button type="submit" class="btn green">Submit</button>
+							<button type="reset" class="btn default">Reset</button>
+						</div>
+					</div>
+					<div class="col-md-6">
+					</div>
+				</div>
+			</div>
+			<?php  echo $this->form()->closeTag();?>
+			<!-- END FORM-->
+		</div>
+	</div>
+</div>
+

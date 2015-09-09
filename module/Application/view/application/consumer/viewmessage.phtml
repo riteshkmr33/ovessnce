@@ -1,0 +1,140 @@
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main dashboard">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home'); ?>">Home</a>
+            </li>
+            <li> 
+                <a href="<?php echo $this->url('consumer', array('action' => 'dashboard')); ?>">
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                View message
+            </li>
+        </ul>
+        <h2>
+            Dashboard
+            <span>
+                <small>
+                    &nbsp;
+                </small>
+            </span>
+        </h2>
+
+        <!-- Practitioner Section-->
+        <div class="practitioner-section">
+            <div class="success-msg" style="display: none;"></div>
+            <div class="error-msg" style="display: none;"></div>
+            <!-- start profile right panel here-->
+            <div class="profile-add-left">
+                <div class="profile-wrapper">
+                    <?php if (!empty($avtar_url)) { ?>
+                        <img src="<?php echo $avtar_url; ?>" alt="" />
+                    <?php } else { ?>
+                        <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/profile-pic.jpg" alt="" />
+                    <?php } ?>
+                    <!---
+                    <div class="social-icon">
+                            <ul>
+                                    <li><a class="facebook" href="javascript:;">Facebook</a></li>
+                                    <li><a class="twitter" href="javascript:;">twitter</a></li>
+                                    <li><a class="google" href="javascript:;">google</a></li>
+                                    <li><a class="linkdin" href="javascript:;">linkdin</a></li> 
+                            </ul>
+                    </div>
+                    ------>
+                </div>
+                <div class="dashboard-nav">
+                    <ul>
+                        <li>
+                            <a href="javascript:;" class="active" >Messages</a><span><?php echo isset($notifications['inbox']) ? $notifications['inbox'] : ''; ?></span>
+                            <ul class="dashboard-submenu" style="display: block;" >
+                                <li><a href="<?php echo $this->basePath(); ?>/consumer/compose">Compose</a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/consumer/inbox">Inbox  ( <?php echo isset($notifications['inbox']) ? $notifications['inbox'] : ''; ?> )</a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/consumer/sent">Sent</a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/consumer/trash">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="javascript:;" id="total_notification" >Notification</a><?php echo (isset($notifications['total']) && $notifications['total'] > 0) ? '<span>' . $notifications['total'] . '</span>' : ''; ?>
+                            <ul class="dashboard-submenu">
+                                <li id='booking_notification'><?php echo (isset($notifications['booking']) && $notifications['booking'] > 0) ? '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '?tab=booking" >' . $notifications['booking'] . ' New Bookings</a>' : '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '?tab=booking">No New Bookings</a>'; ?></li>
+                                <!--<li><?php echo (isset($notifications['review']) && $notifications['review'] > 0) ? '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '?tab=review" ">' . $notifications['review'] . ' New Review</a>' : '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '?tab=review">No New Review</a>'; ?></li>
+                                <li><?php echo (isset($notifications['invites']) && $notifications['invites'] > 0) ? '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '">' . $notifications['invites'] . ' Invite</a>' : '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '">No Invites</a>'; ?></li>-->
+                            </ul>
+                        </li>
+                        <li><a href="<?php echo $this->basePath(); ?>/consumer/settings">Setting</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <!-- end profile left panel here-->
+            <div class="profile-add-right">
+                <div class="book-block">
+                    <div class="rating-top">
+                        <div class="head">
+                            <h3><?php echo!empty($first_name) ? $first_name : ''; ?>&nbsp;<?php echo!empty($last_name) ? $last_name : ''; ?></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="message-section">
+                    <h3>Subject : <?php echo isset($master_message['subject']) ? $master_message['subject'] : ''; ?></h3>
+                    <div class="compose-message">
+                        <?php
+                        if (count($replies) > 0) {
+                            foreach ($replies as $reply) {
+                                ?>	
+                                <div class="row user-info">
+                                    <span>From : </span>
+                                    <span><?php echo isset($reply['from_name']) ? $reply['from_name'] : ''; ?> (<?php echo date('d-m-Y', strtotime($reply['created_date']));?>)</span>
+                                </div>
+                                <div class="row user-info">
+                                    <span>Subject :</span>
+                                    <span><?php echo isset($reply['subject']) ? $reply['subject'] : ''; ?></span>
+                                </div>
+                                <div class="row">
+                                    <div class="display-message">
+                                        <?php echo isset($reply['message']) ? $reply['message'] : ''; ?>
+                                    </div>
+                                    <?php if ($reply['from_user_id'] != $current_user_id) { ?>
+                                        <div class="message-sendButton">
+                                            <input type="submit" value="Reply" onclick="$('#replytoggle<?php echo $reply['id']; ?>').toggle();" />
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                                <?php if ($reply['from_user_id'] != $current_user_id) { ?>
+                                    <div class="reply-message">
+                                        <form id="messageForm<?php echo $reply['id']; ?>" name="messageForm<?php echo $reply['id']; ?>" method="post" action="<?php echo $this->basePath(); ?>/consumer/viewmessage/<?php echo $reply['id']; ?>">
+                                            <div class="row" id="replytoggle<?php echo $reply['id']; ?>" style="<?php echo (($msg_error) != "") ? "display:block" : "display:none"; ?> " >
+                                                <textarea  id="ReplyMessage<?php echo $reply['id']; ?>" name="ReplyMessage<?php echo $reply['id'] ?>" rows="10" cols="50" class="form-control" required="required" ></textarea>
+                                                <?php echo (($msg_error) != "") ? $msg_error : ""; ?>
+                                                <div class="message-sendButton">
+                                                    <input type="submit" value="Submit" />
+                                                </div>
+                                            </div>
+                                            <input type="hidden"  id="subject" name="subject<?php echo $reply['id']; ?>" value="<?php echo $reply['subject']; ?>">
+                                            <input type="hidden"  id="replyId" name="replyId" value="<?php echo $reply['id']; ?>">
+                                            <input type="hidden"  id="topLevel_id" name="topLevel_id<?php echo $reply['id']; ?>" value="<?php echo $reply['topLevel_id']; ?>">
+                                            <input type="hidden"  id="toUserID" name="toUserID<?php echo $reply['id']; ?>" value="<?php echo $reply['from_user_id']; ?>">
+                                        </form>	
+                                    </div>
+                                <?php } ?>
+                                <?php
+                            }
+                        }
+                        ?>	
+                    </div>
+                </div>
+            </div>
+            <!-- start profile right panel here-->
+        </div>
+        <!-- /Practitioner Section-->
+    </div>
+</div>
+<!-- CONTENT END HERE -->

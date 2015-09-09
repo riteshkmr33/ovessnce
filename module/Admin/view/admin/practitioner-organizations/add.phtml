@@ -1,0 +1,201 @@
+<?php 
+	$form = $this->form;
+	$form->setAttribute('action', $this->url('admin/organizations', array('action' => 'add')));
+	$form->prepare(); 
+?>
+<div class="portlet box grey">
+  <div class="portlet-title">
+    <div class="caption"> <i class="fa fa-reorder"></i> Add Practitioner's Organization </div>
+    <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->basePath()?>/admin/PractitionerOrganizations"> <i class="fa fa-pencil"></i> Practitioner's Organizations List</a> <a class="btn default btn-sm" href="javascript: history.go(-1);"> <i class="fa fa-pencil"></i> Back</a> </div>
+  </div>
+  <div class="portlet-body form">
+        <div class="form-body">
+			<!--PAGE CONTENT BEGINS-->
+			<?php if (isset($errors) && count($errors)>0): ?>  
+			<div class="alert alert-danger"><button class="close" data-close="alert"></button>
+				<?php foreach ($errors as $field => $msg) {echo ucfirst(strtolower(strip_tags($this->formLabel($form->get($field)).' '.end($msg)))).'<br />';}?>
+			</div>
+			<?php endif;?>
+			
+			<?php echo $this->form()->openTag($form); echo $this->formHidden($form->get('organization_id')); ?>    
+			<div class="form-body">   
+				<h3 class="form-section">Organization Information</h3>
+				<div class="row">
+					<div class="col-md-6">
+					<?php $organization_name = $form->get('organization_name'); ?>		
+						<div class="form-group  <?php echo ($this->formElementErrors($organization_name) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($organization_name); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($organization_name); ?>	
+								<span class="help-block">
+									 <?php echo $this->formElementErrors($organization_name); ?>
+								</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-6">
+					<?php $logo = $form->get('logo'); ?>
+						<div class="form-group  <?php echo ($this->formElementErrors($logo) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($logo); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($logo); ?>	
+								<span class="help-block">
+									 <?php echo $this->formElementErrors($logo); ?>
+								</span>
+							</div>
+						</div>
+					</div>
+			
+				</div>
+				<!--/row-->		
+				<div class="row">
+					<div class="col-md-6">
+					<?php $phone_no = $form->get('phone_no'); ?>		
+						<div class="form-group  <?php echo ($this->formElementErrors($phone_no) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($phone_no); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($phone_no); ?>	
+								<span class="help-block">
+									 <?php echo $this->formElementErrors($phone_no); ?>
+								</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-6">
+					<?php $email = $form->get('email'); ?>		
+						<div class="form-group  <?php echo ($this->formElementErrors($email) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($email); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($email); ?>	
+								<span class="help-block">
+									 <?php echo $this->formElementErrors($email); ?>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--/row-->			
+				<div class="row">
+					<div class="col-md-6">
+					<?php $status_id = $form->get('status_id'); ?>		
+						<div class="form-group  <?php echo ($this->formElementErrors($status_id) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo strip_tags($this->formLabel($status_id)); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formRadio($status_id); ?>	
+								<span class="help-block">
+									 <?php echo $this->formElementErrors($status_id); ?>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--/row-->	
+				
+				<h3 class="form-section">Address Information</h3>			
+				<div class="row">
+					<div class="col-md-6">
+					<?php $street1_address = $form->get('street1_address'); ?>		
+						<div class="form-group  <?php echo ($this->formElementErrors($street1_address) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($street1_address); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($street1_address); ?>	
+								<span class="help-block">
+									 <?php echo $this->formElementErrors($street1_address); ?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--
+					<div class="col-md-6">
+					<?php $street2_address = $form->get('street2_address'); ?>
+						<div class="form-group  <?php echo ($this->formElementErrors($street2_address) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($street2_address); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($street2_address); ?>	
+								<span class="help-block">
+									 <?php echo $this->formElementErrors($street2_address); ?>
+								</span>
+							</div>
+						</div>
+					</div>
+					---->
+					<div class="col-md-6">
+					<?php $city = $form->get('city'); ?>	
+						<div class="form-group  <?php echo ($this->formElementErrors($city) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($city); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($city); ?>	
+								<span class="help-block">
+									 <?php echo $this->formElementErrors($city); ?>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--/row-->	
+				<div class="row">
+					<div class="col-md-6">
+					<?php $country_id = $form->get('country_id'); ?>
+						<div class="form-group  <?php echo ($this->formElementErrors($country_id) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($country_id); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formSelect($country_id); ?>	
+								<span class="help-block">
+									 <?php echo $this->formElementErrors($country_id); ?>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+					<?php $state_id = $form->get('state_id'); ?>	
+						<div class="form-group  <?php echo ($this->formElementErrors($state_id) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($state_id); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formSelect($state_id); ?>	
+								<span class="help-block">
+									 <?php echo $this->formElementErrors($state_id); ?>
+								</span>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<!--/row-->	
+				<div class="row">
+					
+					<div class="col-md-6">
+					<?php $zip_code = $form->get('zip_code'); ?>
+						<div class="form-group  <?php echo ($this->formElementErrors($zip_code) != "")?"has-error":"";?>">
+							<label class="control-label col-md-3"><?php echo $this->formLabel($zip_code); ?></label>
+							<div class="col-md-9">
+								<?php echo $this->formInput($zip_code); ?>	
+								<span class="help-block">
+									 <?php echo $this->formElementErrors($zip_code); ?>
+								</span>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<!--/row-->	       
+			</div>     
+           
+			<div class="form-actions fluid">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="col-md-offset-3 col-md-9">
+							<button type="submit" class="btn green">Submit</button>
+							<button type="reset" class="btn default">Reset</button>
+						</div>
+					</div>
+					<div class="col-md-6">
+					</div>
+				</div>
+			</div>
+			<?php  echo $this->form()->closeTag();?>
+			<!-- END FORM-->
+		</div>
+	</div>
+</div>

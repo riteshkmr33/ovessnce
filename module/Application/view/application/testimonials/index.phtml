@@ -1,0 +1,43 @@
+<!-- CONTENT START HERE -->
+<div id="content">
+	<div id="banner">
+	<?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+	</div>
+	<div class="main">
+		<ul id="breadcrumb">
+			<li>
+				<a href="<?php echo $this->url('home')?>">Home</a>
+			</li>
+			<li>
+				Testimonials
+			</li>
+		</ul>
+		<article class="section-block">
+			<h2>
+			Testimonials
+			<span>
+				<small>
+					<!--Lorem ipsum sit -->
+				</small>
+			</span>
+			</h2>
+			<div class="list-testimonial">
+		<!-- <article class="main-testimonial" id="testimonial">
+			<div class="slides clearfix" id="sliderview"> </div>
+		</article> -->
+		<div class="clearfix testimonial-list" id="scrolldiv">
+			<ul id="ts-main-list" style="width: 100%; display: inline-block;"></ul>
+			<!-- <div class="loading" id="nomoreresults">Sorry, no more results.</div> -->
+		</div>
+		
+		 
+         <input type="hidden" name="page" id="page" value="1">
+         <input type="hidden" id="paginateDataCount" value="0" data-paginate=""/>
+		</div>
+		</article>
+		
+	</div>
+</div>
+<!-- CONTENT END HERE -->

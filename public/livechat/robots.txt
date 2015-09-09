@@ -1,0 +1,16 @@
+#Live Support Rhino Socket Robots File
+#Last change NO 04022014
+
+User-agent: *
+Disallow: cache/
+Disallow: include/
+Disallow: class/
+Disallow: css/
+Disallow: operator/
+Disallow: lang/
+Disallow: js/
+Disallow: css/
+Disallow: files/
+Disallow: template/
+Disallow: uploader/
+Disallow: sound/

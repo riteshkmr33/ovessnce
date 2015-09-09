@@ -1,0 +1,120 @@
+<?php /*print_r($booking_details); exit;*/ 
+    $status = array('7' => 'Paid', '8' => 'Unpaid', '11' => 'Refund');
+    $address = (isset($user_details['address']['street1_address']) && !empty($user_details['address']['street1_address']))?$user_details['address']['street1_address'].', <br />':'';
+    $address .= (isset($user_details['address']['city']) && !empty($user_details['address']['city']))?$user_details['address']['city'].', <br />':'';
+    $address .= (isset($user_details['address']['state_name']) && !empty($user_details['address']['state_name']))?$user_details['address']['state_name'].', <br />':'';
+    $address .= (isset($user_details['address']['zip_code']) && !empty($user_details['address']['zip_code']))?$user_details['address']['zip_code'].', <br />':'';
+    $address .= (isset($user_details['address']['country_name']) && !empty($user_details['address']['country_name']))?$user_details['address']['country_name']:'';
+    
+    if (isset($service_rendering_address) && is_array($service_rendering_address)) {
+        $rendering_address = (isset($service_rendering_address['street1_address']) && !empty($service_rendering_address['street1_address'])) ? $service_rendering_address['street1_address'] . ', <br />' : '';
+        $rendering_address .= (isset($service_rendering_address['city']) && !empty($service_rendering_address['city'])) ? $service_rendering_address['city'] . ', <br />' : '';
+        $rendering_address .= (isset($service_rendering_address['state_name']) && !empty($service_rendering_address['state_name'])) ? $service_rendering_address['state_name'] . ', <br />' : '';
+        $rendering_address .= (isset($service_rendering_address['zip_code']) && !empty($service_rendering_address['zip_code'])) ? $service_rendering_address['zip_code'] . ', <br />' : '';
+        $rendering_address .= (isset($service_rendering_address['country_name']) && !empty($service_rendering_address['country_name'])) ? $service_rendering_address['country_name'] : '';
+    } else {
+        $rendering_address = $service_rendering_address;
+    }
+    
+?>
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home');?>">Home</a>
+            </li>
+            <li>
+                Invoice
+            </li>
+        </ul>
+        <div class="invice">
+            <h2>
+                Invoice
+                <span>
+                    <small>
+                        <!-- Lorem ispum sit -->
+                    </small>
+                </span>
+            </h2>
+
+            <div class="invice-wrapper" >
+                <div class="invice-head">
+                    INVOICE
+                </div>
+                <?php if (!isset($features) || (is_array($features) && in_array(10, $features))) {?>
+                    <a class="btn-print" target="_blank" href="<?php echo $this->url('booking', array('action' => 'invoice', 'id' => $id)).'?print=1'; ?>">Print</a>
+                <?php }?>
+                <!-- <input type="button" value="Print this page" onClick="<?php $this->url('booking', array('action' => 'printinvoice')); ?>"> -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Invoice Number</th>
+                            <th>Invoice Date</th>
+                            <th>Invoice Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><?php echo isset($booking_details[0]['invoice_id'])?$booking_details[0]['invoice_id']:'N/A'; ?></td>
+                            <td><?php echo isset($booking_details[0]['created_date'])?date('l d-m-Y', strtotime($booking_details[0]['created_date'])):'N/A'; ?></td>
+                            <td><?php echo isset($booking_details[0]['payment_status'])?$status[$booking_details[0]['payment_status']]:'N/A'; ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>Billing Detail</h3>
+                <div class="billDetail">
+                    <div class="bill-to">
+                        <h4>Bill To:</h4>
+                        <p><b><?php echo (isset($user_details['first_name']) && isset($user_details['last_name']))?$user_details['first_name'].' '.$user_details['last_name']:'N/A'; ?></b></p>
+                        <p><?php echo (isset($address) && $address != '')?$address:'N/A'; ?></p>
+                        <p><b>Phone:</b><?php echo isset($user_details['contact']['home_phone'])?$user_details['contact']['home_phone']:'N/A'; ?></p>
+                    </div>
+                    <div class="ship-to bill-to">
+                        <h4>Service Rendering Address:</h4>
+                        <!--<p><b><?php echo (isset($user_details['first_name']) && isset($user_details['last_name']))?$user_details['first_name'].' '.$user_details['last_name']:'N/A'; ?></b></p>-->
+                        <p><?php echo (isset($rendering_address) && $rendering_address != '')?$rendering_address:'N/A'; ?></p>
+                        <!--<p><b>Phone:</b><?php echo isset($user_details['contact']['home_phone'])?$user_details['contact']['home_phone']:'N/A'; ?></p>-->
+                    </div>
+                </div>
+                <h3>Product Summary</h3>	
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Duration</th>
+                            <th>Fee</th>
+                            <th><?php echo ($booking_details[0]['payment_status'] == 11)?'Refunded':'Paid'; ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><?php echo isset($booking_details[0]['category_name'])?$booking_details[0]['category_name']:'N/A'; ?></td>
+                            <td><?php echo isset($booking_details[0]['duration'])?$booking_details[0]['duration'].' Mins':'N/A'; ?></td>
+                            <td><?php echo isset($booking_details[0]['price'])?$booking_details[0]['payment_history_currency'].' '.$booking_details[0]['price']:'N/A'; ?></td>
+                            <td align="right"><?php echo isset($booking_details[0]['payment_history_amount_paid'])?$booking_details[0]['payment_history_currency'].' '.$booking_details[0]['payment_history_amount_paid']:'N/A'; ?></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4" align="right">Total: <?php echo isset($booking_details[0]['payment_history_amount_paid'])?$booking_details[0]['payment_history_currency'].' '.$booking_details[0]['payment_history_amount_paid']:'N/A'; ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="thankyouMsg">
+                    <p>Thank you for your business. For billing questions, please send an email to accounting@ovessence.com</p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+<!-- CONTENT END HERE -->
+

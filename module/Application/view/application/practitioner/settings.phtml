@@ -1,0 +1,325 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url(null, array('controller' => 'practitioner', 'action' => 'settings')));
+$form->prepare();
+?>
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main dashboard"> 
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home');?>">Home</a>
+            </li>
+            <li>
+                <a href="<?php echo $this->url('practitioner', array('action' => 'dashboard')); ?>">Dashboard</a>
+            </li>
+            <li>
+                Settings
+            </li>
+        </ul>
+        <h2>
+            Dashboard
+            <span>
+                <small></small>
+            </span>
+        </h2>
+
+        <!-- Practitioner Section-->
+        <div class="practitioner-section">
+            <div class="success-msg" style="display: none;"></div>
+            <div class="error-msg" style="display: none;"></div>
+            <!-- start profile right panel here-->
+            <div class="profile-add-left">
+                <div class="profile-wrapper">
+                    <?php if (!empty($avtar_url)) { ?>
+                        <img src="<?php echo $avtar_url; ?>" alt="" />
+                    <?php } else { ?>
+                        <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/profile-pic.jpg" alt="" />
+                    <?php } ?>
+                    <div class="social-icon">
+                        <ul>
+                            <!--<li><a class="facebook" href="javascript:;">Facebook</a></li> 
+                            <li><a class="twitter" href="javascript:;">twitter</a></li>
+                            <li><a class="google" href="javascript:;">google</a></li>
+                            <li><a class="linkdin" href="javascript:;">linkdin</a></li>-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="dashboard-nav">
+                    <ul>
+                        <?php if (isset($features) && is_array($features) && in_array(5, $features)) {?>
+                        <li>
+                            <a href="javascript:;">Messages</a><span id="message_count"><?php echo isset($notifications['inbox']) ? $notifications['inbox'] : ''; ?></span>
+                            <ul class="dashboard-submenu">
+                                <li><a href="<?php echo $this->basePath(); ?>/practitioner/compose">Compose</a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/practitioner/inbox">Inbox  ( <?php echo isset($notifications['inbox']) ? $notifications['inbox'] : ''; ?> )</a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/practitioner/sent">Sent</a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/practitioner/trash">Trash</a></li>
+                            </ul>
+                        </li>
+                        <?php }?>
+                        <li><a href="javascript:;">Notifications</a><?php echo (isset($notifications['total']) && $notifications['total'] > 0) ? '<span>' . $notifications['total'] . '</span>' : ''; ?> 
+                            <ul class="dashboard-submenu">
+                                <li id='booking_notification'><?php echo (isset($notifications['booking']) && $notifications['booking'] > 0) ? '<a href="' . $this->url('practitioner', array('action' => 'dashboard')) . '?tab=booking" >' . $notifications['booking'] . ' New Bookings</a>' : '<a href="' . $this->url('practitioner', array('action' => 'dashboard')) . '?tab=booking">No New Bookings</a>'; ?></li>
+                                <li><?php echo (isset($notifications['reviews']) && $notifications['reviews'] > 0) ? '<a href="' . $this->url('practitioner', array('action' => 'dashboard')) . '?tab=review" ">' . $notifications['reviews'] . ' New Review</a>' : '<a href="' . $this->url('practitioner', array('action' => 'dashboard')) . '?tab=review">No New Review</a>'; ?></li>
+                                <li><?php echo (isset($notifications['referrals']) && $notifications['referrals'] > 0) ? '<a href="' . $this->url('practitioner', array('action' => 'referrals')) . '">' . $notifications['referrals'] . ' Recommendations</a>' : '<a href="' . $this->url('practitioner', array('action' => 'referrals')) . '">No Recommendations</a>'; ?></li>
+                            </ul>
+
+                        </li>
+                        <li><a class="active" href="<?php echo $this->basePath(); ?>/practitioner/settings">Settings</a></li>
+                        <li><a href="<?php echo $this->basePath(); ?>/practitioner/transactions">Transactions</a></li>
+                        <li><a href="<?php echo $this->basePath(); ?>/practitioner/referrals/">Recommendations</a></li>
+                    </ul>
+                </div>
+                <div class="send-invite">
+                    <form>
+                        <input type="text" id="inviteEmail" placeholder="Email :" />
+                        <input type="submit" class="black" id="sendInvitation" value="Invite" />
+                    </form>
+                </div>
+            </div>
+            <!-- end profile left panel here-->
+            <div class="profile-add-right">
+                <div class="book-block">
+                    <div class="rating-top">
+                        <div class="head">
+                            <h3><?php echo!empty($first_name) ? $first_name : ''; ?>&nbsp;<?php echo!empty($last_name) ? $last_name : ''; ?></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="setting-section">
+                    <div id="errorMsg" style="text-align:center;color:red;"></div>
+                    <div id="successMsg" style="text-align:center;color:green;"></div>
+                    <div class="password">
+                        <?php echo $this->form()->openTag($form); ?>
+                        <h4>PASSWORD CHANGE</h4>
+                        <div class="info-text">
+                            Password are case sensitive and must be at least 6 charachters.<br>
+                            A good password should contain a mix of capital and lower case letters, numbers and symbols.
+                        </div>
+                        <div class="row">
+                            <?php $old_pass = $form->get('old_pass'); ?>
+                            <?php echo $this->formLabel($old_pass); ?>
+                            <?php echo $this->formInput($old_pass); ?>
+                            <?php echo strip_tags($this->formElementErrors($old_pass)); ?>
+                        </div> 
+                        <div class="row">
+                            <?php $Pass = $form->get('Pass'); ?>
+                            <?php echo $this->formLabel($Pass); ?>
+                            <?php echo $this->formInput($Pass); ?>
+                            <?php echo strip_tags($this->formElementErrors($Pass)); ?>
+                        </div> 
+                        <div class="row">
+                            <?php $confirm_password = $form->get('confirm_password'); ?>
+                            <?php echo $this->formLabel($confirm_password); ?>
+                            <?php echo $this->formInput($confirm_password); ?>
+                            <?php echo strip_tags($this->formElementErrors($confirm_password)); ?>
+                        </div> 
+                        <div class="row">
+                            <label>&nbsp;</label>
+                            <input type="submit" class="black" value="Change Password" />
+                            <input type="reset" value="Cancel" class="black">
+                        </div> 
+                        <?php echo $this->form()->closeTag(); ?>
+                    </div>
+                    <div class="password">
+                        <h4>NOTIFICATIONS AND REMINDERS OF APPOINTMENTS </h4>
+                        <div class="info-text">
+                                Please select how you want to receive notifications and reminders
+                        </div>
+                        <div class="selection">
+                            <div class="row">
+                                <input type="checkbox" id="feature_email" class="feature_chk" <?php echo ($featureData['email'] == 1) ? "checked='checked' value='1'" : "value='0'"; ?> >
+                                <label>Personal e-mail </label>
+                            </div>
+                            <div class="row">
+                                <input type="checkbox" id="feature_sms" class="feature_chk" <?php echo ($featureData['sms'] == 1) ? "checked='checked' value='1'" : "value='0'"; ?> >
+                                        <label>SMS (Please note that a standard plan doesn't allow to use this feature)</label>
+                            </div>
+                            <div class="row">
+                                <input type="checkbox" id="feature_chat" class="feature_chk" <?php echo ($featureData['chat'] == 1) ? "checked='checked' value='1'" : "value='0'"; ?> >
+                                <label>Chat </label>    
+                            </div>
+                            <input type="hidden" id="feature_table_id" value="<?php echo isset($featureData['id']) ? $featureData['id'] : ''; ?>"> 
+                       </div> 
+                    </div>
+                    <div class="password">
+                         <form> 
+                            <h4>NEWSLETTERS </h4>
+                            <div class="selection">
+                                <div class="row">
+                                    <input type="radio" name="newsletter-chk" <?php echo ($featureData['newsletter'] == 1) ? "checked='checked'" : ""; ?> value="1" >
+                                    <label>OvEssence may send me newsletters</label>
+                                </div>
+                                <div class="row">
+                                    <input type="radio" name="newsletter-chk" <?php echo ($featureData['newsletter'] == 3) ? "checked='checked'" : ""; ?> value="3" >
+                                    <label>I dont want to receive any newsletter</label>
+                                </div>
+                                <div style="" class="row">
+                                    <input type="submit" value="Save" class="black" id="newsletter-submit">
+                                </div>
+                            </div> 
+                         </form> 
+                    </div>
+                    <div class="password">
+                        
+                            <h4>UPGRADE YOUR PLAN </h4>
+                            <div class="selection subs">
+                                <?php if (isset($subscriptionData) && $subscriptionData != '') { ?>
+                                <div class="row">
+                                    <label>Actual Plan : <?php echo isset($subscriptionData['name']) ? $subscriptionData['name'] : ''; ?> </label>
+                                    <label>Expiry date : <?php echo isset($subscriptionData['end_date']) ? $subscriptionData['end_date'] : ''; ?> </label>
+                                </div>
+                                <div class="row">
+                                    <?php if (isset($subscriptionData['status']) && $subscriptionData['status'] != 3) { ?>
+                                    <a href="<?php echo $this->basePath(); ?>/membership" >
+                                        <input type="submit" class="black" value="UPGRADE YOUR PLAN " />
+                                    </a>    
+                                    <?php } ?>    
+                                    <a href="<?php echo $this->basePath(); ?>/membership">
+                                        <input type="submit" class="black" value="RENEW " />
+                                    </a>    
+                                </div>
+                                <div class="row">
+                                    <label>Please select if you desire an automatic renewal of your current plan </label>
+                                </div>
+                                <div class="row">
+                                    <input type="checkbox" name="auto-renew" id="auto-renew" <?php echo ($subscriptionData['auto_renewal']=="1") ? 'checked="checked"' : ''; ?> />
+                                    <input type="hidden" name="subscription_id" id="subscription_id" value="<?php echo isset($subscriptionData['id']) ? $subscriptionData['id'] : ''; ?>">
+                                    <label>Automatic renewal </label>
+                                </div>
+                                <div class="row">
+                                    <label>If you wish to unsubscribe </label>
+                                    <a href="#">
+                                        <input type="submit" class="black" value="UNSUBSCRIBE" name="unsubscribe" id="unsubscribe" />
+                                    </a>
+                                </div>
+                                <?php }else{ ?>
+                                    <div class="row">
+                                        <label>You have not subscribed to any plan </label>
+                                    </div>
+                                    <div class="row">
+                                        <a href="<?php echo $this->basePath(); ?>/membership">
+                                            <input type="submit" class="black" value="Subscribe Now" />
+                                        </a>    
+                                    </div>
+                                <?php } ?>
+                            </div>
+                    </div>
+                    <?php if (isset($card_details[0]) && is_array($card_details[0]) && isset($card_details[0]['customerDetails_id']) && !empty($card_details[0]['customerDetails_id'])):?>
+                    <div class="password">
+                        <h4>UPDATE YOUR CARD DETAILS </h4>
+                        <form name="card_details" id="card_details" method="post" action="">
+                            <div class="info-text">
+                                Update your card details for auto renewal of membership.
+                            </div>
+                            <div class="row">
+                                <label>Name on Card</label>
+                                <input type="text" name="name_on_card" id="name_on_card">
+                            </div> 
+                            <div class="row">
+                                <label>Card Number</label>
+                                <input type="text" name="card_no" maxlength="19"  id="card_no">
+                            </div>
+                            <div class="row">
+                                <label>Expiration</label>
+                                <select name="month" style="width: 22.5%"  id="month">
+                                    <option value="">-Select Month-</option>
+                                    <option value="1">01</option>
+                                    <option value="2">02</option>
+                                    <option value="3">03</option>
+                                    <option value="4">04</option>
+                                    <option value="5">05</option>
+                                    <option value="6">06</option>
+                                    <option value="7">07</option>
+                                    <option value="8">08</option>
+                                    <option value="9">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <select name="year" style="width: 22.5%"  id="year">
+                                    <option value="">-Select Year-</option>
+                                    <?php
+                                    for ($i = date('Y'); $i <= (date('Y') + 20); $i++) {
+                                        echo '<option value="' . $i . '">' . $i . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <label>CVV</label>
+                                <input type="password" name="cvv" maxlength="4"  id="cvv">
+                            </div> 
+                            <div class="row">
+                                <label>&nbsp;</label>
+                                <input type="submit" class="black" value="Update" id="update_card" />
+                                <input type="reset" value="Cancel" class="black">
+                            </div>
+                        </form>
+                    </div>
+                    <?php endif;?>
+                    <div class="password">
+                        <form>  
+                            <h4>MANAGE ADVERTISING PREFERENCES  </h4>
+                            <div class="info-text">
+                                OvEssence does not directly share your personal information with advertisers, ad netowrks, publishers or any third party. <br>
+                                We are committed to maintaining privacy around your Ovessence data. For more details take a look at our privacy policy 
+                            </div>
+                            <div class="selection">
+                                <div class="row">
+                                    <input type="radio" name="radio">
+                                    <label>OvEssence may show me ads on third party websites</label>
+                                </div>
+                                <div class="row">
+                                    <input type="radio" name="radio">
+                                    <label>OvEssence may show me ads based on third party data</label>
+                                </div>
+                                <div style="padding-left:7px;" class="row">
+                                    <input type="submit" value="Save" class="black">
+                                </div>
+                            </div>
+                         </form>  	 
+                    </div>
+                    <div class="password">
+                       <!-- <form> ---->
+                            <h4>CLOSE YOUR ACCOUNT  </h4>
+                            <div class="info-text">
+                                Why would you like to close your OvEssence account ? 
+                            </div>
+                            <div class="selection">
+                            <?php
+                                if(isset($reasonsList) && count($reasonsList)>0) {
+                                    foreach($reasonsList as $list){
+                            ?>      
+                                <div class="row">
+                                    <input type="radio" class="close-acc" name="close-acc" value="<?php echo isset($list['id']) ? $list['id'] : '' ; ?>" >
+                                    <label><?php echo isset($list['reason']) ? $list['reason'] : '' ; ?></label>
+                                </div>
+                            <?php   }
+                                }
+                            ?>
+                                <div class="row">
+                                    <textarea id="other-reason" ></textarea>
+                                </div>
+                                <div class="row">
+                                    <input type="submit" value="CONTINUE" class="black" id="close-account" >
+                                    <input type="reset" value="CANCEL" class="black" id="reset-close-account">
+                                </div>
+                            </div>
+                      <!--  </form> ---->	  
+                    </div>
+                </div>
+            </div>
+            <!-- start profile right panel here-->
+
+        </div>
+        <!-- /Practitioner Section-->
+    </div>
+</div>
+<!-- CONTENT END HERE -->

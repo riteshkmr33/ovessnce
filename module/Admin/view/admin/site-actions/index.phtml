@@ -1,0 +1,71 @@
+<?php
+$status = (isset($status) && count($status) > 0) ? $status->toArray() : array();
+$statusArray = array('1' => 'success', '2' => 'warning', '3' => 'danger');
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+
+        <?php if (isset($successMsgs) && count($successMsgs) > 0): ?>
+            <div class="note note-success">
+                <?php
+                foreach ($successMsgs as $msg) {
+                    echo '<p> ' . $msg . ' </p>';
+                }
+                ?>
+            </div>
+        <?php endif; ?>
+        <?php if (isset($errors) && count($errors) > 0): ?>
+            <div class="note note-danger">
+                <?php
+                foreach ($errors as $msg) {
+                    echo '<p> ' . $msg . ' </p>';
+                }
+                ?>
+            </div>
+        <?php endif; ?>
+        <div class="note" id="error" style="display:none;"></div>
+
+        <div class="portlet grey box">
+            <div class="portlet-title">
+                <div class="caption"> <i class="fa fa-file-text"></i>Site Actions List</div>
+                <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->url('admin/siteactions', array('action' => 'add')); ?>"> <i class="fa fa-pencil"></i> Add New Site Actions </a> </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Controller Name</th>
+                                <th>Action Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (isset($siteactions) && count($siteactions) > 0) : ?>
+                                <?php foreach ($siteactions as $action) : ?>
+                                    <tr>
+                                        <td><?php echo $this->escapeHtml($action->id); ?></td>
+                                        <td><?php echo $this->escapeHtml($action->controller_name); ?></td>
+                                        <td><?php echo $this->escapeHtml($page->action_name); ?></td>
+                                        <td>
+                                            <a class="btn default btn-xs" href="<?php echo $this->url('admin/siteactions', array('controller' => 'siteactions', 'action' => 'edit', 'id' => $action->id)); ?>"><i class="fa fa-edit" title="edit" ></i></a>
+                                            <a class="btn default btn-xs" href="<?php echo $this->url('admin/siteactions', array('controller' => 'siteactions', 'action' => 'delete', 'id' => $action->id)); ?>"><i class="fa fa-trash-o" title="delete" ></i></a>
+                                            <input class="checkboxes" type="checkbox" value="<?php echo $page->page_id; ?>">
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                    <?php
+                    echo
+                    $this->paginationControl(
+                            $siteactions, 'sliding', array('partial/paginator.phtml', 'Admin'), array('route' => 'admin/siteactions')
+                    );
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

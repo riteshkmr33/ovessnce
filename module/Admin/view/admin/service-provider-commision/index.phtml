@@ -1,0 +1,59 @@
+<?php 
+$status = (isset($status) && count($status)>0)?$status->toArray():array();
+$statusArray = array('1' => 'success', '2' => 'warning',);
+?>
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+	  <?php if (isset($successMsgs) && count($successMsgs)>0): ?>
+		<div class="note note-success">
+			<?php foreach ($successMsgs as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<?php if (isset($errors) && count($errors)>0): ?>
+		<div class="note note-danger">
+			<?php foreach ($errors as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<div class="note" id="error" style="display:none;"></div>
+    <div class="portlet grey box">
+      <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-money"></i><?php echo isset($name)?$name:'';?>'s Commissions List </div>
+        <div class="actions"> 
+			<a class="btn default btn-sm" href="<?php echo $this->url('admin/serviceproviders');?>"> <i class="fa fa-list"></i> Service Providers </a>
+			<a class="btn default btn-sm" href="<?php echo $this->url('admin/serviceprovidercommisions', array('action'=>'add', 'user_id' => $this->user_id));?>"> <i class="fa fa-pencil"></i> Add New Service Provider's Commission </a> 
+        </div>
+        
+      </div>
+      <div class="portlet-body">
+        <div class="table-responsive">
+			<table class="table table-hover table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>Commission</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php if (isset($serviceprovidercommisions) && count($serviceprovidercommisions)>0) : ?>
+					<?php foreach ($serviceprovidercommisions as $serviceprovidercommision) : ?>
+					<tr>
+						<td><?php echo $this->escapeHtml('$'.$serviceprovidercommision->commision);?></td>
+						<td><span class="label label-sm label-<?php echo (array_key_exists($serviceprovidercommision->status_id, $statusArray))?$statusArray[$serviceprovidercommision->status_id]:'default';?>" id="<?php echo $serviceprovidercommision->id;?>"><?php echo $this->escapeHtml(ucwords($serviceprovidercommision->status));?></span></td>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				<?php endif; ?>
+				</tbody>
+			</table>
+		<?php echo $this->paginationControl(
+						$serviceprovidercommisions,  // the paginator object
+						'sliding',   // the scrolling style; see http://zf2.readthedocs.org/en/release-2.1.4/modules/zend.paginator.usage.html#rendering-pages-with-view-scripts
+						array('partial/paginator.phtml', 'Admin'),  // the partial to use to render the control
+						array('route' => 'admin/serviceprovidercommisions')  // the route to link to when a user clicks a control link
+					);
+		?>
+		</div>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,38 @@
+<?php
+$title = 'Delete Rating'; 
+$this->headTitle($title);
+?>
+<div class="col-md-6">
+  <div class="portlet box grey">
+    <div class="portlet-title">
+      <div class="caption"> <i class="fa fa-star"></i>Delete </div>
+    </div>
+    <div class="portlet-body">
+      <div class="alert alert-block alert-danger fade in">
+        <!--<button data-dismiss="alert" class="close" type="button"></button>-->
+        <h4 class="alert-heading"><?php echo $this->escapeHtml($title); ?></h4>
+        <p> Are you sure that you want to delete this rating '<?php echo $this->escapeHtml($rating->rating_type." - ".$rating->rate); ?>'  </p>
+		  <p>&nbsp;</p>
+			<?php
+			$url = $this->url('admin/ratings', array(
+				'action' => 'delete',
+				'user'     => $this->user,
+				//'service'     => $this->service,
+				'createdby'     => $this->createdby,
+				'ratingtypeid'     => $this->ratingtypeid,
+			));
+			?>
+        <form action="<?php echo $url; ?>" method="post">
+          <div>
+            <input type="hidden" name="user" value="<?php echo (int) $rating->users_id; ?>" />
+            <!--<input type="hidden" name="service" value="<?php //echo (int) $rating->service_id; ?>" />-->
+            <input type="hidden" name="createdby" value="<?php echo (int) $rating->created_by; ?>" />
+            <input type="hidden" name="ratingtypeid" value="<?php echo (int) $rating->rating_type_id; ?>" />
+            <input type="submit" name="del" value="Yes" class="btn red" />
+            <input type="submit" name="del" value="No" class="btn blue" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

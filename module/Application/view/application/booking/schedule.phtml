@@ -1,0 +1,83 @@
+<!-- CONTENT START HERE -->
+<div id="content">
+	<div id="banner">
+		<img src="https://s3-us-west-2.amazonaws.com/ovessence/img/about-banner.jpg" alt="">
+	</div>
+	<div class="main">
+		<ul id="breadcrumb">
+			<li>
+				<a href="<?php echo $this->url('home');?>">Home</a>
+			</li>
+			<li>
+				Book Appointment
+			</li>
+		</ul>
+		<article class="section-block">
+			<h2>
+			Book Appointment
+			<span>
+				<small>
+				</small>
+			</span>
+			</h2>
+			<div class="book-appointment-wrapper">
+				<div class="error-msg">
+					<?php if (isset($errors) && count($errors) > 0):?>
+						<?php foreach (array_filter($errors) as $error):?>
+							<label><?php echo $error; ?></label>
+						<?php endforeach;?>
+					<?php endif;?>
+				</div>
+				<?php 
+					$form->setAttribute('action', $this->url('booking',array('action' => 'viewcheckoutpage', 'id' => $this->id)));  // $this->url('booking',array('action' => 'checkout', 'id' => $this->id))
+					$form->setAttribute('method', 'post');
+					echo $this->form()->openTag($form); 
+				?>
+				<ul>
+					<li>
+						<?php 
+							$service_location = $form->get('service_location');
+							echo $this->formSelect($service_location);
+						?>
+					</li>
+					<li>
+						<?php 
+							$service_location = $form->get('service_id');
+							echo $this->formSelect($service_location);
+						?>
+					</li>
+					<li>
+						<?php 
+							$service_location = $form->get('duration');
+							echo $this->formSelect($service_location);
+						?>
+					</li>
+					<li>
+						<?php 
+							$service_date = $form->get('service_date');
+							echo $this->formInput($service_date);
+						?>
+					</li>
+				</ul>
+				
+				<input type="hidden" id="sp_id" value="<?php echo $this->id; ?>">
+				<div class="book-appointment">
+					<ul id='slots'>
+						<?php if (isset($this->slots) && count($this->slots) > 0) {?>
+							<?php foreach ($this->slots as $slot) {?>
+								<li>
+									<input class="black" type="submit" name="time" value="<?php echo $slot['start'];?> To <?php echo $slot['end'];?>" onclick="$('select').prop('disabled', false)" />
+								</li>
+							<?php }?>
+						<?php } else {?>
+							<li> Please select your preference..!!</li>
+						<?php }?>
+					</ul>
+				</div>
+				<?php  echo $this->form()->closeTag();?>
+			</div>
+			
+		</article>
+	</div>
+</div>
+<!-- CONTENT END HERE -->

@@ -1,0 +1,53 @@
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0): ?>
+            <img src="<?php echo isset($banners[0]['banner_url']) ? $banners[0]['banner_url'] : ''; ?>" alt="" />
+        <?php endif; ?>
+        <div class="banner-content">
+            <div class="main">
+                <?php echo isset($banner_content)?$banner_content:'';?>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home') ?>">Home</a>
+            </li>
+            <li>
+                Partner
+            </li>
+        </ul>
+        <article class="section-block">
+            <h2>
+                Partners
+                <span>
+                    <small>
+                        <!-- Lorem ipsum sit -->
+                    </small>
+                </span>
+            </h2>
+        </article>
+        <div class="partner-list">
+            <?php
+            $j = 0;
+            $k = 1;
+            $x = 0;
+            $count = count($partners);
+            echo "<ul>";
+            foreach ($partners as $partner) {
+                ?>
+                <li>
+                    <img src="<?php echo isset($partner['logo']) ? $partner['logo'] : ''; ?>" alt="" data-polyclip="96, 0, 192, 56, 192, 162, 96, 217, 1, 162, 2, 53" />
+                    <!-- <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/testimonials-img.jpg" data-polyclip="96, 0, 192, 56, 192, 162, 96, 217, 1, 162, 2, 53" > --->
+                    <div class="partner-dfn">
+                        <h3><?php echo isset($partner['title']) ? $partner['title'] : ''; ?></h3>
+                        <dfn><?php echo isset($partner['desc']) ? $partner['desc'] : ''; ?></dfn>
+                    </div> 
+                </li>
+            <?php } echo "</ul>";?>
+        </div>
+    </div>
+</div>
+<!-- CONTENT END HERE -->

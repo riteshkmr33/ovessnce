@@ -1,0 +1,111 @@
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home'); ?>">Home</a>
+            </li> 
+            <li>
+                <a href="<?php echo $this->url('consumer', array('action' => 'dashboard')); ?>">Dashboard</a>
+            </li>
+            <li>
+                User Rating
+            </li>
+        </ul>
+        <article class="section-block">
+            <h2>
+                User Rating
+                <span>
+                    <small>
+                        <!--Essence of an Idea-->
+                    </small>
+                </span>
+            </h2>
+
+            <div class="success-msg" style="display: none;">
+            </div>
+            <div class="error-msg" style="display: none;">
+            </div>
+            <div class="user-rating-wrapper">
+                <h3><?php if (isset($spData) && $spData['first_name'] != "") echo $spData['first_name'] . ' ' . $spData['last_name'] ?></h3>
+                <div class="back-to-dashboard"><a href="<?php echo $this->basePath(); ?>/consumer/dashboard">Back to Dashboard</a></div>
+                <div id="back-to-practitioner" class="back-to-dashboard" style="display: none;"><a href="<?php echo $this->url('practitioner', array('action' => 'view', 'id' => $spData['id'])); ?>">View Practitioner Profile</a></div>
+                <div class="user-rating-section">
+                    <input type="hidden" id="serviceProviderId" value="<?php echo $spData['id']; ?>" />
+                    <input type="hidden" id="serviceId" value="<?php echo $service_id; ?>" />
+                    <form class="ratingsForm" name="ratingsForm" method="post">
+                        <div class="user-rating-form">
+                            <?php //echo count($ratingType); die(); ?>
+                            <?php if (!empty($ratingType) && empty($ratingData)) : ?>
+                                <?php foreach ($ratingType as $value) : ?>
+                                    <div class="row">
+                                        <div class="label">
+                                            <?php echo $value['rating_type']; ?>
+                                            <?php $val = str_replace(" ", "_", $value['rating_type']); ?>
+                                        </div>
+                                        <div class="user-rating">
+                                            <fieldset class="rating">     
+                                                <input type="radio" name="<?php echo $val; ?>" id="<?php echo $val; ?>_5" value="5" >
+                                                <label class="stars" for="<?php echo $val; ?>_5"></label>
+                                                <input type="radio" name="<?php echo $val; ?>" id="<?php echo $val; ?>_4" value="4" >
+                                                <label class="stars" for="<?php echo $val; ?>_4"></label>
+                                                <input type="radio" name="<?php echo $val; ?>" id="<?php echo $val; ?>_3" value="3" >
+                                                <label class="stars" for="<?php echo $val; ?>_3"></label>
+                                                <input type="radio" name="<?php echo $val; ?>" id="<?php echo $val; ?>_2" value="2" >
+                                                <label class="stars" for="<?php echo $val; ?>_2"></label>
+                                                <input type="radio" name="<?php echo $val; ?>" id="<?php echo $val; ?>_1" value="1">
+                                                <label class="stars" for="<?php echo $val; ?>_1"></label>
+                                            </fieldset>
+                                        </div>	
+                                    </div>
+                                    <?php endForeach; ?>
+                            <?php elseif (empty($ratingType) && !empty($ratingData)) : ?>
+                                <?php foreach ($ratingData as $value) : ?>
+                                    <?php if ($value['rating_type'] != "" && $value['rating_type'] != "null") : ?>
+                                        <div class="row">
+                                            <div class="label">
+                                                <?php echo $value['rating_type']; ?>
+                                            </div>
+                                            <div class="user-rating">
+                                                <fieldset class="rating">
+                                                    <?php for ($i = 5; $i >= 1; $i--) : ?>     
+                                                        <?php if ($i <= $value['rate']) : ?>
+                                                            <input type="radio" name="" id="" value="5" checked="checked" disabled="disabled">
+                                                            <label class="stars" for=""></label>
+                                                        <?php else : ?>			
+                                                            <input type="radio" name="" id="" value="5"  disabled="disabled">
+                                                            <label class="stars stardisabled" for=""></label>
+                                                        <?php endIf; ?>
+                                                        <?php endFor; ?>
+                                                </fieldset>
+                                            </div>	
+                                        </div>
+                                        <?php endIf; ?>
+                                    <?php endForeach; ?>
+                                <?php endElseIf; ?>
+                            <?php else : ?>
+                                <div class="rating-msg">No rating type available for this practitioner. </div>
+                            <?php endIf; ?>
+
+                        </div>
+                        <?php if (!empty($ratingType) && empty($ratingData)) : ?>
+                            <div class="submit-rating">
+                                <input type="submit" class="black submit-ratings" value="Submit" />
+                                <input type="reset" value="Reset" />
+                            </div>
+                            <?php endIf; ?>
+                    </form>	
+                </div>
+            </div>
+
+
+        </article>
+
+    </div>
+</div>
+<!-- CONTENT END HERE -->

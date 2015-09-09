@@ -1,0 +1,152 @@
+<?php
+$form->setAttribute('action', $this->url('membership',array('action' => 'payment' )) );
+$form->setAttribute('method', 'post');
+$form->setAttribute('class', 'horizontal');
+$form->prepare();
+?> 
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home'); ?>">Home</a>
+            </li>
+            <li>
+                <a href="<?php echo $this->url('membership'); ?>">Membership</a>
+            </li>
+            <li>
+                Checkout
+            </li>
+        </ul>
+        <article class="section-block">
+            <h2>
+                Check Out
+                <span>
+                    <small>
+                        
+                    </small>
+                </span>
+            </h2>
+            <div class="checkout-info-wrapper">
+                <h3><?php echo (isset($checkout_type)) ? $checkout_type : '' ; ?> subscription</h3>
+                <p> <strong> Your current subscription is </strong> : <?php echo isset($ongoingsubs_name) ? $ongoingsubs_name : '' ; ?> which will expire on : <?php echo isset($ongoingSubs_endDate) ? $ongoingSubs_endDate : '' ; ?></p>
+                <?php if($checkout_type=="new"){ ?>
+                <p><strong>You have selected </strong> : <?php echo isset($selectedSubs_name) ? $selectedSubs_name : '' ; ?> subscription which will expire on <?php echo isset($new_expireDate) ? $new_expireDate : '' ; ?></p>
+                <?php }else{ ?>
+                <p>After renew <strong> your new expiration date </strong> will be <?php echo isset($new_expireDate) ? $new_expireDate : '' ; ?></p>
+                <?php } ?>
+                <p>You need to pay total amount of : <strong> <?php echo isset($total_amount) ? $total_amount.' '.$selectedCurrency : '' ; ?> </strong></p>
+            </div>
+            <div class="check-out-wrapper">
+                <div class="success-msg" style="display: none" ></div>
+                <div class="error-msg" style="display: none" ></div>
+                <div class="check-out">
+                    <!--<div class="we-accept">
+                        <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/paypal-secure-payment.jpg" alt="paypal">
+                    </div>-->
+
+                    <?php echo $this->form()->openTag($form); ?>
+                    <div class="check-out-form">
+                        <div class="row">
+
+                            <?php $name_on_card = $form->get('name_on_card'); ?>
+                            <?php echo $this->formLabel($name_on_card); ?>
+                            <div class="input"><?php echo $this->formInput($name_on_card); ?></div>
+                        </div>
+                        <div class="row">
+                            <?php $emailid = $form->get('emailid'); ?>
+                            <?php echo $this->formLabel($emailid); ?>
+                            <div class="input"><?php echo $this->formInput($emailid); ?></div>
+                        </div>
+                        <div class="row">
+                            <?php $card_type = $form->get('card_type'); ?>
+                            <?php echo $this->formLabel($card_type); ?>
+                            <div class="input"><?php echo $this->formSelect($card_type); ?></div>
+                        </div>
+                        <div class="row">
+                            <?php $card_no = $form->get('card_no'); ?>
+                            <?php echo $this->formLabel($card_no); ?>
+                            <div class="input"><?php echo $this->formInput($card_no); ?></div>
+                        </div>
+                        <div class="row">
+                            <label>Expiry Date</label>
+                            <div class="input">
+                                <?php $month = $form->get('month');
+                                echo $this->formSelect($month);
+                                ?>
+                                <?php $year = $form->get('year');
+                                echo $this->formSelect($year);
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <?php $cvv_no = $form->get('cvv_no'); ?>
+                            <?php echo $this->formLabel($cvv_no); ?>
+                            <div class="input"><?php echo $this->formInput($cvv_no); ?></div>
+                        </div>
+                        <?php /*?>
+                        <div class="row">
+                            <?php $rememberme = $form->get('rememberme'); ?>
+                            <div class="text">Would you like to save Card Detail</div>
+                            <?php echo $this->formRadio($rememberme); ?>
+                        </div>
+                        <div class="row box">
+                            <?php $cardtermCondition = $form->get('cardtermCondition'); ?>
+                            <div class="text">
+                                <div class="row">
+                                    I agree with Ovessence <a href="<?php echo $this->basePath(); ?>/page/terms-conditions"><u><strong>Terms and Conditions</strong></u></a> & <a href="<?php echo $this->basePath(); ?>/page/privacy-policy"><u><strong>Privacy Policy</strong></u></a>
+                                </div>
+                                <div class="row">
+                                    <?php echo $this->formRadio($cardtermCondition); ?>
+                                </div>
+                            </div>
+                        </div><?php */?>
+                        <div class="row renew" >
+                            <?php $useforrenew = $form->get('useforrenew'); ?>
+                            <div class="text">Save my card details for auto-renewal of subscription</div>
+                            <?php echo $this->formRadio($useforrenew); ?>
+                        </div>
+                        <div class="row renew box">
+                            <?php $autorenewtermCondition = $form->get('autorenewtermCondition'); ?>
+                            <div class="text">
+                                
+                                <div class="row term">
+                                    I agree with Ovessence 
+                                    <a href="<?php echo $this->basePath(); ?>/page/terms-conditions"><u><strong>Terms and Conditions</strong></u></a> 
+                                    & <a href="<?php echo $this->basePath(); ?>/page/privacy-policy"><u><strong>Privacy Policy</strong></u></a>
+                                </div>
+                                <div class="row"><?php echo $this->formRadio($autorenewtermCondition); ?></div>
+                            </div>
+                           
+                        </div>
+                        <div class="row">
+                            <input type="submit" class="black" id="pay_now" value="Pay Now" />
+                        </div>
+                    </div>
+                   
+<?php echo $this->form()->closeTag(); ?>	
+                </div>
+                <div class="sslImage">
+                    <img src="<?php echo $this->basePath(); ?>/img/ssl.png"/>
+                </div>
+                <div class="braintreeImage">
+                    <a href="https://www.braintreegateway.com/merchants/<?php echo isset($merchant_id)?$merchant_id:'';?>/verified" target="_blank">
+                        <img src="https://braintree-badges.s3.amazonaws.com/07.png" border="0"/>
+                    </a>
+                </div>
+                
+                <div class="visaImage"><img src="https://s3-us-west-2.amazonaws.com/ovessence/img/visaImage.jpg"/></div>
+                
+                
+            </div>
+
+        </article>
+    </div>
+
+</div>
+<!-- CONTENT END HERE -->

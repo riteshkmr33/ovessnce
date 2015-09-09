@@ -1,0 +1,110 @@
+<?php /*print_r($booking_details); exit;*/
+    $status = array('7' => 'Paid', '8' => 'Unpaid', '11' => 'Refund');
+    $address = (isset($user_details['address']['street1_address']) && !empty($user_details['address']['street1_address']))?$user_details['address']['street1_address'].', <br />':'';
+    $address .= (isset($user_details['address']['city']) && !empty($user_details['address']['city']))?$user_details['address']['city'].', <br />':'';
+    $address .= (isset($user_details['address']['state_name']) && !empty($user_details['address']['state_name']))?$user_details['address']['state_name'].', <br />':'';
+    $address .= (isset($user_details['address']['zip_code']) && !empty($user_details['address']['zip_code']))?$user_details['address']['zip_code'].', <br />':'';
+    $address .= (isset($user_details['address']['country_name']) && !empty($user_details['address']['country_name']))?$user_details['address']['country_name']:'';
+    //echo '<pre>'; print_r($booking_details[0]); exit;
+    if (isset($booking_details[0]['s_duration_duration_in'])) {
+        if($booking_details[0]['s_duration_duration_in']=="1"){
+            $duration_in = "year";
+        }else if($booking_details[0]['s_duration_duration_in']=="2"){
+            $duration_in = "month";
+        }else{
+            $duration_in = "days";
+        }
+    }else{
+        $duration_in = " ";
+    } 
+?>
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main">
+        <ul id="breadcrumb">
+            <li>
+                <a href="#">Home</a>
+            </li>
+            <li>
+                Invoice
+            </li>
+        </ul>
+        <div class="invice member-invice">
+            <h2>
+                Invoice
+                <span>
+                    <small>
+                        <!-- Lorem ispum sit -->
+                    </small>
+                </span>
+            </h2>
+
+            <div class="invice-wrapper" >
+                <div class="invice-head">
+                    INVOICE
+                </div>
+                <a class="btn-print" href="<?php echo $this->url('membership', array('action' => 'invoice', 'id' => $id)).'?print=1'; ?>">Print</a>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Invoice Number</th>
+                            <th>Invoice Date</th>
+                            <th>Invoice Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><?php echo isset($booking_details[0]['invoice_id'])?$booking_details[0]['invoice_id']:'N/A'; ?></td>
+                            <td><?php echo isset($booking_details[0]['payment_history_payment_date'])?date('l d-m-Y', strtotime($booking_details[0]['payment_history_payment_date'])):'N/A'; ?></td>
+                            <td><?php echo isset($booking_details[0]['payment_history_status_id'])?$status[$booking_details[0]['payment_history_status_id']]:'N/A'; ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>Billing Detail</h3>	
+                <div class="bill-to">
+                    <h4>Bill To:</h4>
+                    <p><b><?php echo (isset($user_details['first_name']) && isset($user_details['last_name']))?$user_details['first_name'].' '.$user_details['last_name']:'N/A'; ?></b></p>
+                    <p><?php echo isset($address)?$address:'N/A'; ?></p>
+                    <p><b>Phone:</b><?php echo isset($user_details['contact']['phone_number'])?$user_details['contact']['phone_number']:'N/A'; ?></p>
+                </div>	
+                <h3>Product Summary</h3>	
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Duration</th>
+                            <th>Fee</th>
+                            <th><?php echo ($booking_details[0]['payment_status'] == 11)?'Refunded':'Paid'; ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><?php echo isset($booking_details[0]['invoice_details_sale_item_details'])?$booking_details[0]['invoice_details_sale_item_details']:'N/A'; ?></td>
+                            <td><?php echo isset($booking_details[0]['s_duration_duration'])?$booking_details[0]['s_duration_duration'].' '.$duration_in:'N/A'; ?></td>
+                            <td><?php echo isset($booking_details[0]['price'])?'$'.$booking_details[0]['price']:'N/A'; ?></td>
+                            <td align="right"><?php echo isset($booking_details[0]['payment_history_amount_paid'])?'$'.$booking_details[0]['payment_history_amount_paid']:'N/A'; ?></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4" align="right">Total: <?php echo isset($booking_details[0]['payment_history_amount_paid'])?'$'.$booking_details[0]['payment_history_amount_paid']:'N/A'; ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="bill-to">
+                    <p>Thank you for your business. For billing questions, please send an email to accounting@ovessence.com</p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+<!-- CONTENT END HERE -->
+

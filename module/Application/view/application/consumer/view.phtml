@@ -1,0 +1,175 @@
+<?php //echo '<pre>'; print_r($consumer); die(); ?>
+<!-- CONTENT START HERE -->
+
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main dashboard">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home'); ?>">Home</a>
+            </li>
+            <li>
+                Profile
+            </li>
+        </ul>
+        <h2>
+            Profile
+            <span>
+                <small>
+                    Lorem ispum sit
+                </small>
+            </span>
+        </h2>
+
+        <!-- Practitioner Section-->
+        <div class="consumer-dashboard-section">
+            <!-- start profile right panel here-->
+            <div class="profile-add-left">
+                <div class="profile-wrapper">
+                    <img src="<?php echo (isset($consumer['avtar_url']) && $consumer['avtar_url'] != '') ? $consumer['avtar_url'] : $this->basePath() . '/img/profile-pic.jpg'; ?>" alt="" />
+                    <div class="social-icon">
+                        <div class="addthis_sharing_toolbox"></div>
+                    </div>
+                </div>
+                <div class="add-image" style="margin-top:40px;">
+                    <img alt="" src="https://s3-us-west-2.amazonaws.com/ovessence/img/your-add-here.jpg">
+                </div>
+            </div>
+            <!-- end profile left panel here-->
+            <div class="profile-add-right">
+                <!-- Tab block start -->
+                <div class="tab-block">
+                    <ul class="tab-menu">
+                        <li id="about-me" class="active arow">About me</li>
+                        <!--<li id="booking">Booking</li>
+                        <li id="wishlist">Wishlist</li>
+                        <li id="invitation">Invitation</li>-->
+                        <!--<li id="calendar">Calendar</li>-->
+
+                    </ul>
+                    <div class="tab-content">
+                        <!-- about me tab-->
+                        <div class="about-me" style="display:block;">
+                            <div class="setting-section consumer-dash">
+                                <form>
+                                    <div class="alert">
+                                        <h4>Information</h4>
+                                        <ul>
+                                            <li>
+                                                <div class="label">First Name <span>:</span></div>
+                                                <div class="text"><?php echo (isset($consumer['first_name']) && $consumer['first_name'] != '') ? $consumer['first_name'] : 'Not Defined'; ?></div>
+                                            </li>
+                                            <li>
+                                                <div class="label">Last Name <span>:</span></div>
+                                                <div class="text"><?php echo (isset($consumer['last_name']) && $consumer['last_name'] != '') ? $consumer['last_name'] : 'Not Defined'; ?></div>
+                                            </li>
+                                            <li>
+                                                <div class="label">Email <span>:</span></div>
+                                                <div class="text"><?php echo (isset($consumer['email']) && $consumer['email'] != '') ? $consumer['email'] : 'Not Defined'; ?></div>
+                                            </li>
+                                            <li>
+                                                <div class="label">Age <span>:</span></div>
+                                                <div class="text"><?php echo (isset($consumer['age']) && $consumer['age'] != '') ? $consumer['age'] : 'Not Defined'; ?></div>
+                                            </li>
+                                            <li>
+                                                <div class="label">Language Spoken <span>:</span></div>
+                                                <div class="text"><?php echo (isset($consumer['language']) && $consumer['language'] != '') ? $consumer['language'] : 'Not Defined' ?></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </form>
+                                <form>
+                                    <div class="alert">
+                                        <h4>Address</h4>
+                                        <ul>
+                                            <li>
+                                                <div class="label">Street <span>:</span></div>
+                                                <div class="text"><?php echo (isset($consumer['address']['street1_address']) && $consumer['address']['street1_address'] ? $consumer['address']['street1_address'] : 'Not Available'); ?></div>
+                                            </li>
+                                            <li>
+                                                <div class="label">City <span>:</span></div>
+                                                <div class="text"><?php echo (isset($consumer['address']['city']) && $consumer['address']['city'] ? $consumer['address']['city'] : 'Not Available'); ?></div>
+                                            </li>
+                                            <li>
+                                                <div class="label">Country <span>:</span></div>
+                                                <div class="text"><?php echo (isset($consumer['address']['country_name']) && $consumer['address']['country_name'] ? $consumer['address']['country_name'] : 'Not Available'); ?></div>
+                                            </li>
+                                            <li>
+                                                <div class="label">State <span>:</span></div>
+                                                <div class="text"><?php echo (isset($consumer['address']['state_name']) && $consumer['address']['state_name'] ? $consumer['address']['state_name'] : 'Not Available'); ?></div>
+                                            </li>
+                                            <li>
+                                                <div class="label">Zip <span>:</span></div>
+                                                <div class="text"><?php echo (isset($consumer['address']['zip_code']) && $consumer['address']['zip_code'] ? $consumer['address']['zip_code'] : 'Not Available'); ?></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </form>
+                                <form>
+                                    <div class="alert">
+                                        <h4>Contact</h4>
+                                        <ul>
+                                            <li>
+                                                <div class="label">Home <span>:</span></div>
+                                                <div class="text"><?php echo (isset($consumer['contact']['home_phone']) && $consumer['contact']['home_phone'] != '') ? $consumer['contact']['home_phone'] : 'Not Available'; ?></div>
+                                            </li>
+                                            <li>
+                                                <div class="label">Work <span>:</span></div>
+                                                <div class="text"><?php echo (isset($consumer['contact']['work_phone']) && $consumer['contact']['work_phone'] != '') ? $consumer['contact']['work_phone'] : 'Not Available'; ?></div>
+                                            </li>
+                                            <li>
+                                                <div class="label">Cell <span>:</span></div>
+                                                <div class="text"><?php echo (isset($consumer['contact']['cell_phone']) && $consumer['contact']['cell_phone'] != '') ? $consumer['contact']['cell_phone'] : 'Not Available'; ?></div>
+                                            </li>
+                                            <li>
+                                                <div class="label">Fax <span>:</span></div>
+                                                <div class="text"><?php echo (isset($consumer['contact']['fax']) && $consumer['contact']['fax'] != '') ? $consumer['contact']['fax'] : 'Not Available'; ?></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <!-- / about me tab-->
+                        <!-- booking tab-->
+                        <div class="booking">
+                            <p>booking</p>	
+                        </div>
+                        <!-- /booking tab-->
+
+                        <!-- wishlist tab -->
+                        <div class="wishlist">
+                            <p>wishlist</p>
+                        </div>
+                        <!-- wishlist tab -->
+
+                        <!-- Invitation tab -->
+                        <div class="invitation">
+                            <p>invitation</p>
+                        </div>
+                        <!-- wishlist tab -->
+
+                        <!-- calendar tab 
+                        <div class="calendar">
+                                <p>calendar</p>
+                        </div>
+                        <!-- /calendar tab-->
+
+                    </div>
+                </div>
+
+                <!-- Tab block end -->
+
+            </div>
+            <!-- start profile right panel here-->
+
+        </div>
+        <!-- /Practitioner Section-->
+    </div>
+</div>
+<!-- CONTENT END HERE -->

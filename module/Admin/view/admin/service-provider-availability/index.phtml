@@ -1,0 +1,129 @@
+<?php
+$form->setAttribute('action', $this->url('admin/serviceprovideravailability', array('user_id' => $this->user_id))); // $this->url('pages', array('action' => 'add'))
+$form->setAttribute('method', 'post');
+$form->setAttribute('class', 'horizontal');
+$form->prepare();
+//echo $this->formCollection($form); 
+?>
+
+<div class="portlet box grey">
+    <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-reorder"></i> Update Service Provider Availability</div>
+        <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->basePath() ?>/admin/serviceproviders"> <i class="fa fa-list"></i> Service Providers List</a> <a class="btn default btn-sm" href="javascript: history.go(-1);"> <i class="fa fa-share"></i> Back</a> </div>
+    </div>
+    <div class="portlet-body form">
+        <div class="form-body">
+            <?php if (isset($errors) && count($errors) > 0): ?>  
+                <div class="alert alert-danger"><button class="close" data-close="alert"></button>
+                    <?php foreach ($errors as $field => $msg) {
+                        echo ucfirst(strtolower(strip_tags($this->formLabel($form->get($field)) . ' ' . end($msg)))) . '<br />';
+                    } ?>
+                </div>
+                <?php endif; ?>
+                <?php if (isset($successMsgs) && count($successMsgs) > 0): ?>
+                <div class="note note-success">
+                <?php foreach ($successMsgs as $msg) {
+                    echo '<p> ' . $msg . ' </p>';
+                } ?>
+                </div>
+<?php endif; ?>
+
+<?php echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('user_id')->setValue($this->user_id)); ?>
+            <div class="form-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet">
+                            <div class="portlet-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-advance table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th width='100'> Weekdays </th>
+                                                <th> Start time </th>
+                                                <th> End Time </th>
+                                                <th> Lunch Start Time </th>
+                                                <th> Lunch End Time </th>
+                                                <th> Workplace </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                    <?php if (isset($fields) && count($fields) > 0): ?>
+                                                        <?php foreach ($fields as $key => $fld): ?>
+                                                    <tr>
+                                                        <td><?php echo '<label>' . $fld . '</label>'; ?></td>
+                                                        <td>
+                                                            <?php
+                                                            $data = $this->spa->getServiceProviderAvailabilityByDay($this->user_id, $key);
+                                                            $field = (isset($data->start_time) && $data->start_time != "00:00:00") ? $form->get('start_time[' . $key . ']')->setValue(date('h:i A', strtotime($data->start_time))) : $form->get('start_time[' . $key . ']');
+                                                            //echo $this->formLabel($field);
+                                                            echo $this->formSelect($field);
+                                                            ?>
+                                                        </td>
+                                                        <td>
+        <?php
+        $field = (isset($data->end_time) && $data->end_time != "00:00:00") ? $form->get('end_time[' . $key . ']')->setValue(date('h:i A', strtotime($data->end_time))) : $form->get('end_time[' . $key . ']');
+        //echo $this->formLabel($field);
+        echo $this->formSelect($field);
+        ?>		
+                                                        </td>
+                                                        <td>
+        <?php
+        $field = (isset($data->lunch_start_time) && $data->lunch_start_time != "00:00:00") ? $form->get('lunch_start_time[' . $key . ']')->setValue(date('h:i A', strtotime($data->lunch_start_time))) : $form->get('lunch_start_time[' . $key . ']');
+        //echo $this->formLabel($field);
+        echo $this->formSelect($field);
+        ?>
+                                                        </td>
+                                                        <td>
+        <?php
+        $field = (isset($data->lunch_end_time) && $data->lunch_end_time != "00:00:00") ? $form->get('lunch_end_time[' . $key . ']')->setValue(date('h:i A', strtotime($data->lunch_end_time))) : $form->get('lunch_end_time[' . $key . ']');
+        //echo $this->formLabel($field);
+        echo $this->formSelect($field);
+        ?>		
+                                                        </td>
+                                                        <td>
+        <?php
+        $field = (isset($data->address_id)) ? $form->get('address_id[' . $key . ']')->setValue($data->address_id) : $form->get('address_id[' . $key . ']');
+        //echo $this->formLabel($field);
+        echo $this->formSelect($field);
+        ?>		
+                                                        </td>
+                                                    </tr>	
+                                                        <?php endforeach; ?>
+                                                    <?php endif ?>
+                                            <tr>
+                                                <td colspan="2"><?php $field = $form->get('delay_time')->setValue($data->delay_time);
+                                                    echo $this->formLabel($field); ?></td>
+                                                <td colspan="4">
+<?php
+echo $this->formInput($field);
+?>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>	
+                </div>
+                <!--/row-->
+            </div>
+            <div class="form-actions fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn green">Submit</button>
+                            <button type="reset" class="btn default" onclick="$('.select2').select2('val', '');">Reset</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+            </div>
+<?php echo $this->form()->closeTag(); ?>
+            <!-- END FORM-->
+        </div>
+    </div>
+</div>

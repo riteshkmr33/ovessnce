@@ -1,0 +1,1845 @@
+<!-- BEGIN DASHBOARD STATS -->
+<div class="row">
+	<!--<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		<div class="dashboard-stat blue">
+			<div class="visual">
+				<i class="fa fa-comments"></i>
+			</div>
+			<div class="details">
+				<div class="number">
+					 1349
+				</div>
+				<div class="desc">
+					 New Feedbacks
+				</div>
+			</div>
+			<a class="more" href="#">
+				 View more <i class="m-icon-swapright m-icon-white"></i>
+			</a>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		<div class="dashboard-stat green">
+			<div class="visual">
+				<i class="fa fa-shopping-cart"></i>
+			</div>
+			<div class="details">
+				<div class="number">
+					 549
+				</div>
+				<div class="desc">
+					 New Orders
+				</div>
+			</div>
+			<a class="more" href="#">
+				 View more <i class="m-icon-swapright m-icon-white"></i>
+			</a>
+		</div>
+	</div>-->
+	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		<div class="dashboard-stat purple">
+			<div class="visual">
+				<i class="fa fa-globe"></i>
+			</div>
+			<div class="details">
+				<div class="number">
+					<?php echo isset($tasks)?$tasks:0;?>
+				</div>
+				<div class="desc">
+					 Tasks
+				</div>
+			</div>
+			<a class="more" href="#tasks">
+				 View more <i class="m-icon-swapright m-icon-white"></i>
+			</a>
+		</div>
+	</div>
+	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		<div class="dashboard-stat blue">
+			<div class="visual">
+				<i class="fa fa-comments"></i>
+			</div>
+			<div class="details">
+				<div class="number">
+					<?php echo isset($total_unread)?$total_unread:0;?>
+				</div>
+				<div class="desc">
+					Inbox
+				</div>
+			</div>
+			<a class="more" href="<?php echo $this->basePath()?>/admin/Messages/inbox">
+				 View more <i class="m-icon-swapright m-icon-white"></i>
+			</a>
+		</div>
+	</div>
+</div>
+<!-- END DASHBOARD STATS -->
+<div class="row">
+	<div class="col-md-6"> 
+		<!-- Begin: Subscriptions by top 10 cities -->
+		<div class="portlet box grey">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-random"></i> Subscriptions
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse"></a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#subscriptions_day" data-toggle="tab">
+							 Day
+						</a>
+					</li>
+					<li>
+						<a href="#subscriptions_week" data-toggle="tab">
+							 Week 
+						</a>
+					</li>
+					<li>
+						<a href="#subscriptions_month" data-toggle="tab">
+							 Month
+						</a>
+					</li>
+					<!--<li>
+						<a href="#subscriptions_year" data-toggle="tab">
+							 Year
+						</a>
+					</li>-->
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="subscriptions_day">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> Top 10 cities </th>
+										<th> Subscriptions </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php if (isset($subscriptions['day']) && count($subscriptions['day']) > 0) {?>
+										<?php foreach ($subscriptions['day'] as $subscription) { ?> 
+										<tr>
+											<td> <?php echo isset($subscription['state_name'])?$subscription['state_name']:'';?> </td>
+											<td> <?php echo isset($subscription['total'])?$subscription['total']:'';?> </td>
+											<td> <?php echo isset($subscription['total_percentage'])?$subscription['total_percentage'].'%':'0%';?> </td>
+											<td> <?php echo isset($subscription['growth'])?$subscription['growth'].'%':'0%';?> </td>
+										</tr>
+										<?php }?>
+									<?php } else { ?>
+									<tr><td colspan="4" > No Subscription sold today</td></tr> 
+									<?php }?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="subscriptions_week">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> Top 10 cities </th>
+										<th> Subscriptions </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php if (isset($subscriptions['week']) && count($subscriptions['week']) > 0) {?>
+										<?php foreach ($subscriptions['week'] as $subscription) { ?> 
+										<tr>
+											<td> <?php echo isset($subscription['state_name'])?$subscription['state_name']:'';?> </td>
+											<td> <?php echo isset($subscription['total'])?$subscription['total']:'';?> </td>
+											<td> <?php echo isset($subscription['total_percentage'])?$subscription['total_percentage'].'%':'0%';?> </td>
+											<td> <?php echo isset($subscription['growth'])?$subscription['growth'].'%':'0%';?> </td>
+										</tr>
+										<?php }?>
+									<?php } else { ?>
+									<tr><td colspan="4" > No Subscription sold this week</td></tr> 
+									<?php }?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="subscriptions_month">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> Top 10 cities </th>
+										<th> Subscriptions </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php if (isset($subscriptions['month']) && count($subscriptions['month']) > 0) {?>
+										<?php foreach ($subscriptions['month'] as $subscription) { ?> 
+										<tr>
+											<td> <?php echo isset($subscription['state_name'])?$subscription['state_name']:'';?> </td>
+											<td> <?php echo isset($subscription['total'])?$subscription['total']:'';?> </td>
+											<td> <?php echo isset($subscription['total_percentage'])?$subscription['total_percentage'].'%':'0%';?> </td>
+											<td> <?php echo isset($subscription['growth'])?$subscription['growth'].'%':'0%';?> </td>
+										</tr>
+										<?php }?>
+									<?php } else { ?>
+									<tr><td colspan="4" > No Subscription sold this month</td></tr> 
+									<?php }?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<?php /*?><div class="tab-pane" id="subscriptions_year">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> Top 10 cities </th>
+										<th> Subscriptions </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php if (isset($subscriptions['year']) && count($subscriptions['year']) > 0) {?>
+										<?php foreach ($subscriptions['year'] as $subscription) { ?> 
+										<tr>
+											<td> <?php echo isset($subscription['state_name'])?$subscription['state_name']:'';?> </td>
+											<td> <?php echo isset($subscription['total'])?$subscription['total']:'';?> </td>
+											<td> <?php echo isset($subscription['total_percentage'])?$subscription['total_percentage'].'%':'0%';?> </td>
+											<td> <?php echo isset($subscription['growth'])?$subscription['growth'].'%':'0%';?> </td>
+										</tr>
+										<?php }?>
+									<?php } else { ?>
+									<tr><td colspan="4" > No Subscription sold this year</td></tr> 
+									<?php }?>
+								</tbody>
+							</table>
+						</div>
+					</div><?php */?>
+				</div>
+			</div>
+		</div>
+		<!-- End: Subscriptions by top 10 cities -->
+	</div>
+	<div class="col-md-6">
+		<!-- Begin: Bookings by top 10 cities -->
+		<div class="portlet box grey">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-book"></i> Bookings
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse"></a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#bookings_day" data-toggle="tab">
+							 Day
+						</a>
+					</li>
+					<li>
+						<a href="#bookings_week" data-toggle="tab">
+							 Week 
+						</a>
+					</li>
+					<li>
+						<a href="#bookings_month" data-toggle="tab">
+							 Month
+						</a>
+					</li>
+					<?php /*?><li>
+						<a href="#bookings_year" data-toggle="tab">
+							 Year
+						</a>
+					</li><?php */?>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="bookings_day">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> Top 10 cities </th>
+										<th> Bookings </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php if (isset($bookings['day']) && count($bookings['day']) > 0) {?>
+										<?php foreach ($bookings['day'] as $booking) { ?> 
+										<tr>
+											<td> <?php echo isset($booking['state_name'])?$booking['state_name']:'';?> </td>
+											<td> <?php echo isset($booking['total'])?$booking['total']:'';?> </td>
+											<td> <?php echo isset($booking['total_percentage'])?$booking['total_percentage'].'%':'0%';?> </td>
+											<td> <?php echo isset($booking['growth'])?$booking['growth'].'%':'0%';?> </td>
+										</tr>
+										<?php }?>
+									<?php } else { ?>
+									<tr><td colspan="4" > No Bookings sold today </td></tr> 
+									<?php }?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="bookings_week">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> Top 10 cities </th>
+										<th> Bookings </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php if (isset($bookings['week']) && count($bookings['week']) > 0) {?>
+										<?php foreach ($bookings['week'] as $booking) { ?> 
+										<tr>
+											<td> <?php echo isset($booking['state_name'])?$booking['state_name']:'';?> </td>
+											<td> <?php echo isset($booking['total'])?$booking['total']:'';?> </td>
+											<td> <?php echo isset($booking['total_percentage'])?$booking['total_percentage'].'%':'0%';?> </td>
+											<td> <?php echo isset($booking['growth'])?$booking['growth'].'%':'0%';?> </td>
+										</tr>
+										<?php }?>
+									<?php } else { ?>
+									<tr><td colspan="4" > No Bookings sold this week </td></tr> 
+									<?php }?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="bookings_month">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> Top 10 cities </th>
+										<th> Bookings </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php if (isset($bookings['month']) && count($bookings['month']) > 0) {?>
+										<?php foreach ($bookings['month'] as $booking) { ?> 
+										<tr>
+											<td> <?php echo isset($booking['state_name'])?$booking['state_name']:'';?> </td>
+											<td> <?php echo isset($booking['total'])?$booking['total']:'';?> </td>
+											<td> <?php echo isset($booking['total_percentage'])?$booking['total_percentage'].'%':'0%';?> </td>
+											<td> <?php echo isset($booking['growth'])?$booking['growth'].'%':'0%';?> </td>
+										</tr>
+										<?php }?>
+									<?php } else { ?>
+									<tr><td colspan="4" > No Bookings sold this month </td></tr> 
+									<?php }?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<?php /*?>
+					<div class="tab-pane" id="bookings_year">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> Top 10 cities </th>
+										<th> Bookings </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php if (isset($bookings['year']) && count($bookings['year']) > 0) {?>
+										<?php foreach ($bookings['year'] as $booking) { ?> 
+										<tr>
+											<td> <?php echo isset($booking['state_name'])?$booking['state_name']:'';?> </td>
+											<td> <?php echo isset($booking['total'])?$booking['total']:'';?> </td>
+											<td> <?php echo isset($booking['total_percentage'])?$booking['total_percentage'].'%':'0%';?> </td>
+											<td> <?php echo isset($booking['growth'])?$booking['growth'].'%':'0%';?> </td>
+										</tr>
+										<?php }?>
+									<?php } else { ?>
+									<tr><td colspan="4" > No Bookings sold this year </td></tr> 
+									<?php }?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<?php */?>
+				</div>
+			</div>
+		</div>
+		<!-- End: Bookings by top 10 cities -->
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="portlet box grey">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-bar-chart-o"></i>Graph
+				</div>
+				<div class="input-group input-medium date date-picker" style="float:left; margin:-2px 13px 0 13px" data-date-format="dd-mm-yyyy" > <!-- data-date-start-date="+0d" -->
+					<input type="text" class="form-control" id="startDate" value="<?php echo date('d-m-Y', strtotime('-2 week'));?>" readonly>
+					<span class="input-group-btn">
+						<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+					</span>
+				</div>
+				<span style="float:left; margin:6px 13px 0 0">to</span>
+				<div class="input-group input-medium date date-picker" style="float:left; margin:-2px 13px 0 13px" data-date-format="dd-mm-yyyy" > <!-- data-date-start-date="+0d" -->
+					<input type="text" class="form-control" id="endDate" value="<?php echo date('d-m-Y');?>" readonly>
+					<span class="input-group-btn">
+						<button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+					</span>
+				</div>
+				<div style="float:left">
+					<a class="btn default btn-sm generateGraph" href="javascript:void(0);"> <i class="fa fa-bar-chart-o"></i> Generate </a> 
+				</div>					
+				<div class="tools">
+					<a href="javascript:;" class="collapse"></a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div id="chart_2" class="chart">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6"> 
+		<div class="revenueStats">	
+			<!-- Begin: Revenue stats -->
+			<div class="portlet box grey">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-money"></i>Total Revenue
+					</div>
+					<div class="tools">
+						<a href="javascript:;" class="collapse"></a>
+					</div>
+				</div>
+				<div class="portlet-body">
+					
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="#revenue_day" data-toggle="tab">
+								 Day
+							</a>
+						</li>
+						<li>
+							<a href="#revenue_week" data-toggle="tab">
+								 Week 
+							</a>
+						</li>
+						<li>
+							<a href="#revenue_month" data-toggle="tab">
+								 Month
+							</a>
+						</li>
+						<?php /*?>
+						<li>
+							<a href="#revenue_year" data-toggle="tab">
+								 Year
+							</a>
+						</li>
+						<?php */?>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="revenue_day">
+							<div class="table-responsive">
+								<span class="label label-default label-sm" style="font-size:16px;" ><strong>Total Revenue</strong> &nbsp;&nbsp;&nbsp;&nbsp; <?php echo isset($revenueStats['day']['revenue'])?'$'.$revenueStats['day']['revenue']:'$0';?></span><br /><br />
+								<table class="table table-striped table-hover table-bordered">
+									<thead>
+										<tr>
+											<th> </th>
+											<th> Number of subscriptions </th>
+											<th> Cancellation of subscriptions </th>
+											<th> Total Revenue </th>
+											<th width="85"> Growth %</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td> Subscriptions </td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										<?php if (isset($revenueStats['day']) && count($revenueStats['day']['subscriptions']) > 0) {?>
+											<?php foreach ($revenueStats['day']['subscriptions'] as $data) { ?>
+											<tr>
+												<td> <?php echo isset($data['name'])?$data['name']:"";?> </td>
+												<td> <?php echo isset($data['total'])?$data['total']:"0";?> </td>
+												<td> <?php echo isset($data['cancelled'])?$data['cancelled']:"0";?> </td>
+												<td> <?php echo isset($data['total_revenue'])?'$'.$data['total_revenue']:"$0";?> </td>
+												<td> <?php echo isset($data['growth'])?$data['growth'].' %':"0 %";?> </td>
+											</tr>
+											<?php } ?>
+										<?php } else { ?>
+											<tr><td colspan="5" > No Subscription sold today </td></tr>
+										<?php }?>
+									</tbody>
+								</table>
+								
+								<table class="table table-striped table-hover table-bordered">
+									<thead>
+										<tr>
+											<th> </th>
+											<th> Number of bookings </th>
+											<th> Average commissions per booking </th>
+											<th> Total Revenue </th>
+											<th width="85"> Growth %</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php if (isset($revenueStats['day']) && isset($revenueStats['day']['bookings'])) :?>
+											<tr>
+												<td> Commissions from practitioners </td>
+												<td> <?php echo isset($revenueStats['day']['bookings']['total'])?$revenueStats['day']['bookings']['total']:"0";?> </td>
+												<td> <?php echo isset($revenueStats['day']['bookings']['avg_commision'])?'$'.$revenueStats['day']['bookings']['avg_commision']:"$0";?> </td>
+												<td> <?php echo isset($revenueStats['day']['bookings']['total_revenue'])?'$'.$revenueStats['day']['bookings']['total_revenue']:"$0";?> </td>
+												<td> <?php echo isset($revenueStats['day']['bookings']['growth'])?$revenueStats['day']['bookings']['growth'].' %':"0 %";?> </td>
+											</tr>
+										<?php endif;?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="tab-pane" id="revenue_week">
+							<div class="table-responsive">
+								<span class="label label-default label-sm" style="font-size:16px;" ><strong>Total Revenue</strong> &nbsp;&nbsp;&nbsp;&nbsp; <?php echo isset($revenueStats['week']['revenue'])?'$'.$revenueStats['week']['revenue']:'$0';?></span><br /><br />
+								<table class="table table-striped table-hover table-bordered">
+									<thead>
+										<tr>
+											<th> </th>
+											<th> Number of subscriptions </th>
+											<th> Cancellation of subscriptions </th>
+											<th> Total Revenue </th>
+											<th width="85"> Growth %</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td> Subscriptions </td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										<?php if (isset($revenueStats['week']) && count($revenueStats['week']['subscriptions']) > 0) {?>
+											<?php foreach ($revenueStats['week']['subscriptions'] as $data) { ?>
+											<tr>
+												<td> <?php echo isset($data['name'])?$data['name']:"";?> </td>
+												<td> <?php echo isset($data['total'])?$data['total']:"0";?> </td>
+												<td> <?php echo isset($data['cancelled'])?$data['cancelled']:"0";?> </td>
+												<td> <?php echo isset($data['total_revenue'])?'$'.$data['total_revenue']:"$0";?> </td>
+												<td> <?php echo isset($data['growth'])?$data['growth'].' %':"0 %";?> </td>
+											</tr>
+											<?php } ?>
+										<?php } else { ?>
+											<tr><td colspan="5" > No Subscription sold this week </td></tr>
+										<?php }?>
+									</tbody>
+								</table>
+								
+								<table class="table table-striped table-hover table-bordered">
+									<thead>
+										<tr>
+											<th> </th>
+											<th> Number of bookings </th>
+											<th> Average commissions per booking </th>
+											<th> Total Revenue </th>
+											<th width="85"> Growth %</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php if (isset($revenueStats['week']) && isset($revenueStats['week']['bookings'])) :?>
+											<tr>
+												<td> Commissions from practitioners </td>
+												<td> <?php echo isset($revenueStats['week']['bookings']['total'])?$revenueStats['week']['bookings']['total']:"0";?> </td>
+												<td> <?php echo isset($revenueStats['week']['bookings']['avg_commision'])?'$'.$revenueStats['week']['bookings']['avg_commision']:"$0";?> </td>
+												<td> <?php echo isset($revenueStats['week']['bookings']['total_revenue'])?'$'.$revenueStats['week']['bookings']['total_revenue']:"$0";?> </td>
+												<td> <?php echo isset($revenueStats['week']['bookings']['growth'])?$revenueStats['week']['bookings']['growth'].' %':"0 %";?> </td>
+											</tr>
+										<?php endif;?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="tab-pane" id="revenue_month">
+							<div class="table-responsive">
+								<span class="label label-default label-sm" style="font-size:16px;" ><strong>Total Revenue</strong> &nbsp;&nbsp;&nbsp;&nbsp; <?php echo isset($revenueStats['month']['revenue'])?'$'.$revenueStats['month']['revenue']:'$0';?></span><br /><br />
+								<table class="table table-striped table-hover table-bordered">
+									<thead>
+										<tr>
+											<th> </th>
+											<th> Number of subscriptions </th>
+											<th> Cancellation of subscriptions </th>
+											<th> Total Revenue </th>
+											<th width="85"> Growth %</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td> Subscriptions </td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										<?php if (isset($revenueStats['month']) && count($revenueStats['month']['subscriptions']) > 0) {?>
+											<?php foreach ($revenueStats['month']['subscriptions'] as $data) { ?>
+											<tr>
+												<td> <?php echo isset($data['name'])?$data['name']:"";?> </td>
+												<td> <?php echo isset($data['total'])?$data['total']:"0";?> </td>
+												<td> <?php echo isset($data['cancelled'])?$data['cancelled']:"0";?> </td>
+												<td> <?php echo isset($data['total_revenue'])?'$'.$data['total_revenue']:"$0";?> </td>
+												<td> <?php echo isset($data['growth'])?$data['growth'].' %':"0 %";?> </td>
+											</tr>
+											<?php } ?>
+										<?php } else { ?>
+											<tr><td colspan="5" > No Subscription sold this month </td></tr>
+										<?php }?>
+									</tbody>
+								</table>
+								
+								<table class="table table-striped table-hover table-bordered">
+									<thead>
+										<tr>
+											<th> </th>
+											<th> Number of bookings </th>
+											<th> Average commissions per booking </th>
+											<th> Total Revenue </th>
+											<th width="85"> Growth %</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php if (isset($revenueStats['month']) && isset($revenueStats['month']['bookings'])) :?>
+											<tr>
+												<td> Commissions from practitioners </td>
+												<td> <?php echo isset($revenueStats['month']['bookings']['total'])?$revenueStats['month']['bookings']['total']:"0";?> </td>
+												<td> <?php echo isset($revenueStats['month']['bookings']['avg_commision'])?'$'.$revenueStats['month']['bookings']['avg_commision']:"$0";?> </td>
+												<td> <?php echo isset($revenueStats['month']['bookings']['total_revenue'])?'$'.$revenueStats['month']['bookings']['total_revenue']:"$0";?> </td>
+												<td> <?php echo isset($revenueStats['month']['bookings']['growth'])?$revenueStats['month']['bookings']['growth'].' %':"0 %";?> </td>
+											</tr>
+										<?php endif;?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<?php /*?>
+						<div class="tab-pane" id="revenue_year">
+							<div class="table-responsive">
+								<span class="label label-default label-sm" style="font-size:16px;" ><strong>Total Revenue</strong> &nbsp;&nbsp;&nbsp;&nbsp; <?php echo isset($revenueStats['year']['revenue'])?'$'.$revenueStats['year']['revenue']:'$0';?></span><br /><br />
+								<table class="table table-striped table-hover table-bordered">
+									<thead>
+										<tr>
+											<th> </th>
+											<th> Number of subscriptions </th>
+											<th> Cancellation of subscriptions </th>
+											<th> Total Revenue </th>
+											<th width="85"> Growth %</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td> Subscriptions </td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										<?php if (isset($revenueStats['year']) && count($revenueStats['year']['subscriptions']) > 0) {?>
+											<?php foreach ($revenueStats['year']['subscriptions'] as $data) { ?>
+											<tr>
+												<td> <?php echo isset($data['name'])?$data['name']:"";?> </td>
+												<td> <?php echo isset($data['total'])?$data['total']:"0";?> </td>
+												<td> <?php echo isset($data['cancelled'])?$data['cancelled']:"0";?> </td>
+												<td> <?php echo isset($data['total_revenue'])?'$'.$data['total_revenue']:"$0";?> </td>
+												<td> <?php echo isset($data['growth'])?$data['growth'].' %':"0 %";?> </td>
+											</tr>
+											<?php } ?>
+										<?php } else { ?>
+											<tr><td colspan="5" > No Subscription sold this year </td></tr>
+										<?php }?>
+									</tbody>
+								</table>
+								
+								<table class="table table-striped table-hover table-bordered">
+									<thead>
+										<tr>
+											<th> </th>
+											<th> Number of bookings </th>
+											<th> Average commissions per booking </th>
+											<th> Total Revenue </th>
+											<th width="85"> Growth %</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php if (isset($revenueStats['year']) && isset($revenueStats['year']['bookings'])) :?>
+											<tr>
+												<td> Commissions from practitioners </td>
+												<td> <?php echo isset($revenueStats['year']['bookings']['total'])?$revenueStats['year']['bookings']['total']:"0";?> </td>
+												<td> <?php echo isset($revenueStats['year']['bookings']['avg_commision'])?'$'.$revenueStats['year']['bookings']['avg_commision']:"$0";?> </td>
+												<td> <?php echo isset($revenueStats['year']['bookings']['total_revenue'])?'$'.$revenueStats['year']['bookings']['total_revenue']:"$0";?> </td>
+												<td> <?php echo isset($revenueStats['year']['bookings']['growth'])?$revenueStats['year']['bookings']['growth'].' %':"0 %";?> </td>
+											</tr>
+										<?php endif;?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<?php */?>
+					</div>
+				</div>
+			</div>
+			<!-- End: Revenue stats -->
+		</div>
+	</div>
+	<div class="col-md-6">
+			<div class="">
+			<!-- Begin: Text Messages Stats -->
+			<div class="portlet box grey">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-envelope"></i>Text message sent by system
+					</div>
+					<div class="tools">
+						<a href="javascript:;" class="collapse"></a>
+					</div>
+				</div>
+				<div class="portlet-body">
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="#message_day" data-toggle="tab">
+								 Day
+							</a>
+						</li>
+						<li>
+							<a href="#message_week" data-toggle="tab">
+								 Week 
+							</a>
+						</li>
+						<li>
+							<a href="#message_month" data-toggle="tab">
+								 Month
+							</a>
+						</li>
+						<?php /*?>
+						<li>
+							<a href="#message_year" data-toggle="tab">
+								 Year
+							</a>
+						</li>
+						<?php */?>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="message_day">
+							<div class="portlet-body">
+								<div class="row static-info">
+									<div class="col-md-5 name">
+										Twilio : 
+									</div>
+									<div class="col-md-7 value">
+										 <?php echo !empty($sent_sms['today']) ? $sent_sms['today'] : 'No new messages sent today' ;?>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="message_week">
+							<div class="portlet-body">
+								<div class="row static-info">
+								<div class="col-md-5 name">
+										Twilio : 
+									</div>
+									<div class="col-md-7 value">
+										 <?php echo !empty($sent_sms['week']) ? $sent_sms['week'] : 'No new messages sent this week' ;?>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="message_month">
+							<div class="portlet-body">
+								<div class="row static-info">
+									<div class="col-md-5 name">
+										Twilio : 
+									</div>
+									<div class="col-md-7 value">
+										 <?php echo !empty($sent_sms['month']) ? $sent_sms['month'] : 'No new messages sent this month' ;?>
+									</div>
+								</div>
+							</div>
+						</div>
+						<?php /*?>
+						<div class="tab-pane" id="message_year">
+							<div class="portlet-body">
+								<div class="row static-info">
+									<div class="col-md-5 name">
+										Twilio : 
+									</div>
+									<div class="col-md-7 value">
+										 <?php echo !empty($sent_sms['year']) ? $sent_sms['year'] : 'No new messages sent this year' ;?>
+									</div>
+								</div>
+							</div>
+						</div>
+						<?php */?>
+					</div>
+				</div>
+			</div>
+			<!-- End: Text Message stats -->
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-6">	
+		<!-- Begin: Registration stats -->
+		<div class="portlet box grey">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-user"></i>Registration
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse"></a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#registration_day" data-toggle="tab">
+							 Day
+						</a>
+					</li>
+					<li>
+						<a href="#registration_week" data-toggle="tab">
+							 Week 
+						</a>
+					</li>
+					<li>
+						<a href="#registration_month" data-toggle="tab">
+							 Month
+						</a>
+					</li>
+					<?php /*?>
+					<li>
+						<a href="#registration_year" data-toggle="tab">
+							 Year
+						</a>
+					</li>
+					<?php */?>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="registration_day">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> </th>
+										<th> Number </th>
+										<th> Cancellation </th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td> Practitioner's registration </td>
+										<td> <?php echo !empty($registration_stats['today']['practitioner_registered']) ? $registration_stats['today']['practitioner_registered'] : '0' ;?> </td>
+										<td> <?php echo !empty($registration_stats['today']['practitioner_cancelled']) ? $registration_stats['today']['practitioner_cancelled'] : '0' ;?> </td>
+										<td> <?php echo !empty($registration_stats['today']['practitioner_growth']) ? $registration_stats['today']['practitioner_growth'].'%' : '0%' ;?> </td>
+									</tr>
+									<tr>
+										<td> Customer's registration </td>
+										<td> <?php echo !empty($registration_stats['today']['consumer_registered']) ? $registration_stats['today']['consumer_registered'] : '0' ;?> </td>
+										<td> <?php echo !empty($registration_stats['today']['consumer_cancelled']) ? $registration_stats['today']['consumer_cancelled'] : '0' ;?> </td>
+										<td> <?php echo !empty($registration_stats['today']['consumer_growth']) ? $registration_stats['today']['consumer_growth'].'%' : '0%' ;?> </td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="registration_week">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> </th>
+										<th> Number </th>
+										<th> Cancellation </th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td> Practitioner's registration </td>
+										<td> <?php echo !empty($registration_stats['week']['practitioner_registered']) ? $registration_stats['week']['practitioner_registered'] : '0' ;?> </td>
+										<td> <?php echo !empty($registration_stats['week']['practitioner_cancelled']) ? $registration_stats['week']['practitioner_cancelled'] : '0' ;?> </td>
+										<td> <?php echo !empty($registration_stats['week']['practitioner_growth']) ? $registration_stats['week']['practitioner_growth'].'%' : '0%' ;?> </td>
+									</tr>
+									<tr>
+										<td> Customer's registration </td>
+										<td> <?php echo !empty($registration_stats['week']['consumer_registered']) ? $registration_stats['week']['consumer_registered'] : '0' ;?> </td>
+										<td> <?php echo !empty($registration_stats['week']['consumer_cancelled']) ? $registration_stats['week']['consumer_cancelled'] : '0' ;?> </td>
+										<td> <?php echo !empty($registration_stats['week']['consumer_growth']) ? $registration_stats['week']['consumer_growth'].'%' : '0%' ;?> </td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="registration_month">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> </th>
+										<th> Number </th>
+										<th> Cancellation </th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td> Practitioner's registration </td>
+										<td> <?php echo !empty($registration_stats['month']['practitioner_registered']) ? $registration_stats['month']['practitioner_registered'] : '0' ;?> </td>
+										<td> <?php echo !empty($registration_stats['month']['practitioner_cancelled']) ? $registration_stats['month']['practitioner_cancelled'] : '0' ;?> </td>
+										<td> <?php echo !empty($registration_stats['month']['practitioner_growth']) ? $registration_stats['month']['practitioner_growth'].'%' : '0%' ;?> </td>
+									</tr>
+									<tr>
+										<td> Customer's registration </td>
+										<td> <?php echo !empty($registration_stats['month']['consumer_registered']) ? $registration_stats['month']['consumer_registered'] : '0' ;?> </td>
+										<td> <?php echo !empty($registration_stats['month']['consumer_cancelled']) ? $registration_stats['month']['consumer_cancelled'] : '0' ;?> </td>
+										<td> <?php echo !empty($registration_stats['month']['consumer_growth']) ? $registration_stats['month']['consumer_growth'].'%' : '0%' ;?> </td>
+									</tr>
+								</tbody>
+							</table> 
+						</div>
+					</div>
+					<?php /*?>
+					<div class="tab-pane" id="registration_year">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> </th>
+										<th> Number </th>
+										<th> Cancellation </th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td> Practitioner's registration </td>
+										<td> <?php echo !empty($registration_stats['year']['practitioner_registered']) ? $registration_stats['year']['practitioner_registered'] : '0' ;?> </td>
+										<td> <?php echo !empty($registration_stats['year']['practitioner_cancelled']) ? $registration_stats['year']['practitioner_cancelled'] : '0' ;?> </td>
+										<td> <?php if($registration_stats['year']['practitioner_registered']!=0) { echo ($registration_stats['year']['practitioner_cancelled'] / $registration_stats['year']['practitioner_registered']); } ?> </td>
+									</tr>
+									<tr>
+										<td> Customer's registration </td>
+										<td> <?php echo !empty($registration_stats['year']['consumer_registered']) ? $registration_stats['year']['consumer_registered'] : '0' ;?> </td>
+										<td> <?php echo !empty($registration_stats['year']['consumer_cancelled']) ? $registration_stats['year']['consumer_cancelled'] : '0' ;?> </td>
+										<td> <?php if($registration_stats['year']['consumer_registered']!=0) { echo ($registration_stats['year']['consumer_cancelled'] / $registration_stats['year']['consumer_registered']); } ?> </td> 
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<?php */?>
+				</div>
+			</div>
+		</div>
+		<!-- End: Registration stats -->
+	</div>
+	<div class="col-md-6">
+		<!-- Begin: video stats -->
+		<div class="portlet box grey">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-video-camera"></i>Video viewed & video uploaded
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse"></a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#video_day" data-toggle="tab">
+							 Day
+						</a>
+					</li>
+					<li>
+						<a href="#video_week" data-toggle="tab">
+							 Week 
+						</a>
+					</li>
+					<li>
+						<a href="#video_month" data-toggle="tab">
+							 Month
+						</a>
+					</li>
+					<?php /*?>
+					<li>
+						<a href="#video_year" data-toggle="tab">
+							 Year
+						</a>
+					</li>
+					<?php */?>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="video_day">
+						<div class="portlet-body">
+							<div class="row static-info">
+								<div class="col-md-5 name">
+									Number of videos uploaded : 
+								</div>
+								<div class="col-md-7 value">
+									 <?php echo !empty($video_stats['upload_count']['today']['upload_count']) ? $video_stats['upload_count']['today']['upload_count'] : 'No video uploaded today' ; ?>
+								</div>
+							</div>
+							<div class="row static-info">
+								<div class="col-md-5 name">
+									 Number of videos viewed : 
+								</div>
+								<div class="col-md-7 value">
+									 <?php echo !empty($video_stats['view_count']['today']['views_count']) ? $video_stats['view_count']['today']['views_count'] : 'No video viewed today' ;?>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="video_week">
+						<div class="portlet-body">
+							<div class="row static-info">
+								<div class="col-md-5 name">
+									Number of videos uploaded : 
+								</div>
+								<div class="col-md-7 value">
+									<?php echo !empty($video_stats['upload_count']['week']['upload_count']) ? $video_stats['upload_count']['week']['upload_count'] : 'No video uploaded this week' ; ?>
+								</div>
+							</div>
+							<div class="row static-info">
+								<div class="col-md-5 name">
+									 Number of videos viewed : 
+								</div>
+								<div class="col-md-7 value">
+									<?php echo !empty($video_stats['view_count']['week']['views_count']) ? $video_stats['view_count']['week']['views_count'] : 'No video viewed this week' ;?>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="video_month">
+						<div class="portlet-body">
+							<div class="row static-info">
+								<div class="col-md-5 name">
+									Number of videos uploaded : 
+								</div>
+								<div class="col-md-7 value">
+									<?php echo !empty($video_stats['upload_count']['month']['upload_count']) ? $video_stats['upload_count']['month']['upload_count'] : 'No video uploaded this month' ; ?>
+								</div>
+							</div>
+							<div class="row static-info">
+								<div class="col-md-5 name">
+									 Number of videos viewed : 
+								</div>
+								<div class="col-md-7 value">
+									<?php echo !empty($video_stats['view_count']['month']['views_count']) ? $video_stats['view_count']['month']['views_count'] : 'No video viewed this month' ;?>
+								</div>
+							</div>
+						</div>
+					</div>
+					<?php /*?>
+					<div class="tab-pane" id="video_year">
+						<div class="portlet-body">
+							<div class="row static-info">
+								<div class="col-md-5 name">
+									Number of videos uploaded : 
+								</div>
+								<div class="col-md-7 value">
+									<?php echo !empty($video_stats['upload_count']['year']['upload_count']) ? $video_stats['upload_count']['year']['upload_count'] : 'No video uploaded this year' ; ?>
+								</div>
+							</div>
+							<div class="row static-info">
+								<div class="col-md-5 name">
+									 Number of videos viewed : 
+								</div>
+								<div class="col-md-7 value">
+									<?php echo !empty($video_stats['view_count']['year']['views_count']) ? $video_stats['view_count']['year']['views_count'] : 'No video viewed this year' ;?>
+								</div>
+							</div>
+						</div>
+					</div>
+					<?php */?>
+				</div>
+			</div>
+		</div>
+		<!-- End: Video stats -->
+	</div>
+</div>
+<!--
+<div class="row">
+	<!-- <div class="">STORAGE STATUS</div> 
+</div>
+---->
+<div class="row">
+	<!-- <div class="col-md-3"> TASKS </div> ---->
+	<div class="col-md-6"> 
+		<!-- Begin: Practitioner registration by top 10 cities -->
+		<div class="portlet box grey">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-user"></i> Practitioner's registration : Top 10 cities
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse"></a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#PRtop10_day" data-toggle="tab">
+							 Day
+						</a>
+					</li>
+					<li>
+						<a href="#PRtop10_week" data-toggle="tab">
+							 Week 
+						</a>
+					</li>
+					<li>
+						<a href="#PRtop10_month" data-toggle="tab">
+							 Month
+						</a>
+					</li>
+					<?php /*?>
+					<li>
+						<a href="#PRtop10_year" data-toggle="tab">
+							 Year
+						</a>
+					</li>
+					<?php */?>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="PRtop10_day">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> </th>
+										<th> Practitioner's registration </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php 
+										if(count($PracStatsByCities['today']) > 0 ){ 
+											foreach($PracStatsByCities['today'] as $data){
+									?>
+										<tr>
+											<td><?php echo isset($data['state_name']) ? $data['state_name'] : '' ; ?></td>
+											<td><?php echo isset($data['users_count']) ? $data['users_count'] : '' ; ?></td>
+											<td><?php echo isset($data['total']) ? $data['total'].'%' : '0%' ; ?></td>
+											<td><?php echo isset($data['growth']) ? $data['growth'].'%' : '0%' ; ?></td>
+										</tr>
+									<?php	}
+										}else{ echo "<tr><td colspan='4'>No Practitioner registered today</td></tr>"; } ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="PRtop10_week">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> </th>
+										<th> Practitioner's registration </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php 
+										if(count($PracStatsByCities['week']) > 0 ){
+											foreach($PracStatsByCities['week'] as $data){
+									?>
+										<tr>
+											<td><?php echo isset($data['state_name']) ? $data['state_name'] : '' ; ?></td>
+											<td><?php echo isset($data['users_count']) ? $data['users_count'] : '' ; ?></td>
+											<td><?php echo isset($data['total']) ? $data['total'].'%' : '0%' ; ?></td>
+											<td><?php echo isset($data['growth']) ? $data['growth'].'%' : '0%' ; ?></td>
+										</tr>
+									<?php	}
+										}else{ echo "<tr><td colspan='4'>No Practitioner registered this week</td></tr>"; } ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="PRtop10_month">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> </th>
+										<th> Practitioner's registration </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php 
+										if(count($PracStatsByCities['month']) > 0 ){
+											foreach($PracStatsByCities['month'] as $data){
+									?>
+										<tr>
+											<td><?php echo isset($data['state_name']) ? $data['state_name'] : '' ; ?></td>
+											<td><?php echo isset($data['users_count']) ? $data['users_count'] : '' ; ?></td>
+											<td><?php echo isset($data['total']) ? $data['total'].'%' : '0%' ; ?></td>
+											<td><?php echo isset($data['growth']) ? $data['growth'].'%' : '0%' ; ?></td>
+										</tr>
+									<?php	}
+										}else{ echo "<tr><td colspan='4'>No Practitioner registered this month</td></tr>"; } ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<?php /*?>
+					<div class="tab-pane" id="PRtop10_year">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> </th>
+										<th> Practitioner's registration </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php 
+										if(count($PracStatsByCities['year']) > 0 ){
+											foreach($PracStatsByCities['year'] as $data){
+									?>
+										<tr>
+											<td><?php echo isset($data['state_name']) ? $data['state_name'] : '' ; ?></td>
+											<td><?php echo isset($data['users_count']) ? $data['users_count'] : '' ; ?></td>
+											<td><?php echo isset($data['total']) ? $data['total'].'%' : '0%' ; ?></td>
+											<td><?php echo isset($data['growth']) ? $data['growth'].'%' : '0%' ; ?></td>
+										</tr>
+									<?php	}
+										}else{ echo "<tr><td colspan='4'>No Practitioner registered this year</td></tr>"; } ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<?php */?>
+				</div>
+			</div>
+		</div>
+		<!-- End: Practitioner registration by top 10 cities -->
+	</div>
+	<div class="col-md-6"> 
+		<!-- Begin: Customer's registration by top 10 cities -->
+		<div class="portlet box grey">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-user"></i> Customer's registration : Top 10 cities
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse"></a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#CRtop10_day" data-toggle="tab">
+							 Day
+						</a>
+					</li>
+					<li>
+						<a href="#CRtop10_week" data-toggle="tab">
+							 Week 
+						</a>
+					</li>
+					<li>
+						<a href="#CRtop10_month" data-toggle="tab">
+							 Month
+						</a>
+					</li>
+					<?php /*?>
+					<li>
+						<a href="#CRtop10_year" data-toggle="tab">
+							 Year
+						</a>
+					</li>
+					<?php */?>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="CRtop10_day">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> </th>
+										<th> Customer's registration </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php 
+										if(count($ConsStatsByCities['today']) > 0 ){
+											foreach($ConsStatsByCities['today'] as $data){
+									?>
+										<tr>
+											<td><?php echo isset($data['state_name']) ? $data['state_name'] : '' ; ?></td>
+											<td><?php echo isset($data['users_count']) ? $data['users_count'] : '' ; ?></td>
+											<td><?php echo isset($data['total']) ? $data['total'].'%' : '0%' ; ?></td>
+											<td><?php echo isset($data['growth']) ? $data['growth'].'%' : '0%' ; ?></td>
+										</tr>
+									<?php	}
+										}else{ echo "<tr><td colspan='4'>No Consumer registered today</td></tr>"; } ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="CRtop10_week">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> </th>
+										<th> Customer's registration </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php 
+										if(count($ConsStatsByCities['week']) > 0 ){
+											foreach($ConsStatsByCities['week'] as $data){
+									?>
+										<tr>
+											<td><?php echo isset($data['state_name']) ? $data['state_name'] : '' ; ?></td>
+											<td><?php echo isset($data['users_count']) ? $data['users_count'] : '' ; ?></td>
+											<td><?php echo isset($data['total']) ? $data['total'].'%' : '0%' ; ?></td>
+											<td><?php echo isset($data['growth']) ? $data['growth'].'%' : '0%' ; ?></td>
+										</tr>
+									<?php	}
+										}else{ echo "<tr><td colspan='4'>No Consumer registered this week</td></tr>"; } ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="CRtop10_month">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> </th>
+										<th> Customer's registration </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php 
+										if(count($ConsStatsByCities['month']) > 0 ){
+											foreach($ConsStatsByCities['month'] as $data){
+									?>
+										<tr>
+											<td><?php echo isset($data['state_name']) ? $data['state_name'] : '' ; ?></td>
+											<td><?php echo isset($data['users_count']) ? $data['users_count'] : '' ; ?></td>
+											<td><?php echo isset($data['total']) ? $data['total'].'%' : '0%' ; ?></td>
+											<td><?php echo isset($data['growth']) ? $data['growth'].'%' : '0%' ; ?></td>
+										</tr>
+									<?php	}
+										}else{ echo "<tr><td colspan='4'>No Consumer registered this month</td></tr>"; } ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<?php /*?>
+					<div class="tab-pane" id="CRtop10_year">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> </th>
+										<th> Customer's registration </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php 
+										if(count($ConsStatsByCities['year']) > 0 ){
+											foreach($ConsStatsByCities['year'] as $data){
+									?>
+										<tr>
+											<td><?php echo isset($data['state_name']) ? $data['state_name'] : '' ; ?></td>
+											<td><?php echo isset($data['users_count']) ? $data['users_count'] : '' ; ?></td>
+											<td><?php echo isset($data['total']) ? $data['total'].'%' : '0%' ; ?></td>
+											<td><?php echo isset($data['growth']) ? $data['growth'].'%' : '0%' ; ?></td>
+										</tr>
+									<?php	}
+										}else{ echo "<tr><td colspan='4'>No Consumer registered this year</td></tr>"; } ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<?php */?>
+				</div>
+			</div>
+		</div>
+		<!-- End: Practitioner registration by top 10 cities -->
+	</div>
+	<!-- <div class="col-md-3"> Customers and practitioner's cancellation of registration </div> --->
+</div>
+<div class="row"  id="tasks">
+	<div class="col-md-6 col-sm-6">
+		<div class="portlet box grey">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-bell-o"></i>Tasks
+				</div>
+				<div class="actions"></div>
+			</div>
+			<div class="portlet-body">
+				<div class="scroller" style="height: 300px;" data-always-visible="1" data-rail-visible="0">
+					<ul class="feeds">
+						<li>
+							<div class="col1">
+								<div class="cont">
+									<div class="cont-col1">
+										<div class="label label-sm label-success">
+											<i class="fa fa-user"></i>
+										</div>
+									</div>
+									<div class="cont-col2">
+										<div class="desc">
+											You have <?php echo !empty($pending_profiles['profile_count']) ? $pending_profiles['profile_count'] : 'No New' ;  ?> profiles pending that requires approval.
+										</div>										
+									</div>
+								</div>
+							</div>
+						</li>
+						<?php if(count($pending_profiles['pending_profiles']) > 0 ) { 
+										foreach($pending_profiles['pending_profiles'] as $data) { ?>
+						<li>
+							<div class="col1">
+								<div class="cont">
+									<div class="cont-col1">
+										<div class="label label-sm label-info">
+											<i class="fa fa-check"></i>
+										</div>
+									</div>
+									<div class="cont-col2">
+										<div class="desc">
+											<a href="<?php echo $this->basePath(); ?>/admin/users/">
+												<?php echo isset($data['user_name']) ? $data['user_name'] : '' ; ?>
+											</a>
+											<span class="label label-sm label-warning ">
+												<?php if($data['timediff_hour'] || $data['timediff_minute'] || $data['timediff_second']){ echo "Pending since"; } ?>
+												<?php echo isset($data['timediff_hour']) ? $data['timediff_hour'].' hours' : '' ; ?>
+												<?php echo isset($data['timediff_minute']) ? $data['timediff_minute'].' minute' : '' ; ?>
+												<?php echo isset($data['timediff_second']) ? $data['timediff_second'].' second' : '' ; ?>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+						<?php	}	
+							  }else{ echo "<tr><td colspan='2'></td></tr>"; }
+								   
+						?>
+						<li>
+							<div class="col1">
+								<div class="cont">
+									<div class="cont-col1">
+										<div class="label label-sm label-success">
+											<i class="fa fa-video-camera"></i>
+										</div>
+									</div>
+									<div class="cont-col2">
+										<div class="desc">
+											 You have <?php echo !empty($pending_media['video_count']) ? $pending_media['video_count'] : 'No New' ;  ?> videos  that requires approval. 
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+						<?php if(count($pending_media['pending_video']) > 0 ) { 
+										foreach($pending_media['pending_video'] as $data) { ?>
+						<li>
+							<div class="col1">
+								<div class="cont">
+									<div class="cont-col1">
+										<div class="label label-sm label-info">
+											<i class="fa fa-check"></i>
+										</div>
+									</div>
+									<div class="cont-col2">
+										<div class="desc">
+											<a href="<?php echo $this->basePath(); ?>/admin/media/">
+												<?php echo isset($data['user_name']) ? $data['user_name'] : '' ; ?>
+											</a>
+											<span class="label label-sm label-warning ">
+												<?php if($data['timediff_hour'] || $data['timediff_minute'] || $data['timediff_second']){ echo "Pending since"; } ?>
+												<?php echo isset($data['timediff_hour']) ? $data['timediff_hour'].' hours' : '' ; ?>
+												<?php echo isset($data['timediff_minute']) ? $data['timediff_minute'].' minute' : '' ; ?>
+												<?php echo isset($data['timediff_second']) ? $data['timediff_second'].' second' : '' ; ?>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+						<?php	}	
+							  }else{ echo "<tr><td colspan='2'></td></tr>"; }
+								   
+						?>
+						<li>
+							<div class="col1">
+								<div class="cont">
+									<div class="cont-col1">
+										<div class="label label-sm label-success">
+											<i class="fa fa-star"></i>
+										</div>
+									</div>
+									<div class="cont-col2">
+										<div class="desc">
+											 You have <?php echo !empty($pending_feedback['pending_feedback_count']) ? $pending_feedback['pending_feedback_count'] : 'No New' ;  ?> feedbacks that requires a quick review.
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+				<?php if(count($pending_feedback['pending_feedback']) > 0 ) { 
+						foreach($pending_feedback['pending_feedback'] as $data) { ?>
+						<li>
+							<div class="col1">
+								<div class="cont">
+									<div class="cont-col1">
+										<div class="label label-sm label-info">
+											<i class="fa fa-check"></i>
+										</div>
+									</div>
+									<div class="cont-col2">
+										<div class="desc">
+											<a href="<?php echo $this->basePath(); ?>/admin/feedback/">
+												<?php echo isset($data['user_name']) ? $data['user_name'] : '' ; ?>
+											</a>
+											<span class="label label-sm label-warning ">
+												<?php if($data['timediff_hour'] || $data['timediff_minute'] || $data['timediff_second']){ echo "Pending since"; } ?>
+												<?php echo isset($data['timediff_hour']) ? $data['timediff_hour'].' hours' : '' ; ?>
+												<?php echo isset($data['timediff_minute']) ? $data['timediff_minute'].' minute' : '' ; ?>
+												<?php echo isset($data['timediff_second']) ? $data['timediff_second'].' second' : '' ; ?>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>		
+				<?php	}	
+					  }else{ echo "<tr><td colspan='2'></td></tr>"; }	?>
+					</ul>
+				</div>
+				<div class="scroller-footer">
+					<div class="pull-right">
+						<!--
+						<a href="#">
+							 See All Records <i class="m-icon-swapright m-icon-gray"></i>
+						</a>
+						--->
+						 &nbsp;
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6"> 
+		<!-- Begin: Customers and practitioner's cancellation of registration by top 10 cities -->
+		<div class="portlet box grey">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-user"></i> Customers and practitioner's cancellation of registration 
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse"></a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#CPCRtop10_day" data-toggle="tab">
+							 Day
+						</a>
+					</li>
+					<li>
+						<a href="#CPCRtop10_week" data-toggle="tab">
+							 Week 
+						</a>
+					</li>
+					<li>
+						<a href="#CPCRtop10_month" data-toggle="tab">
+							 Month
+						</a>
+					</li>
+					<?php /*?>
+					<li>
+						<a href="#CPCRtop10_year" data-toggle="tab">
+							 Year
+						</a>
+					</li>
+					<?php */?>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="CPCRtop10_day">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> Top 10 cities </th>
+										<th> Customer's cancellation's registration </th>
+										<th> Practitioner's cancellation's registration </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+										if(count($userCancStats['today']) > 0 ){
+											foreach($userCancStats['today'] as $data){
+									?>
+									<tr>
+										<td><?php echo !empty($key) ? $key : '' ; ?></td> 
+										<td><?php echo ($data['consumer_count'] != "") ? $data['consumer_count']	: '0' ; ?></td> 
+										<td><?php echo ($data['practitioner_count'] != "") ? $data['practitioner_count']	: '0' ; ?></td> 
+										<td><?php echo ($data['total'] != 0) ? $data['total'].'%'	: '0%' ; ?></td> 
+										<td><?php echo ($data['growth'] != 0) ? $data['growth'].'%'	: '0%' ; ?></td> 
+									</tr>
+									<?php			
+											}
+										}else{ echo "<tr><td colspan='5'>No cancellation today </td></tr>"; } ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="CPCRtop10_week">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> Top 10 cities </th>
+										<th> Customer's cancellation's registration </th>
+										<th> Practitioner's cancellation's registration </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+										if(count($userCancStats['week']) > 0 ){
+											foreach($userCancStats['week'] as $data){
+									?>
+									<tr>
+										<td><?php echo !empty($key) ? $key : '' ; ?></td> 
+										<td><?php echo ($data['consumer_count'] != "") ? $data['consumer_count']	: '0' ; ?></td> 
+										<td><?php echo ($data['practitioner_count'] != "") ? $data['practitioner_count']	: '0' ; ?></td> 
+										<td><?php echo ($data['total'] != 0) ? $data['total'].'%'	: '0%' ; ?></td> 
+										<td><?php echo ($data['growth'] != 0) ? $data['growth'].'%'	: '0%' ; ?></td> 
+									</tr>
+									<?php			
+											}
+										}else{ echo "<tr><td colspan='5'>No cancellation this week </td></tr>"; } ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="CPCRtop10_month">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> Top 10 cities </th>
+										<th> Customer's cancellation's registration </th>
+										<th> Practitioner's cancellation's registration </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+										if(count($userCancStats['month']) > 0 ){
+											foreach($userCancStats['month'] as $key=>$data){
+									?>
+									<tr>
+										<td><?php echo !empty($key) ? $key : '' ; ?></td> 
+										<td><?php echo ($data['consumer_count'] != "") ? $data['consumer_count']	: '0' ; ?></td> 
+										<td><?php echo ($data['practitioner_count'] != "") ? $data['practitioner_count']	: '0' ; ?></td> 
+										<td><?php echo ($data['total'] != 0) ? $data['total'].'%'	: '0%' ; ?></td> 
+										<td><?php echo ($data['growth'] != 0) ? $data['growth'].'%'	: '0%' ; ?></td> 
+									</tr>
+									<?php			
+											}
+										}else{ echo "<tr><td colspan='5'>No cancellation this month </td></tr>"; } ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<?php /*?>
+					<div class="tab-pane" id="CPCRtop10_year">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered">
+								<thead>
+									<tr>
+										<th> Top 10 cities </th>
+										<th> Customer's cancellation's registration </th>
+										<th> Practitioner's cancellation's registration </th>
+										<th> Total %</th>
+										<th> Growth %</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+										if(count($userCancStats['year']) > 0 ){
+											foreach($userCancStats['year'] as $data){
+									?>
+									<tr>
+										<td><?php echo !empty($key) ? $key : '' ; ?></td> 
+										<td><?php echo ($data['consumer_count'] != "") ? $data['consumer_count']	: '0' ; ?></td> 
+										<td><?php echo ($data['practitioner_count'] != "") ? $data['practitioner_count']	: '0' ; ?></td> 
+										<td><?php echo ($data['total'] != 0) ? $data['total'].'%'	: '0%' ; ?></td> 
+										<td><?php echo ($data['growth'] != 0) ? $data['growth'].'%'	: '0%' ; ?></td> 
+									</tr>
+									<?php			
+											}
+										}else{ echo "<tr><td colspan='5'>No cacellations this year </td></tr>"; } ?>  
+								</tbody>
+							</table>
+						</div> 
+					</div>
+					<?php */?>
+				</div>
+			</div>
+		</div>
+		<!-- End: Customers and practitioner's cancellation of registration by top 10 cities -->
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN PORTLET-->
+		<div class="portlet paddingless">
+			<div class="portlet-title line">
+				<div class="caption">
+					<i class="fa fa-bell-o"></i>Recent Users
+				</div>
+			</div>
+			<div class="portlet-body">
+				<!--BEGIN TABS-->
+				<div class="tabbable tabbable-custom">
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="#tab_1_1" data-toggle="tab">
+								 Practitioners
+							</a>
+						</li>
+						<li>
+							<a href="#tab_1_2" data-toggle="tab">
+								 Consumers
+							</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="tab_1_1">
+							<div class="scroller" style="height: 290px;" data-always-visible="1" data-rail-visible1="1">
+								<div class="row">
+						<?php if( is_array($practitioner) && count($practitioner) > 0 ) { ?>
+							<?php foreach($practitioner as $user) { ?>		
+									<div class="col-md-6 user-info">
+										<img alt="" src="https://s3-us-west-2.amazonaws.com/ovessence/img/avatar.png" class="img-responsive"/>
+										<div class="details">
+											<div>
+												<a href="<?php echo $this->basePath(); ?>/admin/users">
+													 <?php echo ucwords($user['user_name']); ?>
+												</a>
+												<?php if($user['status']=="Active" || $user['status']=="Approved") { ?>
+												<span class="label label-sm label-success label-mini">
+													 <?php echo ucwords($user['status']); ?>
+												</span>
+												<?php }else{ ?>
+												<span class="label label-sm label-danger label-mini">
+													 <?php echo ucwords($user['status']); ?>
+												</span>
+												<?php } ?>
+											</div>
+											<div>
+												 <?php echo $user['created_date']; ?>
+											</div>
+										</div>
+									</div>
+							<?php } ?>	
+						<?php }else{ ?>
+									<div class="col-md-6 user-info">
+										No New Practitioner Added recently	
+									</div>	
+							<?php } ?>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="tab_1_2">
+							<div class="scroller" style="height: 290px;" data-always-visible="1" data-rail-visible1="1">
+								<div class="row">
+						<?php if( is_array($consumer) && count($consumer) > 0 ) { ?>
+							<?php foreach($consumer as $user) { ?>	
+									<div class="col-md-6 user-info">
+										<img alt="" src="https://s3-us-west-2.amazonaws.com/ovessence/img/avatar.png" class="img-responsive"/>
+										<div class="details">
+											<div>
+												<a href="<?php echo $this->basePath(); ?>/admin/users">
+													 <?php echo ucwords($user['user_name']); ?>
+												</a>
+												<?php if($user['status']=="Active" || $user['status']=="Approved") { ?>
+												<span class="label label-sm label-success label-mini">
+													 <?php echo ucwords($user['status']); ?>
+												</span>
+												<?php }else{ ?>
+												<span class="label label-sm label-danger label-mini">
+													 <?php echo ucwords($user['status']); ?>
+												</span>
+												<?php } ?>
+											</div>
+											<div>
+												 <?php echo $user['created_date']; ?>
+											</div>
+										</div>
+									</div>
+							<?php } ?>
+								<?php }else{ ?>
+									<div class="col-md-6 user-info">
+										No New Consumer Added recently	
+									</div>	
+							<?php } ?>
+								</div>
+							</div>
+						</div>	
+					</div>
+				</div>
+				<!--END TABS-->
+			</div>
+		</div>
+		<!-- END PORTLET-->
+	</div>
+</div>	

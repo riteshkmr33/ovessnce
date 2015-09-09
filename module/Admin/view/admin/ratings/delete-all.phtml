@@ -1,0 +1,70 @@
+<div class="row"> 
+  <div class="col-md-12 col-sm-12">
+	  <?php if (isset($successMsgs) && count($successMsgs)>0): ?>
+		<div class="note note-success">
+			<?php foreach ($successMsgs as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<?php if (isset($errors) && count($errors)>0): ?>
+		<div class="note note-danger">
+			<?php foreach ($errors as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<div class="note" id="error" style="display:none;"></div>
+    <div class="portlet grey box">
+      <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-star"></i>Ratings List </div>
+        <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->url('admin/ratings', array('action'=>'add'));?>"> <i class="fa fa-pencil"></i> Add New Rating </a> </div>
+        <div class="table-group-actions pull-right" style="margin: -4px 10px 0 0;">
+			<button class="btn btn-sm red table-group-action-submit deleteAllratings"><i class="fa fa-trash-o"></i> Delete All</button>
+		</div>
+      </div>
+      <div class="portlet-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-striped" id="rating-table"> 
+            <thead>
+              <tr>
+                <th>Practitioner</th>
+              <!--  <th>Service</th>-->
+                <th>Rating type</th>
+                <th>Rate</th>
+                <th>Rated by</th>
+                <th>Created date</th>
+                <th class="table-checkbox" >Action <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"/>
+              </tr>
+            </thead>
+            <tbody>
+              <?php if (isset($ratings) && count($ratings)>0) : ?>
+              <?php $counter = 1; foreach ($ratings as $rating) :?>
+              <tr>
+                <td><?php echo $this->escapeHtml($rating->sp_first_name." ".$rating->sp_last_name);?></td>
+                <!--<td> <?php // echo $this->escapeHtml($rating->category_name.' - '.$rating->service_period.' mins');?> </td>-->
+                <td><?php echo $this->escapeHtml($rating->rating_type);?></td>
+                <td><?php for($i=1; $i<=$rating->rate; $i++) {echo '<input name="'.$counter.'" type="radio" class="star" disabled="disabled" checked="checked" />';}?></td>
+                <td><?php echo $this->escapeHtml($rating->first_name." ".$rating->last_name);?></td>
+                <td><?php echo $this->escapeHtml($rating->created_date);?></td>
+                <td>
+					<!--<a class="btn default btn-xs blue" href="<?php echo $this->url('admin/ratings',array('controller'=>'ratings','action'=>'edit', 'user' => $rating->users_id, 'service' => $rating->service_id));?>"><i class="fa fa-edit"></i> Edit</a> -->
+					<!--<a class="btn default btn-xs red" href="<?php echo $this->url('admin/ratings',array('controller'=>'ratings','action'=>'delete', 'user' => $rating->users_id, 'service' => $rating->service_id, 'created_by' => $rating->created_by));?>"><i class="fa fa-trash-o"></i> Delete</a>-->
+					<a class="btn default btn-xs" href="<?php echo $this->url('admin/ratings',array('controller'=>'ratings','action'=>'delete', 'user' => $rating->users_id, 'createdby' => $rating->created_by, 'ratingtypeid' => $rating->rating_type_id));?>"><i class="fa fa-trash-o" title="delete"></i></a>
+					<!--<input class="checkboxes" type="checkbox" data-usr='<?php echo $rating->users_id?>' data-srv='<?php echo $rating->service_id?>' data-crtd='<?php echo $rating->created_by?>' data-rti='<?php echo $rating->rating_type_id?>'> -->
+					<input class="checkboxes" type="checkbox" data-usr='<?php echo $rating->users_id?>' data-crtd='<?php echo $rating->created_by?>' data-rti='<?php echo $rating->rating_type_id?>'>
+                </td>
+              </tr>
+              <?php $counter++; endforeach; ?>
+              <?php endif; ?>
+            </tbody>
+          </table>
+          <?php 
+		echo $this->paginationControl(
+						$ratings,  // the paginator object
+						'sliding',   // the scrolling style; see http://zf2.readthedocs.org/en/release-2.1.4/modules/zend.paginator.usage.html#rendering-pages-with-view-scripts
+						array('partial/paginator.phtml', 'Admin'),  // the partial to use to render the control
+						array('route' => 'admin/ratings')  // the route to link to when a user clicks a control link
+					);
+?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

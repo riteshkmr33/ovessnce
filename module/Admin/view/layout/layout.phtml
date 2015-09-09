@@ -1,0 +1,812 @@
+<?php 
+$session =  new \Zend\Session\Container('user_permission'); 
+$user_rights = $session['rights']['module']; 
+//isset($_SESSION['user_permission']['rights']) ? $user_rights = $_SESSION['user_permission']['rights']['module'] : '' ; 
+
+$session =  new \Zend\Session\Container('user_permission'); 
+$user_rights = $session['rights']['module']; 
+//isset($_SESSION['user_permission']['rights']) ? $user_rights = $_SESSION['user_permission']['rights']['module'] : '' ; 
+
+?> 
+<!DOCTYPE html> 
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <?php echo $this->headTitle()->prepend('Site : Administration')->setSeparator(' - '); ?>
+    <?php
+        $allMetaTag = (array) $this->headMeta()->getContainer();
+        if (empty($allMetaTag)) {
+            $this->headMeta()->prependName('keywords', 'Ovessence Dashboard')->appendName('description', 'Ovessence Admistrator Dashboard');
+        } else {
+            foreach ($allMetaTag as $metaTag) {
+                $meta = (array) $metaTag;
+                $metaTags[] = $meta['name'];
+            }
+
+            if (!in_array('keywords', $metaTags)) {
+                $this->headMeta()->prependName('keywords', 'Ovessence Dashboard');
+            }
+
+            if (!in_array('description', $metaTags)) {
+                $this->headMeta()->appendName('description', 'Ovessence Admistrator Dashboard');
+            }
+        } 
+    ?>
+    <meta charset="utf-8" />
+    <?php echo $this->headMeta(); ?>
+    <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/../img/logo.png')); ?>
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo $this->basePath(); ?>/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo $this->basePath(); ?>/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+    <link href="<?php echo $this->basePath(); ?>/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" type="text/css"/>
+
+
+    <!-- END PAGE LEVEL PLUGIN STYLES -->
+    <!-- BEGIN THEME STYLES -->
+    <link href="<?php echo $this->basePath(); ?>/css/admin/style-metronic.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo $this->basePath(); ?>/css/admin/style.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo $this->basePath(); ?>/css/admin/style-responsive.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo $this->basePath(); ?>/css/admin/plugins.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo $this->basePath(); ?>/css/admin/pages/tasks.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo $this->basePath(); ?>/css/admin/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+    <link href="<?php echo $this->basePath(); ?>/css/admin/print.css" rel="stylesheet" type="text/css" media="print"/>
+    <link href="<?php echo $this->basePath(); ?>/css/admin/custom.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo $this->basePath(); ?>/css/admin/DT_bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo $this->basePath(); ?>/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->basePath(); ?>/plugins/videojs/video-js.css" rel="stylesheet" type="text/css"/>
+    <?php if (isset($controller) && ($controller == "\Admin" || $controller == "")) { ?>
+        <link href="<?php echo $this->basePath(); ?>/plugins/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
+    <?php } ?>
+        
+    <?php if (isset($controller) && ($controller == "\Booking" || $controller == "")) { ?>
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/css/jquery.datetimepicker.css">
+    <?php } ?>
+
+    <!-- for datepicker --->
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/bootstrap-datetimepicker/css/datetimepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/bootstrap-datepicker/css/datepicker.css"/>
+    <!-- for datepicker ends --->
+
+    <!-- for select starts --->
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/bootstrap-select/bootstrap-select.min.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/select2/select2.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/select2/select2-metronic.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/jquery-multi-select/css/multi-select.css"/>
+    <!-- for select ends --->
+    
+    
+
+    <!-- SET BASEURL -->
+    <script>
+            var OVEconfig = { 
+                    'BASEURL' : '<?php echo $this->basePath(); ?>'
+            };
+    </script> 
+    <!-- Script for sms counter for sms page - starts here-->
+    <script type="text/javascript">
+    var count = "160";   
+    function limiter(){
+    var tex = document.sms.message.value;
+    var len = tex.length;
+    if(len > count){
+            tex = tex.substring(0,count);
+            document.sms.message.value =tex;
+            return false;
+    }
+    document.sms.limit.value = count-len;
+    }
+    </script>
+    <!-- Script for sms counter for sms page - Ends here-->
+    
+    <?php if (isset($controller) && ($controller == "\Media" || $controller == "\ServiceProviderMedia")) { ?>
+		<!--<script src="http://jwpsrv.com/library/swzEvP0YEeOreSIACyaB8g.js"></script>-->
+        <script src="<?php echo $this->basePath(); ?>/plugins/jwplayer/jwplayer.js"></script>
+        <script type="text/javascript">jwplayer.key = "iwXHN/KSysGKkAB4c8f1+w4aEZNlBdA//hJCkQ==";</script>
+	<?php }?>
+
+    <!-- END THEME STYLES -->
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<div class="header navbar navbar-fixed-top">
+  <!-- BEGIN TOP NAVIGATION BAR -->
+  <div class="header-inner">
+    <!-- BEGIN LOGO -->
+    <a class="navbar-brand" href="<?php echo $this->basePath(); ?>/admin"><img style="width:31%;" src="https://s3-us-west-2.amazonaws.com/ovessence/img/logo.png" alt="logo" class="img-responsive"/></a>
+    <!-- END LOGO -->
+    <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+    <a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/menu-toggler.png" alt=""/> </a>
+    <!-- END RESPONSIVE MENU TOGGLER -->
+    <!-- BEGIN TOP NAVIGATION MENU -->
+    <ul class="nav navbar-nav pull-right">
+      <!-- BEGIN USER LOGIN DROPDOWN -->
+      <li class="dropdown user"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"> <!-- <img alt="" src="https://s3-us-west-2.amazonaws.com/ovessence/img/avatar1_small.jpg"/> ---><span class="username"> Admin </span> <i class="fa fa-angle-down"></i> </a>
+        <ul class="dropdown-menu">
+          <!-- <li> <a href="extra_profile.html"> <i class="fa fa-user"></i> My Profile </a> </li> --->
+          <li> <a href="<?php echo $this->basePath(); ?>/admin/logout"> <i class="fa fa-gear"></i> Log Out </a> </li>
+        </ul>
+      </li>
+      <!-- END USER LOGIN DROPDOWN -->
+    </ul>
+    <!-- END TOP NAVIGATION MENU -->
+  </div>
+  <!-- END TOP NAVIGATION BAR -->
+</div>
+<!-- END HEADER -->
+<div class="default-load"></div>
+<div class="clearfix"> </div>
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+  <!-- BEGIN SIDEBAR -->
+  <div class="page-sidebar-wrapper">
+    <div class="page-sidebar navbar-collapse collapse">
+      <!-- add "navbar-no-scroll" class to disable the scrolling of the sidebar menu -->
+      <!-- BEGIN SIDEBAR MENU -->
+      <ul class="page-sidebar-menu" data-auto-scroll="true" data-slide-speed="200">
+        <li class="sidebar-toggler-wrapper">
+          <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+          <div class="sidebar-toggler hidden-phone"> </div>
+          <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+        </li>
+        <li class="sidebar-search-wrapper">
+          <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+          <form class="sidebar-search" action="" method="POST">
+            <div class="form-container">
+              <!--<div class="input-box"> <a href="javascript:;" class="remove"> </a>
+                <input type="text" placeholder="Search..."/>
+                <input type="button" class="submit" value=" "/>
+              </div>-->
+            </div>
+          </form>
+          <!-- END RESPONSIVE QUICK SEARCH FORM -->
+        </li>
+        <?php  if ((isset($user_rights['Dashboard']['can_view'])) && $user_rights['Dashboard']['can_view'] == '1') { ?>
+        <li <?php if (isset($controller) && ($controller == "\Admin" || $controller == "")) { echo 'class="active"';}?>> <a href="<?php echo $this->basePath(); ?>/admin"> <i class="fa fa-home"></i> <span class="title"> Dashboard </span> <!-- <span class="arrow "> </span> ---> <span class="selected"> </span> </a> </li>
+        <?php  } ?>
+        <li <?php  if (isset($controller) && in_array($controller, array("\Countries", "\States", "\Activity", "\Media", "\SiteBanner", "\PractitionerOrganizations", "\Education", "\ServiceLanguage","\SiteModules","\SiteMeta","\SiteActions"))) { echo 'class="active"';}?>> 
+			<a href="javascript:;">
+				<i class="fa fa-gear"></i> 
+				<span class="title"> Resources </span> 
+				<span class="arrow"> </span> 
+			</a> 
+			<ul class="sub-menu">
+				<?php  if ((isset($user_rights['Countries']['can_view'])) && $user_rights['Countries']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\Countries") { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/countries/">
+						<i class="icon-double-angle-right"></i>
+						Manage Countries
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['States']['can_view'])) && $user_rights['States']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\States") { echo 'class="active"';}?> >
+					<a href="<?php echo $this->basePath()?>/admin/states/">
+						<i class="icon-double-angle-right"></i>
+						Manage States
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['Activity']['can_view'])) && $user_rights['Activity']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\Activity") { echo 'class="active"';}?> >
+					<a href="<?php echo $this->basePath()?>/admin/activity/">
+						<i class="icon-double-angle-right"></i>
+						Manage Activities
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['Media']['can_view'])) && $user_rights['Media']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\Media") { echo 'class="active"';}?> >
+					<a href="<?php echo $this->basePath()?>/admin/media/">
+						<i class="icon-double-angle-right"></i>
+						Manage Media
+					</a>
+				</li>
+				<?php } ?>
+                                <?php  if ((isset($user_rights['Banners']['can_view'])) && $user_rights['Banners']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\SiteBanner") { echo 'class="active"';}?> >
+					<a href="<?php echo $this->basePath()?>/admin/sitebanner/">
+						<i class="icon-double-angle-right"></i>
+						Manage Banners
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['SiteModules']['can_view'])) && $user_rights['SiteModules']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\SiteModules") { echo 'class="active"';}?> >
+					<a href="<?php echo $this->basePath()?>/admin/SiteModules/">
+						<i class="icon-double-angle-right"></i>
+						Manage Site Modules
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['PractitionerOrganizations']['can_view'])) && $user_rights['PractitionerOrganizations']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\PractitionerOrganizations")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/PractitionerOrganizations/">
+						<i class="icon-double-angle-right"></i>
+						Manage Practitioner's Organizations
+					</a>
+				</li>
+				<?php } ?> 
+				<?php  if ((isset($user_rights['Education']['can_view'])) && $user_rights['Education']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\Education")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/schools/">
+						<i class="icon-double-angle-right"></i>
+						Manage Schools
+					</a>
+				</li>
+				<?php } ?> 
+				<?php  if ((isset($user_rights['ServiceLanguages']['can_view'])) && $user_rights['ServiceLanguages']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\ServiceLanguage")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/servicelanguages/">
+						<i class="icon-double-angle-right"></i>
+						Manage Service Languages
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['SiteMeta']['can_view'])) && $user_rights['SiteMeta']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\SiteMeta")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/sitemeta/">
+						<i class="icon-double-angle-right"></i>
+						Manage Site Meta
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['SiteActions']['can_view'])) && $user_rights['SiteActions']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\SiteActions")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/siteactions/">
+						<i class="icon-double-angle-right"></i>
+						Manage Site Actions
+					</a>
+				</li>
+				<?php } ?>
+			</ul>
+		</li>
+		<li <?php if (isset($controller) && in_array($controller, array("\Advertisement", "\AdvertisementPlan"))) { echo 'class="active"';}?>> 
+			<a href="javascript:;"> 
+				<i class="fa fa-desktop"></i> 
+				<span class="title"> Advertisements </span> 
+				<span class="arrow "> </span> 
+			</a> 
+			<ul class="sub-menu">
+				
+				<?php  if ((isset($user_rights['Advertisement']['can_view'])) && $user_rights['Advertisement']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\Advertisement") { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/advertisement/">
+						<i class="icon-double-angle-right"></i>
+						Manage Advertisements
+					</a>
+				</li>
+				<?php }  ?>
+				
+				<?php  if ((isset($user_rights['AdvertisementPlan']['can_view'])) && $user_rights['AdvertisementPlan']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && ($controller == "\AdvertisementPlan" || $controller == "\AdvertisementPlan")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/advertisementplan/">
+						<i class="icon-double-angle-right"></i>
+						Manage Advertisement Plans
+					</a>
+				</li>
+				<?php } ?>
+			</ul>	
+		</li>
+		<li <?php if (isset($controller) && in_array($controller, array("\Revenue"))) { echo 'class="active"';}?>> 
+			<a href="javascript:;"> 
+				<i class="fa fa-money "></i> 
+				<span class="title"> Revenue Management </span> 
+				<span class="arrow "> </span> 
+			</a> 
+			<ul class="sub-menu">
+				<?php  if ((isset($user_rights['Revenue']['can_view'])) && $user_rights['Revenue']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\Revenue") { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/revenues/">
+						<i class="icon-double-angle-right"></i>
+						Payment History
+					</a>
+				</li>
+				<?php } ?>
+			</ul>	
+		</li>
+		<li <?php if (isset($controller) && in_array($controller, array("\Ratings", "\Feedback", "\RatingType"))) { echo 'class="active"';}?>> 
+			<a href="javascript:;"> 
+				<i class="fa fa-star"></i> 
+				<span class="title"> Ratings &amp; Feedbacks </span> 
+				<span class="arrow "> </span> 
+			</a> 
+			<ul class="sub-menu">
+				<?php  if ((isset($user_rights['RatingType']['can_view'])) && $user_rights['RatingType']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\RatingType") { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/ratingtypes/">
+						<i class="icon-double-angle-right"></i>
+						Manage Ratings Types
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['Ratings']['can_view'])) && $user_rights['Ratings']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\Ratings") { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/ratings/">
+						<i class="icon-double-angle-right"></i>
+						Manage Ratings
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['Feedback']['can_view'])) && $user_rights['Feedback']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\Feedback") { echo 'class="active"';}?> >
+					<a href="<?php echo $this->basePath()?>/admin/feedback/">
+						<i class="icon-double-angle-right"></i>
+						Manage Feedbacks
+					</a>
+				</li>
+				<?php } ?>
+			</ul>	
+		</li>
+		<li <?php if (isset($controller) && in_array($controller, array("\Booking", "\BannerBooking", "\BannerUpload"))) { echo 'class="active"';}?>> 
+			<a href="javascript:;"> 
+				<i class="fa fa-book"></i>  
+				<span class="title"> Bookings </span> 
+				<span class="arrow "> </span> 
+			</a> 
+			<ul class="sub-menu">
+				<?php  if ((isset($user_rights['Booking']['can_view'])) && $user_rights['Booking']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\Booking") { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/bookings/">
+						<i class="icon-double-angle-right"></i>
+						Service Bookings
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['BannerBooking']['can_view'])) && $user_rights['BannerBooking']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && ($controller == "\BannerBooking" || $controller == "\BannerUpload")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/bannerbookings/">
+						<i class="icon-double-angle-right"></i>
+						Banner Bookings
+					</a>
+				</li>
+				<?php } ?>
+			</ul>	
+		</li>
+		<li <?php if (isset($controller) && in_array($controller, array("\Subscription","\SubscriptionPlan","\SubscriptionDuration", "\SubscriptionFeatures"))) { echo 'class="active"';}?>> 
+			<a href="javascript:;"> 
+				<i class="fa fa-random"></i> 
+				<span class="title"> Subscriptions </span> 
+				<span class="arrow "> </span> 
+			</a> 
+			<ul class="sub-menu">
+                                <?php  if ((isset($user_rights['SubscriptionFeatures']['can_view'])) && $user_rights['SubscriptionFeatures']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\SubscriptionFeatures") { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/subscriptionfeatures/">
+						<i class="icon-double-angle-right"></i>
+						Subscription Features
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['SubscriptionPlan']['can_view'])) && $user_rights['SubscriptionPlan']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && ($controller == "\SubscriptionPlan" || $controller == "\SubscriptionDuration")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/subscriptionplans/">
+						<i class="icon-double-angle-right"></i>
+						Subscription Plans
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['Subscription']['can_view'])) && $user_rights['Subscription']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\Subscription") { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/subscriptions/">
+						<i class="icon-double-angle-right"></i>
+						Manage Subscriptions
+					</a>
+				</li>
+				<?php } ?>
+			</ul>	
+		</li>
+		<li <?php if (isset($controller) && in_array($controller, array("\ServiceCategory", "\Services"))) { echo 'class="active"';}?>> 
+			<a href="javascript:;"> 
+				<i class="fa fa-briefcase"></i> 
+				<span class="title"> Services </span> 
+				<span class="arrow "> </span> 
+			</a> 
+			<ul class="sub-menu">
+				<?php  if ((isset($user_rights['ServiceCategory']['can_view'])) && $user_rights['ServiceCategory']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\ServiceCategory") { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/servicecategory/">
+						<i class="icon-double-angle-right"></i>
+						Service Categories
+					</a>
+				</li>
+				<?php } ?>
+				<!--<li <?php if (isset($controller) && $controller == "\Services") { echo 'class="active"';}?> >
+					<a href="<?php echo $this->basePath()?>/admin/services/">
+						<i class="icon-double-angle-right"></i>
+						Manage Services
+					</a>
+				</li>-->
+			</ul>	
+		</li>
+		<li <?php if (isset($controller) && in_array($controller, array("\Newsletter","\NewsletterSubscriber"))) { echo 'class="active"';}?>> 
+			<a href="javascript:;"> 
+				<i class="fa fa-outdent"></i> 
+				<span class="title"> Newsletters </span> 
+				<span class="arrow "> </span> 
+			</a> 
+			<ul class="sub-menu">
+				<?php  if ((isset($user_rights['Newsletter']['can_view'])) && $user_rights['Newsletter']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\Newsletter") { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/newsletters/">
+						<i class="icon-double-angle-right"></i>
+						Manage Newsletters
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['NewsletterSubscriber']['can_view'])) && $user_rights['NewsletterSubscriber']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\NewsletterSubscriber") { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/newslettersubscribers/">
+						<i class="icon-double-angle-right"></i>
+						Newsletter Subscribers
+					</a>
+				</li>
+				<?php } ?>
+			</ul>	
+		</li>
+		<li <?php if (isset($controller) && in_array($controller,array("\Page","\Testimonials"))) { echo 'class="active"';}?>>
+			<a href="javascript:;"> 
+				<i class="fa fa-file-text"></i> 
+				<span class="title"> Website Content </span> 
+				<span class="arrow "> </span> 
+			</a> 
+			<ul class="sub-menu">
+				<?php  if ((isset($user_rights['Page']['can_view'])) && $user_rights['Page']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\Page") && (isset($action) && $action == "index")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/page/">
+						<i class="icon-double-angle-right"></i>
+						Manage Pages
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['Page']['can_add'])) && $user_rights['Page']['can_add'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\Page") && (isset($action) && $action == "add")) { echo 'class="active"';}?> >
+					<a href="<?php echo $this->basePath()?>/admin/page/add">
+						<i class="icon-double-angle-right"></i>
+						Add Page
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['Testimonials']['can_view'])) && $user_rights['Testimonials']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\Testimonials")) { echo 'class="active"';}?> >
+					<a href="<?php echo $this->basePath()?>/admin/testimonials/">
+						<i class="icon-double-angle-right"></i>
+						Manage Testimonials
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['Blog']['can_view'])) && $user_rights['Blog']['can_view'] == '1') { ?>
+				<li >
+					<a href="http://blog.<?php $path = explode('//', $this->basePath()); echo $path[1]; ?>/wp-admin/">
+						<i class="icon-double-angle-right"></i>
+						Manage Blog
+					</a>
+				</li>
+				<?php } ?>
+			</ul>
+		</li>
+        <li <?php if (isset($controller) && in_array($controller,array("\Users","\Usertype","\Consumers","\UserCertifications","\Partners","\ServiceProvider", "\ServiceProviderService", '\ServiceProviderCommision', '\UsersMedia', '\ServiceProviderMedia', '\ServiceProviderAvailability', '\Spfaq' ))) { echo 'class="active"';}?>> 
+			<a href="javascript:;"> 
+				<i class="fa fa-user"></i> 
+				<span class="title">User Management</span> 
+				<span class="arrow "></span> 
+			</a> 
+			<ul class="sub-menu">
+				<?php  if ((isset($user_rights['Usertype']['can_view'])) && $user_rights['Usertype']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\Usertype")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/usertype/">
+						<i class="icon-double-angle-right"></i>
+						Manage User Types
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['Users']['can_view'])) && $user_rights['Users']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && ($controller == "\Users" || $controller == "\UsersMedia"))) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/users/">
+						<i class="icon-double-angle-right"></i>
+						Manage Users
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['UserCertifications']['can_view'])) && $user_rights['UserCertifications']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\UserCertifications")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/UserCertifications/">
+						<i class="icon-double-angle-right"></i>
+						Manage User Certifications
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['Consumers']['can_view'])) && $user_rights['Consumers']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\Consumers")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/consumers/">
+						<i class="icon-double-angle-right"></i>
+						Manage Consumers
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['Partners']['can_view'])) && $user_rights['Partners']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\Partners")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/partners/">
+						<i class="icon-double-angle-right"></i>
+						Manage Partners
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['ServiceProvider']['can_view'])) && $user_rights['ServiceProvider']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && ($controller == "\ServiceProvider" || $controller == "\ServiceProviderService" || $controller == "\ServiceProviderCommision" || $controller == "\ServiceProviderMedia" || $controller == "\ServiceProviderAvailability")) { echo 'class="active"';}?> >
+					<a href="<?php echo $this->basePath()?>/admin/serviceproviders/">
+						<i class="icon-double-angle-right"></i>
+						Manage Service Providers
+					</a>
+				</li>
+				<?php } ?>
+				<?php  /*if ((isset($user_rights['Spfaq']['can_view'])) && $user_rights['Spfaq']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\Spfaq")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/spfaq/">
+						<i class="icon-double-angle-right"></i>
+						Manage Service Provider Faq
+					</a>
+				</li>
+				<?php }*/ ?>
+			</ul>
+		</li>
+		<li <?php if (isset($controller) && in_array($controller,array("\Emailtemplates","\Messages"))) { echo 'class="active"';}?>>
+			<a href="javascript:;"> 
+				<i class="fa fa-envelope"></i> 
+				<span class="title"> Communications </span> 
+				<span class="arrow "> </span> 
+			</a>  
+			<ul class="sub-menu">
+				<?php  if ((isset($user_rights['Messages']['can_view'])) && $user_rights['Messages']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\Messages") && (isset($action) && $action == "inbox")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/Messages/inbox">
+						<i class="icon-double-angle-right"></i>
+						Inbox 
+					</a>
+				</li>
+				<li <?php if ((isset($controller) && $controller == "\Messages") && (isset($action) && $action == "outbox")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/Messages/outbox">
+						<i class="icon-double-angle-right"></i>
+						Outbox 
+					</a>
+				</li>
+				<li <?php if ((isset($controller) && $controller == "\Messages") && (isset($action) && $action == "compose")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/Messages/compose">
+						<i class="icon-double-angle-right"></i>
+						Compose 
+					</a>
+				</li>
+				<li <?php if ((isset($controller) && $controller == "\Messages") && (isset($action) && $action == "trash")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/Messages/trash">
+						<i class="icon-double-angle-right"></i>
+						Trash 
+					</a>
+				</li>
+				<?php  } ?>
+				<?php  if ((isset($user_rights['Emailtemplates']['can_view'])) && $user_rights['Emailtemplates']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\Emailtemplates") && (isset($action) && $action == "index")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/Emailtemplates/">
+						<i class="icon-double-angle-right"></i>
+						Manage Email Templates
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['Sms']['can_view'])) && $user_rights['Sms']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\Sms") && (isset($action) && $action == "index")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/Sms/">
+						<i class="icon-double-angle-right"></i>
+						Manage Sms
+					</a>
+				</li>
+				<?php } ?>
+			</ul>
+		</li>
+                <li <?php if (isset($controller) && in_array($controller, array("\Faqs", "\FaqIndex"))) { echo 'class="active"';}?>> 
+			<a href="javascript:;"> 
+				<i class="fa fa-question"></i> 
+				<span class="title"> Faqs </span> 
+				<span class="arrow "> </span> 
+			</a> 
+			<ul class="sub-menu">
+				<?php  if ((isset($user_rights['FaqIndex']['can_view'])) && $user_rights['FaqIndex']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\FaqIndex") { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/faqindex/">
+						<i class="icon-double-angle-right"></i>
+						Manage Faq Index
+					</a>
+				</li>
+				<?php } ?>
+				<?php  if ((isset($user_rights['Faqs']['can_view'])) && $user_rights['Faqs']['can_view'] == '1') { ?>
+				<li <?php if (isset($controller) && $controller == "\Faqs") { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/faqs/">
+						<i class="icon-double-angle-right"></i>
+						Manage Faqs
+					</a>
+				</li>
+				<?php } ?>
+			</ul>	
+		</li>
+		<li <?php if (isset($controller) && in_array($controller,array("\NotificationSettings", "\SiteSettings"))) { echo 'class="active"';}?>>
+			<a href="javascript:;"> 
+				<i class="fa fa-gears"></i> 
+				<span class="title"> Settings </span> 
+				<span class="arrow "> </span> 
+			</a>  
+			<ul class="sub-menu">
+				<?php  if ((isset($user_rights['NotificationSettings']['can_view'])) && $user_rights['NotificationSettings']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\NotificationSettings")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/notificationsettings/">
+						<i class="icon-double-angle-right"></i>
+						Notification Settings 
+					</a>
+				</li>
+				<?php  } ?>
+				
+				<?php  if ((isset($user_rights['SiteSettings']['can_view'])) && $user_rights['SiteSettings']['can_view'] == '1') { ?>
+				<li <?php if ((isset($controller) && $controller == "\SiteSettings")) { echo 'class="active"';}?>>
+					<a href="<?php echo $this->basePath()?>/admin/sitesettings/">
+						<i class="icon-double-angle-right"></i>
+						Site Settings 
+					</a>
+				</li>
+				<?php  } ?>
+			</ul>
+		</li>
+      </ul>
+      <!-- END SIDEBAR MENU -->
+    </div>
+  </div>
+  <!-- END SIDEBAR -->
+  <!-- BEGIN CONTENT -->
+  <div class="page-content-wrapper">
+    <div class="page-content">
+      <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+      <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+              <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body"> Widget settings form goes here </div>
+            <div class="modal-footer">
+              <button type="button" class="btn blue">Save changes</button>
+              <button type="button" class="btn default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+      <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+      <!-- BEGIN PAGE HEADER-->
+      <div class="row">
+        <div class="col-md-12">
+          <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+			<?php if (isset($controller) && ($controller == "\Admin" || $controller == "")) { ?>
+				<h3 class="page-title"> Welcome <small>Admin</small> </h3>
+			<?php }?>
+          <?php echo $this->navigation('navigation')->breadcrumbs()->setMinDepth(0)->setPartial(array('partial/breadcrumb.phtml', 'Admin')); ?>
+          <!-- END PAGE TITLE & BREADCRUMB-->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+			<?php echo $this->content; ?>
+        </div>
+      </div>
+      <!-- END PAGE HEADER-->
+    </div>
+  </div>
+  <!-- END CONTENT -->
+</div>
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="footer">
+  <div class="footer-inner"> <?php echo date('Y'); ?> &copy; Ovessence. </div>
+  <div class="footer-tools"> <span class="go-top"> <i class="fa fa-angle-up"></i> </span> </div>
+</div>
+<!-- END FOOTER -->
+<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+<script src="<?php echo $this->basePath(); ?>/plugins/respond.min.js"></script>
+<script src="<?php echo $this->basePath(); ?>/plugins/excanvas.min.js"></script> 
+<![endif]-->
+<script src="<?php echo $this->basePath(); ?>/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="<?php echo $this->basePath(); ?>/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+<script src="<?php echo $this->basePath(); ?>/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+<script src="<?php echo $this->basePath(); ?>/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="<?php echo $this->basePath(); ?>/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+<script src="<?php echo $this->basePath(); ?>/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="<?php echo $this->basePath(); ?>/js/admin/common.js" type="text/javascript"></script>
+<script src="<?php echo $this->basePath(); ?>/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"  ></script>
+
+<!-- START CORE PLUGINS --->
+
+<!-- Datepicker code start here -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="<?php echo $this->basePath(); ?>/scripts/custom/components-pickers.js"></script>
+<!-- Datepicker code end here -->
+<script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/ckeditor/ckeditor.js"></script>
+<script src="<?php echo $this->basePath(); ?>/scripts/custom/components-editors.js"></script>
+
+<!-- Rating code start here -->
+<script src='<?php echo $this->basePath(); ?>/plugins/rating/jquery.rating.js' type="text/javascript" language="javascript"></script>
+<link href='<?php echo $this->basePath(); ?>/plugins/rating/jquery.rating.css' type="text/css" rel="stylesheet"/>
+<!-- Rating code end here -->
+
+<!-- Select sripts start here -->
+<script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/select2/select2.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/jquery-multi-select/js/jquery.multi-select.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/components-dropdowns.js"></script>
+<!-- Select sripts end here -->
+
+<!-- END CORE PLUGINS -->
+
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="<?php echo $this->basePath(); ?>/scripts/core/app.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
+<script>
+jQuery(document).ready(function() {    
+   App.init(); // initlayout and core plugins
+   ComponentsPickers.init();
+   ComponentsEditors.init();
+   ComponentsDropdowns.init();
+   /*Index.init();
+   Index.initJQVMAP(); // init index page's custom scripts
+   Index.initCalendar(); // init index page's custom scripts
+   Index.initCharts(); // init index page's custom scripts
+   Index.initChat();
+   Index.initMiniCharts();
+   Index.initDashboardDaterange();
+   Index.initIntro();
+   Tasks.initDashboardWidget();*/
+   $("#e9").select2();
+   $(".select2").select2();
+   
+});
+</script>
+<!-- Dashboard calender scripts starts -->
+<?php if (isset($controller) && ($controller == "\Admin" || $controller == "")) { ?>
+<!--<script src="<?php echo $this->basePath(); ?>/plugins/flot/jquery.flot.min.js"></script>
+<script src="<?php echo $this->basePath(); ?>/plugins/flot/jquery.flot.time.js"></script>-->
+<script src="<?php echo $this->basePath(); ?>/plugins/jqBarGraph.js"></script>
+<script src="<?php echo $this->basePath(); ?>/js/admin/graph.js"></script>
+<script src="<?php echo $this->basePath(); ?>/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+<script src="<?php echo $this->basePath(); ?>/js/admin/dashboardCalendar.js" type="text/javascript"></script>
+<script src="<?php echo $this->basePath(); ?>/js/admin/dashboard.js"></script>
+<?php }?>
+
+<?php if (isset($controller) && ($controller == "\Media" || $controller == "\ServiceProviderMedia")) { ?>
+<script src='<?php echo $this->basePath(); ?>/js/admin/media.js'></script>
+<script src="<?php echo $this->basePath(); ?>/plugins/videojs/video.js" type="text/javascript"></script>
+<script src="<?php echo $this->basePath(); ?>/plugins/videojs/videojs.zoomrotate.js" type="text/javascript"></script>
+<?php }?>
+<?php if (isset($controller) && ($controller == "\Booking")) { ?>
+<script src="<?php echo $this->basePath(); ?>/js/jquery.datetimepicker.js" type="text/javascript" ></script>
+<script src="<?php echo $this->basePath(); ?>/js/dateTimePicker.js" type="text/javascript"></script>
+<script src="<?php echo $this->basePath(); ?>/js/admin/booking.js" type="text/javascript"></script>
+<?php }?>
+<!-- Dashboard calender scripts ends -->
+
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

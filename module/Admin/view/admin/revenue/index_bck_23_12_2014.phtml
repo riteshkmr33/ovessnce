@@ -1,0 +1,136 @@
+<?php 
+$form->setAttribute('action', '');
+$form->setAttribute('method', 'post');
+$form->setAttribute('id', 'revenue_filter');
+$status = (isset($status) && count($status)>0)?$status->toArray():array();
+$invoiceStatusArray = array('0' => 'danger', '1' => 'success', '2' => 'warning');
+$statusArray = array('7' => 'success', '8' => 'warning');
+?>
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+	  <?php if (isset($successMsgs) && count($successMsgs)>0): ?>
+		<div class="note note-success">
+			<?php foreach ($successMsgs as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<?php if (isset($errors) && count($errors)>0): ?>
+		<div class="note note-danger">
+			<?php foreach ($errors as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<div class="note" id="error" style="display:none;"></div>
+    <div class="portlet grey box">
+      <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-money"></i>Payment Records List</div>
+        <div class="actions"> 
+			<!--<a class="btn default btn-sm" href="<?php echo $this->url('admin/revenues', array('action'=>'add'));?>"> <i class="fa fa-pencil"></i> Add New Banner Booking </a>--> 
+			<a class="btn default btn-sm" href="<?php echo (count($this->postedData) > 0)?$this->url('admin/revenues', array('action'=>'export')).'?'.http_build_query($this->postedData):$this->url('admin/revenues', array('action'=>'export'));?>"> <i class="fa fa-download"></i> Export </a> 
+		</div>
+        
+      </div>
+      <div class="portlet-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-striped" id="revenue_table" data-path='<?php echo $this->url('admin/revenues');?>'>
+            <thead>
+				<tr>
+					<th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'name') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='name'>Customer</th>
+					<th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'product') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='product'>Product</th>
+					<th>Order Amount</th>
+					<th>Amount Paid</th>
+					<th>Currency</th>
+					<th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'city') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='city'>City</th>
+					<th width="150" class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'country') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='country'>Country</th>
+					<th width="130" class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'state') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='state'>State</th>
+					<th width="135" >Subscription</th>
+					<th width="148" class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'date') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='date'>Order Date</th>
+					<th width="140" class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'status') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='status'>Payment Status</th>
+					<th>Action</th>
+				</tr>
+				<tr class="filter" role="row">
+					<?php  echo $this->form()->openTag($form); ?>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formInput($form->get('user_name')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formInput($form->get('product')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						&nbsp;
+					</td>
+					<td rowspan="1" colspan="1">
+						&nbsp;
+					</td>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formInput($form->get('city')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formSelect($form->get('country_id')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formSelect($form->get('state_id')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formSelect($form->get('subscription_id')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						<div class="input-group date date-picker margin-bottom-5" data-date-format="dd-mm-yyyy">
+							<?php  echo $this->formInput($form->get('from')); ?>
+							<span class="input-group-btn">
+								<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
+							</span>
+						</div>
+						<div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+							<?php  echo $this->formInput($form->get('to')); ?>
+							<span class="input-group-btn">
+								<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
+							</span>
+						</div>
+					</td>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formSelect($form->get('status_id')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						<button style="margin-bottom:4px;" class="btn btn-sm default filter-submit margin-bottom search" data-form="revenue_filter" data-tbl="revenue_table" data-path='<?php echo $this->url('admin/revenues');?>'><i class="fa fa-search"></i> Search</button>
+						<button class="btn btn-sm default filter-cancel" type="reset" onclick="$('input, select').val(''); $('.select2').select2('val', '');"><i class="fa fa-times"></i> Reset</button>
+					</td>
+					<?php  echo $this->form()->closeTag();?>
+				</tr>
+            </thead>
+            <tbody>
+              <?php if (isset($revenues) && count($revenues)>0) : ?>
+              <?php foreach ($revenues as $revenue) :?>
+              <tr>
+                <td><?php echo $this->escapeHtml($revenue->first_name." ".$revenue->last_name);?></td>
+                <td><?php echo $this->escapeHtml($revenue->sale_item_details);?></td>
+                <td><?php echo $this->escapeHtml($revenue->invoice_total);?></td>
+                <td><?php echo $this->escapeHtml($revenue->amount_paid);?></td>
+                <td><?php echo $this->escapeHtml($revenue->currency);?></td>
+                <td><?php echo $this->escapeHtml($revenue->city);?></td>
+                <td><?php echo $this->escapeHtml($revenue->country_name);?></td>
+                <td><?php echo $this->escapeHtml($revenue->state_name);?></td>
+                <td><?php echo $this->escapeHtml($revenue->subscription_name);?></td>
+                <td><?php echo $this->escapeHtml(date('d-m-Y H:i:s',strtotime($revenue->created_date)));?></td>
+                <td><span class="label label-sm label-<?php  echo (array_key_exists($revenue->invoice_status, $invoiceStatusArray))?$invoiceStatusArray[$revenue->invoice_status]:'default';?>" ><?php echo $this->escapeHtml($revenue->payment_status);?></span></td>
+                <td><?php if ($revenue->invoice_status != 1):?> 
+					<!--<a class="btn default btn-xs default" href="<?php echo $this->url('admin/revenues',array('action'=>'edit', 'id' => $revenue->id));?>"><i class="fa fa-edit"></i> Edit</a>-->
+					<a class="btn default btn-xs default" href="<?php echo $this->url('admin/revenues',array('action'=>'delete', 'id' => $revenue->id));?>"><i class="fa fa-trash-o" title="delete" ></i></a>
+					<?php endif;?>
+				</td>
+              </tr>
+              <?php endforeach; ?>
+              <?php endif; ?>
+            </tbody>
+          </table>
+          <?php 
+		echo $this->paginationControl(
+						$revenues,  // the paginator object
+						'sliding',   // the scrolling style; see http://zf2.readthedocs.org/en/release-2.1.4/modules/zend.paginator.usage.html#rendering-pages-with-view-scripts
+						array('partial/paginator.phtml', 'Admin'),  // the partial to use to render the control
+						array('route' => 'admin/revenues', 'routeParams' => $this->postedData)  // the route to link to when a user clicks a control link
+					);
+?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

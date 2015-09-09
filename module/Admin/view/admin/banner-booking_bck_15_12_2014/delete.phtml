@@ -1,0 +1,35 @@
+<?php
+
+$title = 'Delete Banner Booking'; 
+$this->headTitle($title);
+?>
+
+<div class="col-md-6">
+  <div class="portlet box grey">
+    <div class="portlet-title">
+      <div class="caption"> <i class="fa fa-book"></i>Delete </div>
+    </div>
+    <div class="portlet-body">
+      <div class="alert alert-block alert-danger fade in">
+        <!--<button data-dismiss="alert" class="close" type="button"></button>-->
+        <h4 class="alert-heading"><?php echo $this->escapeHtml($title); ?></h4>
+        <p>Are you sure that you want to delete this banner booking '<?php echo $this->escapeHtml($bannerbooking->sale_item_details); ?>'</p>
+        <p>&nbsp;</p>
+		<?php
+		$url = $this->url('admin/bannerbookings', array(
+			'action' => 'delete',
+			'id'     => $this->id,
+		));
+		?>
+        <form action="<?php echo $url; ?>" method="post">
+          <div>
+            <input type="hidden" name="id" value="<?php echo (int) $bannerbooking->id; ?>" />
+            <input type="submit" name="del" value="Yes" class="btn red" />
+            <input type="submit" name="del" value="No" class="btn blue" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

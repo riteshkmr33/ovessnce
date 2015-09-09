@@ -1,0 +1,24 @@
+<!-- CONTENT START HERE -->
+<div id="content" style="clear:both; float:left; padding-left:100px; width:100%;height:550px;position:relative;background-color:#ffffff;">
+				<div style="clear:both;height:200px;">&nbsp;</div>
+<?php if ($session->vimeo_state == 'start'): ?>
+        <p>Click the link to go to Vimeo to authorize your account.</p>
+        <p><a href="<?= $authorize_link ?>"><?php echo $authorize_link ?></a></p>
+    <?php endif ?>
+
+    <?php /*if ($ticket): ?>
+        <pre><?php print_r($ticket) ?></pre>
+    <?php endif */ ?>
+
+    <?php if (isset($videos)): ?>
+        <pre><?php //print_r($videos) ?></pre>
+		<div>
+                    <h2>Vimeo Player 1</h2>
+                    <iframe id="player_1" src="http://player.vimeo.com/video/<?php echo $videos->videos->video[0]->id?>?api=1&amp;player_id=player_1" width="540" height="304" frameborder="0"></iframe>
+                    
+			</div>
+		
+    <?php endif ?>
+</div>
+<script language="javascript" type="text/javascript" src="vimeo.js"></script>
+			<!-- CONTENT END HERE -->

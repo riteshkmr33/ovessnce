@@ -1,0 +1,82 @@
+<?php 
+
+$title = 'Edit Meta';
+$this->headTitle($title);
+
+$form = $this->form; 
+$form->setAttribute('action', $this->url(
+    'admin/sitemeta',
+    array(
+        'action' => 'edit',
+        'id'     => $this->id,
+    )
+));
+$form->prepare();
+?>
+<div class="portlet box grey">
+  <div class="portlet-title">
+    <div class="caption"> <i class="fa fa-reorder"></i> <?php echo $this->escapeHtml($title); ?> </div>
+    <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->basePath()?>/admin/sitemeta"> <i class="fa fa-pencil"></i>Meta List</a> <a class="btn default btn-sm" href="javascript: history.go(-1);"> <i class="fa fa-pencil"></i> Back</a> </div>
+  </div>
+  <div class="portlet-body form">
+	  <div class="form-body">
+	    <!--PAGE CONTENT BEGINS-->
+		<?php if (isset($errors) && count($errors)>0): ?>  
+		<div class="alert alert-danger"><button class="close" data-close="alert"></button>
+			<?php foreach ($errors as $field => $msg) {echo ucfirst(strtolower(strip_tags($this->formLabel($form->get($field)).' '.end($msg)))).'<br />';}?>
+		</div>
+		<?php endif;?>
+		
+		<?php echo $this->form()->openTag($form); echo $this->formHidden($form->get('id')); ?>
+		<div class="form-body">
+			<h3 class="form-section">Meta Info</h3>
+			<div class="row">
+				<?php $meta_title = $form->get('meta_title'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($meta_title) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($meta_title); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formInput($meta_title); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($meta_title); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<?php $meta_keyword = $form->get('meta_keyword'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($meta_keyword) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($meta_keyword); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formTextarea($meta_keyword); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($meta_keyword); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<?php $meta_description = $form->get('meta_description'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($meta_description) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($meta_description); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formTextarea($meta_description); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($meta_description); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+        </div>
+		<div class="form-actions fluid">
+			<div class="row">
+				<div class="col-md-offset-3 col-md-9">
+					<button type="submit" class="btn green">Submit</button>
+					<button type="reset" class="btn default">Reset</button>
+				</div>
+			</div>				
+		</div>
+		<?php  echo $this->form()->closeTag();?>
+		<!-- END FORM-->
+	  </div>
+	</div>
+</div>

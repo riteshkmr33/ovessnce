@@ -1,0 +1,650 @@
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main dashboard">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home'); ?>">Home</a>
+            </li>
+            <li>
+                Dashboard
+            </li>
+        </ul>
+        <h2>
+            Consumer Dashboard
+            <span>
+                <small>
+                </small>
+            </span>
+        </h2>
+
+        <!-- Consumer Section-->
+        <div class="practitioner-section">
+            <div class="practitioner-section">
+                <div class="success-msg" style="display: none;">
+                </div>
+                <div class="error-msg" style="display: none;">
+                </div>
+                <!-- start profile right panel here-->
+                <div class="profile-add-left">
+                    <div class="profile-wrapper">
+                        <img src="<?php echo (isset($consumer['avtar_url']) && $consumer['avtar_url'] != '') ? $consumer['avtar_url'] : $this->basePath() . '/img/profile-pic.jpg'; ?>" alt="" />
+                        <input style="left: 2px; <?php echo (isset($consumer['avtar_url']) && $consumer['avtar_url'] != '') ? '' : 'opacity:0;'; ?>" id="delete_avtar" class="black" type="button" value="Delete Picture">
+                        <input class="black" type="submit" value="Edit picture">
+                    </div>
+                    <div class="upload-file" style="display: none;">
+                        <form name="avatarForm" id="avatarForm" method="post" action="<?php echo $this->url('consumer', array('action' => 'update')); ?>">
+                            <input type="hidden" name="action" value="consumer-avatar" />
+                            <input type="file" name="consumer-avatar" id="consumer-avatar" required="required" data-fieldname="File"/>
+                            <div>Image size should be less than 2MB</div>
+                            <input type="submit" class="black fileSubmit" value="Submit" />
+                            <span class="hide">X</span>
+                        </form>
+                    </div>
+                    <div class="consumer-chat">
+                        <a href="javascript:;"></a>
+
+                    </div>
+                    <div class="dashboard-nav">
+                        <ul>
+                            <li>
+                                <a href="javascript:;">Messages</a><span><?php echo isset($notifications['inbox']) ? $notifications['inbox'] : ''; ?></span>
+                                <ul class="dashboard-submenu">
+                                    <li><a href="<?php echo $this->basePath(); ?>/consumer/compose">Compose</a></li>
+                                    <li><a href="<?php echo $this->basePath(); ?>/consumer/inbox">Inbox  ( <?php echo isset($notifications['inbox']) ? $notifications['inbox'] : ''; ?> )</a></li>
+                                    <li><a href="<?php echo $this->basePath(); ?>/consumer/sent">Sent</a></li>
+                                    <li><a href="<?php echo $this->basePath(); ?>/consumer/trash">Trash</a></li>
+                                </ul>
+                            </li>
+                            <li><a id="total_notification" href="javascript:;">Notification</a><?php echo (isset($notifications['total']) && $notifications['total'] > 0) ? '<span>' . $notifications['total'] . '</span>' : ''; ?>
+                                <ul class="dashboard-submenu">
+                                    <li id='booking_notification'><?php echo (isset($notifications['booking']) && $notifications['booking'] > 0) ? '<a href="javascript:;" onclick="$(\'li#booking\').trigger(\'click\')">' . $notifications['booking'] . ' New Bookings</a>' : '<a href="javascript:;">No New Bookings</a>'; ?></li>
+                                    <!--<li><?php echo (isset($notifications['review']) && $notifications['review'] > 0) ? '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '?tab=review" ">' . $notifications['review'] . ' New Review</a>' : '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '?tab=review">No New Review</a>'; ?></li>
+                                    <li><?php echo (isset($notifications['invites']) && $notifications['invites'] > 0) ? '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '">' . $notifications['invites'] . ' Invite</a>' : '<a href="' . $this->url('consumer', array('action' => 'dashboard')) . '">No Invites</a>'; ?></li>-->
+                                </ul>
+                            </li>
+                            <li><a href="<?php echo $this->basePath(); ?>/consumer/settings">Setting</a></li>
+                        </ul>
+                    </div>
+                    <div class="add-image">
+                        <!-- start Basic Jquery Slider -->
+                        <ul class="bjqs">
+                            <?php if (isset($advertisement) && is_array($advertisement)) {
+                                foreach ($advertisement as $ad) {?>
+                                    <li><a href="<?php echo isset($ad['url'])?$ad['url']:'';?>" target="_blank"><img src="<?php echo isset($ad['image'])?$ad['image']:'';?>"></a></li>
+                            <?php }}?>
+                        
+                        </ul>
+                        <!-- end Basic jQuery Slider -->
+                    </div>
+                </div>
+                <!-- end profile left panel here-->
+                <div class="profile-add-right">
+                    <div class="book-block">
+                        <div class="rating-top">
+                            <div class="head">
+                                <form class="consumerName">
+                                    <h3><?php echo (isset($consumer['first_name']) && isset($consumer['last_name'])) ? stripslashes($consumer['first_name'] . ' ' . $consumer['last_name']) : ''; ?></h3>
+                                   <?php if ($verifystatus==1) { ?> 
+                                        <a href="<?php echo $this->basePath() ?>/verification" class="btn-rating" > Get your ID verified</a> 
+                                    <?php } else{ ?> 
+                                      <span class="verify"><img src="/img/verifed-40.png" alt="" /> </span> 
+                                    <?php }?>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-block-user">
+                        <div class="top-black-box">
+                            <a class="btn-home" href="javascript:;"></a>
+                            <span class="login-display">Last Login : <?php echo (isset($last_login) && $last_login != '') ? date('M d Y', strtotime($last_login)) : 'Not Available'; ?></span>
+                        </div>
+                        <div class="user-search-form">
+                            <?php
+                            $search_form->setAttribute('action', $this->url('practitioner', array('action' => 'list')));
+                            $search_form->prepare();
+                            echo $this->form()->openTag($search_form);
+                            ?>
+                            <div class="input-wrapper">
+                                <?php
+                                $name = $search_form->get('idorname');
+                                echo $this->formInput($name);
+                                ?>
+                                <?php
+                                $treatment = $search_form->get('treatment');
+                                echo $this->formSelect($treatment);
+                                ?>
+                                <?php
+                                $location = $search_form->get('location');
+                                echo $this->formInput($location);
+                                ?>
+                                <?php
+                                $when = $search_form->get('datetime');
+                                echo $this->formInput($when);
+                                ?>
+
+                            </div>
+                            <div class="btn-wrapper">
+
+                                <input type="submit" class="black" value="Search a Practioner" name="set_filter">
+                            </div>
+                            <?php echo $this->form()->closeTag(); ?>
+                        </div>
+                    </div>
+                    <input type="hidden" id="total_bookings" value="<?php echo isset($booking_count) ? $booking_count : 0; ?>" />
+                    <input type="hidden" id="total_wishlists" value="<?php echo isset($wishlist_count) ? $wishlist_count : 0; ?>" />
+                    <input type="hidden" id="total_contact_list" value="<?php echo isset($contact_list_count) ? $contact_list_count : 0; ?>" />
+                    <!-- Tab block start -->
+
+                    <div class="tab-block">
+                        <ul class="tab-menu">
+                            <li id="about-me" class="active arow">About me</li>
+                            <li id="booking">Booking</li>
+                            <li id="wishlist">Wishlist</li>
+                            <li id="invitation">Invitation</li>
+                            <li id="calendar">Calendar</li>
+                            <!--<li id="contactlist">Contact list</li>-->
+                        </ul>
+                        <div class="tab-content">
+                            <!-- about me tab - starts -->
+                            <div class="about-me" style="display:block;">
+                                
+                                <div class="aboutme-edit-wrapper">
+                                    <div class="textWithBorder">
+                                        For Canadian practitioners only, please enter a space between the 3 first digits and the 3 last digits of your zip code ex : ( ''J3Y 0B7'')
+                                    </div>
+                                    <div class="edit-head">
+                                        <h3>INFORMATION </h3>
+                                        <span class="comm-edit-button profile-edit profile-data-edit">Edit</span>
+                                        <span class="comm-edit-button profile-edit profile-data-save" data-action="save" style="display: none;">Save</span>
+                                    </div>
+                                    <div class="aboutme-text" id="profile_text">
+                                        <div class="row">
+                                            <div class="about-label">First Name</div>
+                                            <div class="about-data" id="first_name"><?php echo (isset($consumer['first_name']) && $consumer['first_name'] != '') ? $consumer['first_name'] : 'Not Available'; ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">Last Name</div>
+                                            <div class="about-data" id="last_name"><?php echo (isset($consumer['last_name']) && $consumer['last_name'] != '') ? $consumer['last_name'] : 'Not Available'; ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">User Name</div>
+                                            <div class="about-data" id="user_name"><?php echo (isset($consumer['user_name']) && $consumer['user_name'] != '') ? $consumer['user_name'] : 'Not Available'; ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">Age</div>
+                                            <div class="about-data" id="age"><?php echo (isset($consumer['age']) && $consumer['age'] != '') ? $consumer['age'] : 'Not Available'; ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">Gender</div>
+                                            <div class="about-data" id="gender"><?php echo (isset($consumer['gender']) && $consumer['gender'] != '' && $consumer['gender'] == 'M') ? 'Male' : ((isset($consumer['gender']) && $consumer['gender'] != '' && $consumer['gender'] == 'F') ? 'FEMALE' : ''); ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">Language Spoken</div>
+                                            <div class="about-data" id="language"><?php echo (isset($consumer['language']) && $consumer['language'] != '') ? $consumer['language'] : 'Not Available' ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="aboutme-form" id="profile_form" style="display: none;">
+                                        <form id="profile_form" class="profileForm" name="profile_form" method="post" action="">
+                                            <input type="hidden" name="user_id" id="user_id" value="<?php echo (isset($consumer['id']) && $consumer['id'] != '') ? $consumer['id'] : ''; ?>" />
+                                            <div class="row">
+                                                <div class="about-label">First Name</div>
+                                                <div class="about-data"><input type="text" name="first_name" class="profileData" id="first_name" placeholder="First Name" value="<?php echo (isset($consumer['first_name']) && $consumer['first_name'] != '') ? $consumer['first_name'] : ''; ?>" required="true"/></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="about-label">Last Name</div>
+                                                <div class="about-data"><input type="text" name="last_name" class="profileData" id="last_name" placeholder="Last Name" value="<?php echo (isset($consumer['last_name']) && $consumer['last_name'] != '') ? $consumer['last_name'] : ''; ?>" required="true"/></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="about-label">User Name</div>
+                                                <div class="about-data"><input type="text" name="user_name" class="profileData" id="user_name" placeholder="User Name" value="<?php echo (isset($consumer['user_name']) && $consumer['user_name'] != '') ? $consumer['user_name'] : ''; ?>" disabled/> </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="about-label">Age</div>
+                                                <div class="about-data"><input type="text" name="age" class="profileData" id="age" placeholder="Age" value="<?php echo (isset($consumer['age']) && $consumer['age'] != '') ? $consumer['age'] : ''; ?>" required="true"/> </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="about-label">Gender</div>
+                                                <div class="about-data">
+                                                    <input type="radio" name="gender" class="profileData" id="gender" value='M' <?php if ($consumer['gender'] == "M") { ?> checked="checked" <?php } ?>><label>Male</label> 
+                                                    <input type="radio" name="gender" class="profileData" id="gender" value='F' <?php if ($consumer['gender'] == "F") { ?> checked="checked" <?php } ?>><label>Female</label>  
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="about-label">Language Spoken</div>
+                                                <div class="about-data">
+                                                    <select name="language[]" multiple="multiple" class="profileData" id="language" required="true">
+                                                        <?php if (isset($languages) && count($languages) > 0) { ?>
+                                                            <?php $lang = explode(',', $consumer['language']); ?>
+                                                            <?php foreach ($languages as $key => $value) { ?>
+                                                                <option value='<?php echo $key; ?>'<?php if (in_array($value, $lang)) { ?>selected="selected"<?php } ?>><?php echo $value; ?></option>
+                                                            <?php } ?>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="aboutme-edit-wrapper">
+                                    <div class="edit-head">
+                                        <h3>ADDRESS</h3>
+                                        <span class="comm-edit-button address-edit address-data-edit">Edit</span>
+                                        <span class="comm-edit-button address-edit address-data-save" data-action="save" style="display: none;">Save</span>
+                                    </div>
+                                    <div class="aboutme-text" id="address_text">
+                                        <div class="row">
+                                            <div class="about-label">STREET </div>
+                                            <div class="about-data" id="street1_address"><?php echo (isset($consumer['address']['street1_address']) && $consumer['address']['street1_address'] != '') ? $consumer['address']['street1_address'] : 'Not Available'; ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">CITY </div>
+                                            <div class="about-data" id="city"><?php echo (isset($consumer['address']['city']) && $consumer['address']['city'] ? $consumer['address']['city'] : 'Not Available'); ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">COUNTRY</div>
+                                            <div class="about-data" id="country_id"><?php echo (isset($consumer['address']['country_name']) && $consumer['address']['country_name'] ? $consumer['address']['country_name'] : 'Not Available'); ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">STATE </div>
+                                            <div class="about-data" id="state_id"><?php echo (isset($consumer['address']['state_name']) && $consumer['address']['state_name'] ? $consumer['address']['state_name'] : 'Not Available'); ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">ZIP </div>
+                                            <div class="about-data" id="zip_code"><?php echo (isset($consumer['address']['zip_code']) && $consumer['address']['zip_code'] ? $consumer['address']['zip_code'] : 'Not Available'); ?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="aboutme-form address_form" style="display:none;">
+                                    <form class="address_form" name="address_form" method="post" action="">
+                                        <input type="hidden" name="address_id" id="address_id" value="<?php echo (isset($consumer['address']['id']) && $consumer['address']['id'] != '') ? $consumer['address']['id'] : ''; ?>" />
+                                        <div class="row">
+                                            <div class="about-label">STREET </div>
+                                            <div class="about-data"><input type="text" name="street1_address" class="addressData" id="street1_address" placeholder="Street address" value="<?php echo (isset($consumer['address']['street1_address']) && $consumer['address']['street1_address'] != '') ? $consumer['address']['street1_address'] : ''; ?>" /></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">CITY</div>
+                                            <div class="about-data"><input type="text" name="city" class="addressData" id="city" placeholder="City" value="<?php echo (isset($consumer['address']['city']) && $consumer['address']['city'] ? $consumer['address']['city'] : ''); ?>" /></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">ZIP</div>
+                                            <div class="about-data"><input type="text" name="zip_code" class="addressData address-autofill" id="zip_code" placeholder="Zip Code" value="<?php echo (isset($consumer['address']['zip_code']) && $consumer['address']['zip_code'] ? $consumer['address']['zip_code'] : ''); ?>" /></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">COUNTRY</div>
+                                            <div class="about-data">
+                                                <select name="country_id" class="addressData" id="country_id" onchange="getStates(this.value, 'select#state_id');">
+                                                    <option value="">Select Country</option>
+                                                    <?php if (isset($countries) && count($countries) > 0) { ?>
+                                                        <?php foreach ($countries as $key => $value) { ?>
+                                                            <option value='<?php echo $key; ?>' <?php if ($consumer['address']['country_id'] == $key) { ?>selected="selected"<?php } ?>><?php echo $value; ?></option>
+                                                        <?php } ?>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">STATE</div>
+                                            <div class="about-data">
+                                                <select name="state_id" class="addressData" id="state_id">
+                                                    <option value=''>Select State</option>
+                                                    <?php if (isset($states) && count($states) > 0) { ?>
+                                                        <?php foreach ($states as $state) { ?>
+                                                            <option value='<?php echo $state['id']; ?>' <?php if ($consumer['address']['state_id'] == $state['id']) { ?>selected="selected"<?php } ?>><?php echo $state['value']; ?></option>
+                                                        <?php } ?>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                    </form>
+                                </div>
+                                <div class="aboutme-edit-wrapper">
+                                    <div class="edit-head">
+                                        <h3>CONTACT</h3>
+                                        <span class="comm-edit-button contact-edit contact-data-edit">Edit</span>
+                                        <span class="comm-edit-button contact-edit contact-data-save" data-action="save" style="display: none;">Save</span>
+                                    </div>
+                                    <div class="aboutme-text" id="contact_text">
+                                        <div class="row">
+                                            <div class="about-label">HOME</div>
+                                            <div class="about-data" id="home_phone"><?php echo (isset($consumer['contact']['home_phone']) && $consumer['contact']['home_phone'] != '') ? $consumer['contact']['home_phone'] : 'Not Available'; ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">WORK </div>
+                                            <div class="about-data" id="work_phone"><?php echo (isset($consumer['contact']['work_phone']) && $consumer['contact']['work_phone'] != '') ? $consumer['contact']['work_phone'] : 'Not Available'; ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">CELL</div>
+                                            <div class="about-data" id="cell_phone"><?php echo (isset($consumer['contact']['cell_phone']) && $consumer['contact']['cell_phone'] != '') ? $consumer['contact']['cell_phone'] : 'Not Available'; ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">FAX</div>
+                                            <div class="about-data" id="fax"><?php echo ($consumer['contact']['fax'] != "" && $consumer['contact']['fax'] != 'None') ? $consumer['contact']['fax'] : 'Not Available'; ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="about-label">E-MAIL</div>
+                                            <div class="about-data" id="fax"><?php echo ($consumer['email'] != "" && $consumer['email'] != 'None') ? $consumer['email'] : 'Not Available'; ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="aboutme-form" id="contact_form" style="display:none;">
+                                        <form id="contact_form" name="contact_form" method="post" action="">
+                                            <input type="hidden" name="contact_id" id="contact_id" value="<?php echo (isset($consumer['contact']['id']) && $consumer['contact']['id'] != '') ? $consumer['contact']['id'] : ''; ?>" />
+                                            <div class="row">
+                                                <div class="about-label">HOME </div>
+                                                <div class="about-data"><input type="text" name="home_phone" class="contactForm" id="home_phone" value="<?php echo (isset($consumer['contact']['home_phone']) && $consumer['contact']['home_phone'] != '') ? $consumer['contact']['home_phone'] : ''; ?>" required="required"/></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="about-label">WORK </div>
+                                                <div class="about-data"><input type="text" name="work_phone" class="contactForm" id="work_phone" value="<?php echo (isset($consumer['contact']['work_phone']) && $consumer['contact']['work_phone'] != '') ? $consumer['contact']['work_phone'] : ''; ?>" /></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="about-label">CELL </div>
+                                                <div class="about-data"><input type="text" name="cell_phone" class="contactForm" id="cell_phone" value="<?php echo (isset($consumer['contact']['cell_phone']) && $consumer['contact']['cell_phone'] != '') ? $consumer['contact']['cell_phone'] : ''; ?>" /></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="about-label">FAX </div>
+                                                <div class="about-data"><input type="text" name="fax" class="contactForm" id="fax" placeholder="Fax No." value="<?php echo ($consumer['contact']['fax'] != "" && $consumer['contact']['fax'] != 'None') ? $consumer['contact']['fax'] : ''; ?>" /></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- / about me tab - ends -->
+
+                            <!-- booking tab - starts -->
+                            <div class="booking" <?php echo ($_GET['tab'] == "booking") ? 'style="display:block;"' : ''; ?>>
+                                <div class="textWithBorder">
+                                    Please note that you can always reschedule your booking up to 48 hours prior to your appointment. If ever you can't attend up to 48 hours prior to your appointment, please select a new date and time . Your original deposit will still be valid for rescheduling.
+                                </div>
+                                <div class="services-data">
+                                    <table id="bookingTable">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Practitioner</th>
+                                                <th>Date & Time of Appointment</th>
+                                                <th>Services</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Booking data should come here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="pagination-list" id="booking-pagination">
+                                        <ul>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /booking tab - ends -->
+                            <!-- wishlist tab - starts -->
+                            <div class="wishlist" <?php echo ($_GET['tab'] == "wishlist") ? 'style="display:block;"' : ''; ?>>
+                                <div class="services-data">
+                                    <div class="select-form">
+                                        <form>
+                                            <label for="select-all">
+                                                <input type="checkbox"  id="checkAllWishlist" value=""><span></span> Empty Wishlist
+                                            </label>
+                                            <input type="submit" id="deleteWishlist" value="">
+                                        </form>
+                                    </div>
+                                    <table id="wishlistTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Service</th>
+                                                <th>Duration</th>
+                                                <th>Price</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Wishlist Content Display -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="pagination-list" id="wishlist-pagination">
+                                        <ul>
+                                            <!-- Wishlists Pagination -->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- wishlist tab - ends -->
+                            <!-- Invitation tab - starts -->
+                            <div class="invitation">
+                                <div class="refer-section">
+                                    <h3> Invite </h3>
+                                    <div class="setting-section">
+                                        <form>
+                                            <div class="password">
+                                                <div class="row">
+                                                    <label>Friend Email :</label>
+                                                    <input type="text" id="inviteEmail" placeholder="Email" >
+                                                    <input type="submit" id="sendInvitation" value="Invite" class="black">
+                                                </div> 
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div> 
+                                <div class="refer-section">
+                                    <h3> Refer a service provider </h3>
+                                    <div class="setting-section">
+                                        <form>
+                                            <div class="password">
+                                                <div class="row">
+                                                    <label>Select Practitioner:</label>
+                                                    <input id="getPractitioners" type="text" class="required" value="" >
+                                                    <input type="hidden" name="referSp_id" id="referSp_id" value="" >
+                                                    <!--<select name="referSp_id" id="referSp_id" >
+                                                        <option value=''> -- select practitioner -- </option>
+                                                        <?php
+                                                        if (count($practitioners_list) > 0) {
+                                                            foreach ($practitioners_list as $list) {
+                                                                ?>
+                                                                <option value="<?php echo isset($list['id']) ? $list['id'] : ''; ?>">
+                                                                    <?php echo isset($list['name']) ? $list['name'] : ''; ?>
+                                                                </option>
+                                                                <?php
+                                                            }
+                                                        } else {
+                                                            echo "<option value=''> No data </option>";
+                                                        }
+                                                        ?>
+                                                    </select>-->                                               
+                                                </div>
+                                                <div class="row">
+                                                    <label>Friend Email :</label>
+                                                    <input type="text" id="referEmail" placeholder="Email" >
+                                                </div> 
+                                                <div class="row text-center">
+                                                    <input type="submit" id="refersp" value="Refer" class="black">
+                                                </div> 
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Invitation tab - ends -->
+
+                            <!-- calendar tab - starts --->
+                            <div class="calendar">
+                                <p>calendar</p>
+                                <div class="calendar-section" >
+                                    <div id="bookings_calendar"></div>
+                                    <div class="confirm">
+                                        <div class="row"><span class="confirm"></span>Confirmed </div>
+                                        <div class="row"><span class="pending"></span>Pending approval  </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /calendar tab - ends -->
+                            <!-- contact list - starts -->
+                            <?php /*?><div class="contactlist" >
+                                <div class="services-data">
+                                    <div class="select-form">
+
+                                    </div>
+                                    <table id="contactTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Speciality</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Contact Content Display -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="pagination-list" id="contact-pagination">
+                                        <ul>
+                                            <!-- contact Pagination -->
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div><?php */?>
+                            <!-- contact list - ends -->
+
+                            <!-- /contact list tab - ends -->
+                        </div>
+                        <input type="hidden" name="consumer_id" id="consumer_id" value="<?php echo isset($consumer['id']) ? $consumer['id'] : ''; ?>">
+                    </div>
+
+                    <!-- Tab block end -->
+
+                </div>
+                <!-- start profile right panel here-->
+
+            </div>
+            <!-- /Contact Section-->
+        </div>
+    </div>
+    <!-- CONTENT END HERE -->
+
+<!-- Booking details popup-->
+<div class="booking-details" id="booking-overlay" style="display:none;">
+    <div class="business-wrapper">
+        <div class="rating-head">
+            <h3>Booking Details</h3>
+            <span class="remove" onclick='$("div#booking-overlay").fadeOut("slow")'>x</span>
+        </div>
+        <div class='bc-msg'></div>
+        <form id="mannualBooking">
+        <div id= "bcard-container" >
+            <div class="booking-detail">
+                <div class="row">
+                    <div class="label">
+                        Practitioner Name
+                    </div>
+                    <div class="input">
+                        <input type="text" name="username" id="username">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="label">
+                        Type of Service
+                    </div>
+                    <div class="input">
+                        <select name="service_id" id="service_id" onchange="getServiceduration($('#sp_id').data('spid'), this.value)">
+                            <option value="">-Select Service-</option>
+                            <?php if (isset($service_list) && is_array($service_list) && count($service_list) > 0) {?>
+                                <?php foreach ($service_list as $service) { ?>
+                                    <option value="<?php echo isset($service['id'])?$service['id']:'';?>"><?php echo isset($service['category_name'])?$service['category_name']:'';?></option>
+                                <?php }?>
+                            <?php }?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="label">
+                        Service Duration
+                    </div>
+                    <div class="input">
+                        <select name="service_provider_service_id" id="duration_list" onchange="getEndTime(this, $('input#booking_time').val(), $('#end_time'))">
+                            <option value="">-Select Duration-</option>
+                            <?php if (isset($service_list) && is_array($service_list) && count($service_list) > 0) {?>
+                                <?php foreach ($service_list as $service) {?>
+                                    <option value="<?php echo isset($service['id'])?$service['id']:'';?>"><?php echo isset($service['category_name'])?$service['category_name']:'';?></option>
+                                <?php }?>
+                            <?php }?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="label">
+                        Start Time
+                    </div>
+                    <div class="input">
+                        <input type="text" name="booking_time" id="booking_time">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="label">
+                        Duration
+                    </div>
+                    <div class="input">
+                        <input type="text" name="duration" id="duration">
+                    </div>
+                </div>
+                <!--<div class="row">
+                    <div class="label">
+                        End Time
+                    </div>
+                    <div class="input">
+                        <input type="text" name="end_time" id="end_time">
+                    </div>
+                </div>-->
+                <div class="row">
+                    <div class="label">
+                        Location
+                    </div>
+                    <div class="input">
+                        <select name="service_address_id" id="service_address_id">
+                            <?php if (isset($addresses) && is_array($addresses) && count($addresses) > 0) {?>
+                                <?php foreach ($addresses as $address) {?>
+                                    <option value="<?php echo isset($address['id'])?$address['id']:'';?>"><?php echo  ucwords($address['street1_address'] . ', ' . $address['city'] . ', ' . $address['state_name'] . ' ' . $address['zip_code'] . ', ' . $address['country_name']);?></option>
+                                <?php }?>
+                            <?php }?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="label">
+                        Status
+                    </div>
+                    <div class="input">
+                        <select name="booking_status" id="booking_status">
+                            <option value="5">Pending Approval</option>
+                            <option value="4">Confirmed</option>
+                            <option value="6">Canceled</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row btn">
+                    <div class="label">
+                        &nbsp;
+                    </div>
+                    <div class="input">
+                        <input type="submit" name="submit" id="submit" value="Save" >
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<!-- Booking details popup end here -->

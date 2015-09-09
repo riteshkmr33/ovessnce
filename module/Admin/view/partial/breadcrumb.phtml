@@ -1,0 +1,21 @@
+<ul class="page-breadcrumb breadcrumb">
+	<i class="fa fa-home"></i>
+    <?php
+    // iterate through the pages
+    foreach ($this->pages as $key => $page):
+        ?>
+        <li>
+            <?php
+            // if this isn't the last page, add a link and the separator
+            if ($key < count($this->pages) - 1):
+                ?>
+                <a href="<?php echo ($key == 0)?"/admin":$page->getHref(); ?>"><?php echo $page->getLabel(); ?></a>
+                <i class="fa fa-angle-right"></i>
+            <?php // otherwise, just output the name
+            else:
+            ?>
+                <?php echo $page->getLabel(); ?>
+            <?php endif; ?>
+        </li>
+        <?php endforeach; ?>
+</ul>

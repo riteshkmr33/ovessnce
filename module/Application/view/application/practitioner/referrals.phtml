@@ -1,0 +1,229 @@
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main dashboard">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home'); ?>">Home</a>
+            </li>
+            <li>
+                <a href="<?php echo $this->url('practitioner', array('action' => 'dashboard')); ?>">Dashboard</a>
+            </li>
+            <li>
+                Referrals
+            </li>
+        </ul>
+        <h2>
+            Dashboard
+            <span>
+                <small>
+                    <!--Lorem ispum sit-->
+                </small>
+            </span>
+        </h2>
+
+        <!-- Practitioner Section-->
+        <div class="practitioner-section">
+            <div class="success-msg" style="display: none;">
+            </div>
+            <div class="error-msg" style="display: none;">
+            </div>
+            <!-- start profile right panel here-->
+            <div class="profile-add-left">
+                <div class="profile-wrapper"> 
+                    <img src="<?php echo!empty($content['avtar_url']) ? $content['avtar_url'] : '/img/profile-pic.jpg'; ?>" alt="" />
+                    <div class="social-icon">
+                        <ul>
+                            <!--<li><a class="facebook" href="javascript:;">Facebook</a></li>
+                            <li><a class="twitter" href="javascript:;">twitter</a></li>
+                            <li><a class="google" href="javascript:;">google</a></li>
+                            <li><a class="linkdin" href="javascript:;">linkdin</a></li>-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="dashboard-nav">
+                    <ul>
+                        <?php if (isset($features) && is_array($features) && in_array(5, $features)) {?>
+                        <li>
+                            <a href="javascript:;">Messages</a><?php echo (isset($notifications['inbox']) && $notifications['inbox'] > 0) ? '<span>' . $notifications['inbox'] . '</span>' : ''; ?>
+                            <ul class="dashboard-submenu">
+                                <li><a href="<?php echo $this->basePath(); ?>/practitioner/compose">Compose</a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/practitioner/inbox">Inbox  <?php echo (isset($notifications['inbox']) && $notifications['inbox'] > 0) ? '( ' . $notifications['inbox'] . ' )' : ''; ?></a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/practitioner/sent/">Sent</a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/practitioner/trash">Trash</a></li>
+                            </ul>
+                        </li>
+                        <?php }?>
+                        <li><a href="javascript:;" <?php echo ($_GET['tab'] != "") ? 'class="active"' : ''; ?> id="total_notification" >Notifications</a><?php echo (isset($notifications['total']) && $notifications['total'] > 0) ? '<span>' . $notifications['total'] . '</span>' : ''; ?>
+                            <ul class="dashboard-submenu" <?php echo ($_GET['tab'] != "") ? 'style="display: block;"' : ''; ?>>
+                                <li id='booking_notification'><?php echo (isset($notifications['booking']) && $notifications['booking'] > 0) ? '<a href="' . $this->url('practitioner', array('action' => 'dashboard')) . '?tab=booking" >' . $notifications['booking'] . ' New Bookings</a>' : '<a href="' . $this->url('practitioner', array('action' => 'dashboard')) . '?tab=booking">No New Bookings</a>'; ?></li>
+                                <li id='review_notification'><?php echo (isset($notifications['reviews']) && $notifications['reviews'] > 0) ? '<a href="javascript:;" onclick="$(\'li#reviews\').trigger(\'click\'); readNotifications(\'review\')">' . $notifications['reviews'] . ' New Review</a>' : '<a href="javascript:;">No New Review</a>'; ?></li>
+                                <li id='referral_notification'><?php echo (isset($notifications['referrals']) && $notifications['referrals'] > 0) ? '<a href="' . $this->url('practitioner', array('action' => 'referrals')) . '">' . $notifications['referrals'] . ' Recommendations</a>' : '<a href="' . $this->url('practitioner', array('action' => 'referrals')) . '">No Recommendations</a>'; ?></li>
+                            </ul>
+
+                        </li>
+                        <li><a href="<?php echo $this->basePath(); ?>/practitioner/settings">Settings</a></li>
+                        <li><a href="<?php echo $this->basePath(); ?>/practitioner/transactions">Transactions</a></li>
+                        <li><a href="<?php echo $this->basePath(); ?>/practitioner/referrals/">Recommendations</a></li>
+                    </ul>
+                </div>
+                <div class="send-invite">
+                    <form>
+                        <input type="text" id="inviteEmail" placeholder="Email :" />
+                        <input type="submit" class="black" id="sendInvitation" value="Invite" />
+                    </form>
+                </div>
+            </div>
+            <!-- end profile left panel here-->
+            <div class="profile-add-right">
+                <div class="book-block">
+                    <div class="rating-top">
+                        <div class="head">
+                            <h3><?php echo (isset($content['first_name']) && isset($content['last_name'])) ? $content['first_name'] . ' ' . $content['last_name'] : ''; ?></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab block start -->
+                <div class="tab-block">
+                    <input type="hidden" id="referred-from" value="<?php echo isset($total_referred_from) ? $total_referred_from : 0; ?>" >
+                    <input type="hidden" id="referred-to" value="<?php echo isset($total_referred_to) ? $total_referred_to : 0; ?>" >
+                    <div class="referral-tab">
+                        <ul class="tab-menu">
+                            <!-- <li id="referred-from" class="active arow">Referred to you</li>-->
+                            <li id="referred-from" class="active arow">They recommend you</li>
+                            <!--<li id="referred-to">Referred by you</li>-->
+                            <li id="referred-to">You recommend them</li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+
+                        <!-- Referred from tab-->
+                        <div class="referred-from" style="display:block;">
+                            <div class="select-form">
+                                <form>
+                                    <label for="select-all">
+                                        <input type="checkbox" id="checkAllreferredFrom" value="yes"><span></span> Select All
+                                        <input type="hidden" id="page" value="0" >
+                                    </label>
+                                    <input type="submit" id="deleteAllReferFrom" value="">
+                                </form>
+                            </div>
+                            <div class="services-data">
+                                <table id="referredFromTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:50%">Recommended by your peer</th>
+                                            <th style="width:40%">Service</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="pagination-list" id="referredfrom-pagination">
+                                    <ul>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Referred from tab-->
+                        <!-- Referred to tab-->
+                        <div class="referred-to">
+                            <div class="select-form">
+                                <form>
+                                    <label for="select-all">
+                                        <input type="checkbox" id="checkAllreferredTo" value="yes"><span></span> Select All
+                                        <input type="hidden" id="page" value="0" >
+                                    </label>
+                                    <input type="submit" id="deleteAllReferTo" value="">
+                                </form>
+                            </div>
+                            <div class="services-data">
+                                <table id="referredToTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:50%">You recommended your peer</th>
+                                            <th style="width:40%">Service</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="add">
+                                    <span class="btn-add" rel="add-Reference">Add Reference</span>
+                                </div>
+                                <div class="pagination-list" id="referredto-pagination">
+                                    <ul>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row" id="referenceFrom" >
+                                <div class="add-Reference" id="add-Reference" >
+                                    <div class="add-head">
+                                        <h3>Add New Reference</h3>
+                                        <span onclick="$('div#add-Newsletter').slideUp('slow');">X</span>
+                                    </div>
+                                    <form name="referenceform" id="referenceform" action="<?php echo $this->url('practitioner', array('action' => 'update')); ?>" method="post">
+                                        <input type="hidden" name="action" id="action" value="update">
+                                        <input type="hidden" name="id" id="referral_id" value="">
+                                        <input type="hidden" name="user" id="user" value="<?php echo isset($content['id']) ? $content['id'] : ''; ?>">
+                                        <div class="row">
+                                            <ul>
+                                                <li>
+                                                    <label>Service</label>
+                                                    <select name="service" id="service" class="required">
+                                                        <option value="">Select Service</option>
+                                                        <?php if (isset($services) && count($services) > 0): ?>
+                                                            <?php foreach ($services as $service): ?>
+                                                                <option value="<?php echo $service['id']; ?>"><?php echo $service['category_name']; ?></option>
+                                                            <?php endforeach; ?>
+                                                        <?php endif; ?>
+                                                    </select>
+                                                </li>
+                                                <li>
+                                                    <label>Practitioner</label>
+                                                    <input id="idorname" type="text" class="required" value="" >
+                                                    <input type="hidden" name="practitioner" id="practitioner" value="" >
+                                                    <!--<select name="practitoner" id="practitioner" class="required">
+                                                        <option value="">Select Practitioner</option>
+                                                        <?php if (isset($practitioners) && count($practitioners) > 0): ?>
+                                                            <?php foreach ($practitioners as $practitioner): ?>
+                                                                <option value="<?php echo $practitioner['id']; ?>"><?php echo $practitioner['name']; ?></option>
+                                                            <?php endforeach; ?>
+                                                        <?php endif; ?>
+                                                    </select>-->
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="row button">
+                                            <input type="submit" value="Save" id="addReference" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Referred to tab-->
+                    </div>
+                    <input type="hidden" name="sp_id" id="sp_id" value="<?php echo isset($content['id']) ? $content['id'] : ''; ?>">
+                </div>
+
+                <!-- Tab block end -->
+
+            </div>
+            <!-- start profile right panel here-->
+
+        </div>
+        <!-- /Practitioner Section-->
+    </div>
+</div>
+<!-- CONTENT END HERE -->

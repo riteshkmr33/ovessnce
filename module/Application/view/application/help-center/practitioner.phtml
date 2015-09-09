@@ -1,0 +1,63 @@
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0): ?>
+            <img src="<?php echo isset($banners[0]['banner_url']) ? $banners[0]['banner_url'] : ''; ?>" alt="" />
+        <?php endif; ?>
+    </div>
+    <div class="main">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home'); ?>">Home</a>
+            </li>
+            <li>
+                <a>Help Center</a>
+            </li>
+            <li>
+                Practitioner
+            </li>
+        </ul>
+        <div class="helpCenter">
+        <div class="main">
+          <a href="<?php echo $this->url('helpcenter', array('action' => 'consumer')); ?>" class="green-btn">Consumer</a>
+          <a href="<?php echo $this->url('helpcenter', array('action' => 'practitioner')); ?>" class="green-btn">Practitioner</a>
+        </div>
+      </div>
+      <div class="helpCenter">
+        <div class="main">
+          <div class="helpCenterQuestion">
+            <div class="row">
+                <?php $count = 1;
+                if (isset($faqs) && is_array($faqs) && count($faqs) > 0) {
+                    foreach ($faqs as $faq):
+                        echo '<h4>'.$faq['title'].'</h4>';
+                        echo '<div class="questionWrap">';
+                        foreach ($faq['faqs'] as $data):
+                            if ($count == 1) {
+                                $question = stripslashes($data['question']);
+                                $answer = stripslashes($data['answer']);
+                            }
+                            $count++;
+                            echo '<a href="javascript:;" class="fetch_faq"  data-id="'.$data['id'].'">'.stripslashes($data['question']).'</a>';
+                        endforeach;
+                        echo '</div>';
+                    endforeach;
+                }
+                ?>
+            </div>
+          </div>
+          <div class="helpCenteAnwser">
+            <div class="row">
+              <h4><?php echo (isset($question) && !empty($question))?$question:'No Faqs Found';?></h4>
+              <div class="questionWrap">
+                <?php echo (isset($answer) && !empty($answer))?'<p>'.$answer.'</p>':'<p></p>';?>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+</div>
+<!-- CONTENT END HERE --> 

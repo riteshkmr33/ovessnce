@@ -1,0 +1,94 @@
+<?php 
+
+$title = 'Edit Email Templates';
+$this->headTitle($title);
+
+$form = $this->form; 
+$form->setAttribute('action', $this->url(
+    'admin/emailtemplates', 
+    array(
+        'action' => 'edit',
+        'id'     => $this->id,
+    )
+));
+$form->prepare();
+?>
+<div class="portlet box grey">
+  <div class="portlet-title">
+    <div class="caption"> <i class="fa fa-reorder"></i> <?php echo $this->escapeHtml($title); ?> </div>
+    <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->basePath()?>/admin/emailtemplates"> <i class="fa fa-pencil"></i>Email Templates List</a> <a class="btn default btn-sm" href="javascript: history.go(-1);"> <i class="fa fa-pencil"></i> Back</a> </div>
+  </div>
+  <div class="portlet-body form">
+	  <div class="form-body">
+	    <!--PAGE CONTENT BEGINS-->
+		<?php if (isset($errors) && count($errors)>0): ?>  
+		<div class="alert alert-danger"><button class="close" data-close="alert"></button>
+			<?php foreach ($errors as $field => $msg) {echo ucfirst(strtolower(strip_tags($this->formLabel($form->get($field)).' '.end($msg)))).'<br />';}?>
+		</div>
+		<?php endif;?>
+		
+		<?php echo $this->form()->openTag($form); echo $this->formHidden($form->get('id')); ?>
+		<div class="form-body">
+			<h3 class="form-section">Email Templates Info</h3>
+			<div class="row">
+				<?php $subject = $form->get('subject'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($subject) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($subject); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formInput($subject); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($subject); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<?php $fromEmail = $form->get('fromEmail'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($fromEmail) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($fromEmail); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formInput($fromEmail); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($fromEmail); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<?php $content = $form->get('content'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($content) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($content); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formTextarea($content); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($content); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<?php $status = $form->get('status'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($status) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo strip_tags($this->formLabel($status)); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formRadio($status); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($status); ?>
+						</span>
+					</div>
+				</div>			
+			</div>
+        </div>        
+		<div class="form-actions fluid">
+			<div class="row">
+				<div class="col-md-offset-3 col-md-9">
+					<button type="submit" class="btn green">Submit</button>
+					<button type="reset" class="btn default">Reset</button>
+				</div>
+			</div>				
+		</div>
+		<?php  echo $this->form()->closeTag();?>
+		<!-- END FORM-->
+	  </div>
+	</div>
+</div>

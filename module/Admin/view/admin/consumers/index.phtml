@@ -1,0 +1,144 @@
+<?php
+	$form->setAttribute('action', '');
+	$form->setAttribute('method', 'post');
+	$form->setAttribute('id', 'consumerFilter');
+	$status = (isset($status) && count($status)>0)?$status->toArray():array();
+	$statusArray = array('9' => 'success', '5' => 'warning', '10' => 'danger', '3' => 'danger');
+?>
+<div class="row">
+  <!--<div class="col-md-12 col-sm-12">--->
+  <div class="">
+	<?php if (isset($successMsgs) && count($successMsgs)>0): ?>
+		<div class="note note-success">
+			<?php foreach ($successMsgs as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+	<?php endif;?>
+	<?php if (isset($errors) && count($errors)>0): ?>
+		<div class="note note-danger">
+			<?php foreach ($errors as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+	<?php endif;?>
+	<div class="note" id="error" style="display:none;"></div>
+	
+    <div class="portlet grey box">
+      <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-user"></i>Consumers List </div>
+        <div class="actions"> 
+			<a class="btn default btn-sm" href="<?php echo (count($this->postedData) > 0)?$this->url('admin/consumers', array('action'=>'exportconsumers')).'?'.http_build_query($this->postedData):$this->url('admin/consumers', array('action'=>'exportconsumers'));?>"> <i class="fa fa-download"></i> Export </a> 
+			<a class="btn default btn-sm" href="<?php echo $this->url('admin/consumers', array('action'=>'add'));?>"> <i class="fa fa-pencil"></i> Add New Consumer </a> 
+        </div>
+        <div class="table-group-actions pull-right" style="margin: -4px 10px 0 0;">
+			<?php if (isset($status)  &&  count($status)>0) { 
+				echo '<select class="table-group-action-input form-control input-inline input-medium input-sm action" id="" ><option value="" >--Select Status--</option>';
+					foreach ($status as $value) { echo '<option value="'.$value['status_id'].'" >'.ucwords($value['status']).'</option>';}
+				echo '</select>';
+			}?>
+			<button class="btn btn-sm default table-group-action-submit changeStatus" data-path='<?php echo $this->url('admin/consumers', array('action'=>'changestatus'));?>'><i class="fa fa-check"></i>Apply</button>
+		</div>
+      </div>
+      <div class="portlet-body">
+        <div class="table-responsive">
+            <table style="display:block; overflow-x: scroll;" class="table table-hover table-bordered table-striped" id="consumers-table" data-path='<?php echo $this->url('admin/consumers');?>'>
+              <thead>
+                  <tr>
+                      <th>Name</th>
+                      <th>Username</th>
+                      <th>Age</th>
+                      <th>Gender</th>
+                      <th>Email</th>
+                      <th>Created On</th>
+                      <th>Country</th>
+                      <th>State</th>
+                      <th>City</th>
+                      <th>Status</th>
+                      <th class="table-checkbox" >Action <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"/></th>
+                  </tr>
+                  <tr class="filter" role="row">
+                      <?php echo $this->form()->openTag($form); ?>
+                      <td rowspan="1" colspan="1">
+                          <?php echo $this->formInput($form->get('name')); ?>
+                      </td>
+                      <td rowspan="1" colspan="1">
+                          <?php echo $this->formInput($form->get('user_name')); ?>
+                      </td>
+                      <td rowspan="1" colspan="1">
+                          <?php echo $this->formInput($form->get('age')); ?>
+                      </td>
+                      <td rowspan="1" colspan="1">
+                          <?php echo $this->formSelect($form->get('gender')); ?>
+                      </td>
+                      <td rowspan="1" colspan="1">
+                          <?php echo $this->formInput($form->get('email')); ?>
+                      </td>
+                      <td rowspan="1" colspan="1">
+                          <?php // echo $this->formInput($form->get('created_on')); ?>
+                          <div class="input-group date date-picker margin-bottom-5" data-date-format="dd-mm-yyyy">
+                              <?php echo $this->formInput($form->get('from')); ?>
+                              <span class="input-group-btn">
+                                  <button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
+                              </span>
+                          </div>
+                          <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+                              <?php echo $this->formInput($form->get('to')); ?>
+                              <span class="input-group-btn">
+                                  <button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
+                              </span>
+                          </div>
+                      </td>
+                      <td rowspan="1" colspan="1">
+                          <?php echo $this->formSelect($form->get('country_id')); ?>
+                      </td>
+                      <td rowspan="1" colspan="1">
+                          <?php echo $this->formSelect($form->get('state_id')); ?>
+                      </td>
+                      <td rowspan="1" colspan="1">
+                          <?php echo $this->formInput($form->get('city')); ?>
+                      </td>
+                      <td rowspan="1" colspan="1">
+                          <?php echo $this->formSelect($form->get('status_id')); ?>
+                      </td>
+                      <td rowspan="1" colspan="1">
+                          <button style='margin-bottom:4px' class="btn btn-sm default filter-submit margin-bottom search" data-form="consumerFilter" data-tbl="consumers-table" data-path='<?php echo $this->url('admin/consumers'); ?>'><i class="fa fa-search"></i> Search</button>
+                          <button class="btn btn-sm default filter-cancel" type="reset" onclick="$('input, select').val(''); $('.select2').select2('val', '');"><i class="fa fa-times"></i> Reset</button>
+                      </td>
+                  </tr>
+                  <?php echo $this->form()->closeTag(); ?>
+              </thead>
+            <tbody>
+             <?php if (isset($consumers)) { ?>
+             <?php foreach ($consumers as $consumer) : ?>
+              <tr>
+					<td><?php echo $this->escapeHtml($consumer->first_name).' '.$this->escapeHtml($consumer->last_name);?></td>
+					<td><?php echo $this->escapeHtml($consumer->user_name);?></td>
+					<td><?php echo $this->escapeHtml($consumer->age);?></td>
+					<td><?php echo $this->escapeHtml($consumer->gender);?></td>
+					<td><?php echo $this->escapeHtml($consumer->email);?></td>
+					<td><?php echo date('d-m-Y',strtotime($consumer->created_date)); ?></td>
+					<td><?php echo $consumer->country_name; ?></td>
+					<td><?php echo $consumer->state_name; ?></td>
+					<td><?php echo $consumer->city; ?></td>
+					<td><span class="label label-sm status label-<?php echo (array_key_exists($consumer->status_id, $statusArray))?$statusArray[$consumer->status_id]:'default';?>" id="<?php echo $consumer->id;?>"><?php echo $this->escapeHtml($consumer->status);?></span></td>
+					<td>
+						<a class="btn default btn-xs" href="<?php echo $this->url('admin/consumers',array('action'=>'edit', 'id' => $consumer->id));?>"><i class="fa fa-edit" title="edit" ></i></a>
+						<a class="btn default btn-xs" href="<?php echo $this->url('admin/consumers',array('action'=>'delete', 'id' => $consumer->id));?>"><i class="fa fa-trash-o" title="delete" ></i></a>
+						<input class="checkboxes" type="checkbox" value="<?php echo $consumer->id;?>">
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			<?php }else{ echo "<tr><td colspan='11'>No record found !!</td></tr>"; } ?>
+            </tbody>
+          </table>
+          <?php 
+				echo 
+				$this->paginationControl(
+						$consumers,  
+						'sliding',   
+						array('partial/paginator.phtml', 'Admin'), 
+						array('route' => 'admin/consumers')  
+					);
+			?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

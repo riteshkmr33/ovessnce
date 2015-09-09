@@ -1,0 +1,1339 @@
+<?php
+$addservice_form = $this->addservice_form;
+$addservice_form->setAttribute('action', $this->url(null, array('controller' => 'practitioner', 'action' => 'dashboard')));
+$addservice_form->prepare();
+?>
+
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main dashboard">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home')?>">Home</a>
+            </li>
+            <li>
+                Dashboard
+            </li>
+        </ul>
+        <h2>
+            Dashboard
+            <span>
+                <small>
+                    <!--Lorem ispum sit-->
+                </small>
+            </span>
+        </h2>
+        <!-- Practitioner Section-->
+        <div class="practitioner-section">
+            <div class="success-msg" <?php echo (isset($successMsgs) && count($successMsgs) > 0) ? '' : 'style="display: none;"'; ?> >
+                <?php if (isset($successMsgs) && count($successMsgs) > 0): ?>
+                    <?php
+                    foreach ($successMsgs as $msg) {
+                        echo '<label> ' . $msg . ' </label>';
+                    }
+                    ?>
+                <?php endif; ?>
+            </div>
+            <div class="error-msg" <?php echo (isset($errors) && count($errors) > 0) ? '' : 'style="display: none;"'; ?> >
+                <?php if (isset($errors) && count($errors) > 0): ?>
+                    <?php
+                    foreach ($errors as $msg) {
+                        echo '<label> ' . $msg . ' </label>';
+                    }
+                    ?>
+                <?php endif; ?>
+            </div>
+            <!-- start profile right panel here-->
+            <div class="profile-add-left">
+                <div class="profile-wrapper"> 
+                    <img src="<?php echo!empty($content['avtar_url']) ? $content['avtar_url'] : $this->basePath() . '/img/profile-pic.jpg'; ?>" alt="" />
+                    <input style="left: 2px; <?php echo (isset($content['avtar_url']) && $content['avtar_url'] != '') ? '' : 'opacity:0;'; ?>" id="delete_avtar" class="black" type="button" value="Delete Picture">
+                    <div class="social-icon">
+                        <ul>
+							
+                            <!--<li><a class="facebook" href="javascript:;">Facebook</a></li>
+                            <li><a class="twitter" href="javascript:;">twitter</a></li>
+                            <li><a class="google" href="javascript:;">google</a></li>
+                            <li><a class="linkdin" href="javascript:;">linkdin</a></li>-->
+                        </ul>
+                    </div>
+                </div>
+                <?php if ((isset($features) && is_array($features) && in_array(6, $features)) || (isset($chat) && $chat == "1")) { ?>
+                <div class="chat-login" >
+                    <a href="<?php echo isset($chaturl) ? $chaturl : ''; ?>operator/" class="" target="_blank">LOGIN FOR CHAT</a>    
+                </div>
+                <?php }?>
+                <div class="dashboard-nav"> 
+                    <ul>
+                       <?php if (isset($features) && is_array($features) && in_array(5, $features)) {?> 
+                        <li>
+                            <a href="javascript:;">Messages</a><?php echo (isset($notifications['inbox']) && $notifications['inbox'] > 0) ? '<span>' . $notifications['inbox'] . '</span>' : ''; ?>
+                            <ul class="dashboard-submenu">
+                                <li><a href="<?php echo $this->basePath(); ?>/practitioner/compose">Compose</a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/practitioner/inbox">Inbox  <?php echo (isset($notifications['inbox']) && $notifications['inbox'] > 0) ? '( ' . $notifications['inbox'] . ' )' : ''; ?></a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/practitioner/sent/">Sent</a></li>
+                                <li><a href="<?php echo $this->basePath(); ?>/practitioner/trash">Trash</a></li>
+                            </ul>
+                        </li>
+                       <?php }?>
+                        <li><a href="javascript:;" <?php echo ($_GET['tab'] != "") ? 'class="active"' : ''; ?> id="total_notification" >Notifications</a><?php echo (isset($notifications['total']) && $notifications['total'] > 0) ? '<span>' . $notifications['total'] . '</span>' : ''; ?>
+                            <ul class="dashboard-submenu" <?php echo ($_GET['tab'] != "") ? 'style="display: block;"' : ''; ?>>
+                                <li id='booking_notification'><?php echo (isset($notifications['booking']) && $notifications['booking'] > 0) ? '<a href="javascript:;" onclick="$(\'li#booking\').trigger(\'click\')">' . $notifications['booking'] . ' New Bookings</a>' : '<a href="javascript:;">No New Bookings</a>'; ?></li>
+                                <li id='review_notification'><?php echo (isset($notifications['reviews']) && $notifications['reviews'] > 0) ? '<a href="javascript:;" onclick="$(\'li#reviews\').trigger(\'click\');">' . $notifications['reviews'] . ' New Review</a>' : '<a href="javascript:;" onclick="$(\'li#reviews\').trigger(\'click\');">No New Review</a>'; ?></li>
+                                <li ><?php echo (isset($notifications['referrals']) && $notifications['referrals'] > 0) ? '<a href="' . $this->url('practitioner', array('action' => 'referrals')) . '">' . $notifications['referrals'] . ' Recommendations</a>' : '<a href="' . $this->url('practitioner', array('action' => 'referrals')) . '">No Recommendations</a>'; ?></li>
+                            </ul>
+
+                        </li>
+                        <li><a href="<?php echo $this->basePath(); ?>/practitioner/settings">Settings</a></li>
+                        <li><a href="<?php echo $this->basePath(); ?>/practitioner/transactions">Transactions</a></li>
+                        <li><a href="<?php echo $this->basePath(); ?>/practitioner/referrals/">Recommendations</a></li>
+                    </ul>
+                </div>
+                <div class="send-invite">
+                    <form>
+                        <input type="text" id="inviteEmail" placeholder="Email :" />
+                        <input type="submit" class="black" id="sendInvitation" value="Invite" />
+                    </form>
+                </div>
+            </div>
+            <!-- end profile left panel here-->
+            <div class="profile-add-right">
+                <div class="book-block">
+                    <div class="rating-top">
+                        <div class="head">
+                            <form class="profileForm" name="profileForm" action="" method="post">
+                                <h3><?php echo (isset($content['first_name']) && isset($content['last_name'])) ? stripcslashes($content['first_name'] . ' ' . $content['last_name']) : ''; ?></h3>
+                                <input type="text" name='practitioner_name' placeholder="Practitioner Name" />
+                                <input type="button" value="" class="save update" style="display: none;" />
+                                
+                                <input type="button" value="" class="edit update" /> 
+                                <?php if (isset($verifystatus) && $verifystatus==1) { ?>
+                                <a href="<?php echo $this->basePath() ?>/verification"  class="btn-rating" >Get your ID verified</a> 
+                                <?php } else if (isset($varification['verified']) && $varification['verified'] == '1') { ?> 
+                                <span class="verify"><img src="/img/verifed-40.png" alt="" /> </span> 
+                                <?php }?>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="total_bookings" value="<?php echo isset($booking_count) ? $booking_count : 0; ?>" />
+                <input type="hidden" id="total_services" value="<?php echo isset($services_count) ? $services_count : 0; ?>" />
+                <input type="hidden" id="total_feedbacks" value="<?php echo isset($feedback_count) ? $feedback_count : 0; ?>" />
+                <input type="hidden" id="total_newsletters" value="<?php echo isset($newsletter_count) ? $newsletter_count : 0; ?>" />
+                
+                <input type="hidden" id="booked_days" value="" />
+                <input type="hidden" id="working_days" value="" />
+                <!-- Tab block start -->
+                <div class="tab-block">
+                    <ul class="tab-menu">
+                        <li id="about-me" <?php echo ($_GET['tab'] == "") ? 'class="active arow"' : ''; ?>>About me</li>
+                        <li id="services-tab">Services</li>
+                        <li id="booking" <?php echo ($_GET['tab'] == "booking") ? 'class="active arow"' : ''; ?>>Booking</li>
+                        <li id="reviews" <?php echo ($_GET['tab'] == "review") ? 'class="active arow"' : ''; ?> onclick="readNotifications('reviews')">Reviews</li>
+                        <li id="newsletter">Newsletter</li>
+                        <li id="calendar">Calendar</li>
+						
+                    </ul>
+                    <div class="tab-content">
+                        <!-- about me tab-->
+                        <div class="about-me" <?php echo ($_GET['tab'] == "") ? 'style="display:block;"' : ''; ?>>
+                            <div class="textWithBorder">
+                                All profiles will be submitted to approval within 48 hours before being displayed on ovessence.com
+                                <br />
+                                If you need to change your professional membership and/or your license number, please send an e-mail to ''admin'' through your inbox. Do not forget to provide your name,your email, your new license number as well as your new professional membership. We will process your request within 48 hours.
+                            </div> 
+                            <div class="aboutme-edit-wrapper">
+                                 <div class="edit-head">
+                                     <h3>GENERAL INFORMATION </h3>
+                                     <span class="comm-edit-button edit" id="profileData">Edit</span> 
+                                 </div>
+                                 <div class="aboutme-text">
+                                     <!--<div class="row">
+                                         <div class="about-label">Designation</div>
+                                         <div class="about-data" id="designation"><?php echo (isset($details['designation']) && $details['designation'] != '' && $details['designation'] != 'None') ? $details['designation'] : 'Not Available' ; ?></div>
+                                     </div>-->
+                                     <div class="row">
+                                         <div class="about-label">Company Name</div>
+                                         <div class="about-data" id="company_name"><?php echo (isset($details['company_name']) && $details['company_name'] != '' && $details['company_name'] != 'None') ? $details['company_name'] : 'Not Available' ; ?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Specialties</div>
+                                         <div class="about-data" id="specialties"><?php echo (isset($details['specialties']) && $details['specialties'] != '' && $details['specialties'] != 'None') ? $details['specialties'] : 'No Speciality' ; ?></div>
+                                     </div>
+                                     <!--<div class="row">
+                                         <div class="about-label">Main Education</div>
+                                         <div class="about-data" id="education"><?php echo (isset($educations) && count($educations) > 0 && implode(', ', $educations) != "")?implode(', ', $educations):'Not Available';?></div>
+                                     </div>-->
+                                     <div class="row">
+                                         <div class="about-label">Degrees</div>
+                                         <div class="about-data" id="degrees"><?php echo (isset($details['degrees']) && $details['degrees'] != '' && $details['degrees'] != 'None')?$details['degrees']:'Not Available'; ?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Years of experiences</div>
+                                         <div class="about-data" id="years_of_experience"><?php echo (isset($details['years_of_experience']) && is_numeric($details['years_of_experience'])) ? $details['years_of_experience'].' Years' : 'Not Available' ; ?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Languages spoken</div>
+                                         <div class="about-data" id="language"><?php echo !empty($language) ? $language : 'Not Available' ; ?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Professional Memberships</div>
+                                         <div class="about-data" id="prof_membership"><?php echo (isset($details['prof_membership']) && $details['prof_membership'] != '' && $details['prof_membership'] != 'None') ? $details['prof_membership'] : 'Not Available' ; ?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Professional License Number</div>
+                                         <div class="about-data" id="professional_license_number"><?php echo (isset($details['professional_license_number']) && $details['professional_license_number'] != "" && $details['professional_license_number'] != "None") ? $details['professional_license_number'] : 'Not Available' ; ?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Date of Birth</div>
+                                         <div class="about-data" id="dob"><?php echo (isset($details['dob']) && $details['dob'] != '' && $details['dob'] != 'None') ? date('d-m-Y', strtotime($details['dob'])) : 'Not Available' ; ?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Age</div>
+                                         <div class="about-data" id="age"><?php echo (isset($content['age']) && $content['age'] != '' && $content['age'] != 'None') ? $content['age'] : 'Not Available' ; ?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Gender</div>
+                                         <div class="about-data" id="gender"><?php echo (isset($content['gender']) && $content['gender'] != '' && $content['gender'] != 'None') ? ($content['gender'] == 'M')?'Male':'Female': 'Not Available' ; ?></div>
+                                     </div>
+                                     <!--<div class="row">
+                                         <div class="about-label">Address</div>
+                                         <div class="about-data" id="street1_address"><?php echo (isset($work_address['street1_address']) && $work_address['street1_address'] != '')?$work_address['street1_address']:'Not Available';?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">City</div>
+                                         <div class="about-data" id="city"><?php echo (isset($work_address['city']) && $work_address['city'] != '')?$work_address['city']:'Not Available';?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Zip Code</div>
+                                         <div class="about-data" id="zip_code"><?php echo (isset($work_address['zip_code']) && $work_address['zip_code'] != '')?$work_address['zip_code']:'Not Available';?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Country</div>
+                                         <div class="about-data" id="country"><?php echo (isset($work_address['country_name']) && $work_address['country_name'] != '')?$work_address['country_name']:'Not Available';?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">State</div>
+                                         <div class="about-data" id="state"><?php echo (isset($work_address['state_name']) && $work_address['state_name'] != '')?$work_address['state_name']:'Not Available';?></div>
+                                     </div>-->
+                                     <div class="row">
+                                         <div class="about-label">Main Award and publication</div>
+                                         <div class="about-data" id="awards_and_publication" ><?php echo (isset($details['awards_and_publication']) && $details['awards_and_publication'] != '' && $details['awards_and_publication'] != 'None') ? $details['awards_and_publication'] : 'Not Available' ; ?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Authorized to provide insurance receipt</div>
+                                         <div class="about-data" id="auth_to_issue_insurence_rem_receipt"><?php echo (isset($details['auth_to_issue_insurence_rem_receipt']) && $details['auth_to_issue_insurence_rem_receipt'] == 1)?'Yes':'No';?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Authorized to bill insurance companies for reimbursement of services performed</div>
+                                         <div class="about-data" id="auth_to_bill_insurence_copany"><?php echo (isset($details['auth_to_bill_insurence_copany']) && $details['auth_to_bill_insurence_copany'] == 1)?'Yes':'No';?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Treatment for physically disabled individuals</div>
+                                         <div class="about-data" id="treatment_for_physically_disabled_person"><?php echo (isset($details['treatment_for_physically_disabled_person']) && $details['treatment_for_physically_disabled_person'] == 1)?'Yes':'No';?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Offering at home service</div>
+                                         <div class="about-data" id="offering_at_home"><?php echo (isset($details['offering_at_home']) && $details['offering_at_home'] == 1)?'Yes':'No';?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Offering service at your work office</div>
+                                         <div class="about-data" id="offering_at_work_office"><?php echo (isset($details['offering_at_work_office']) && $details['offering_at_work_office'] == 1)?'Yes':'No';?></div>
+                                     </div>
+                                 </div>
+                                 <div class="aboutme-form" style="display:none;">
+                                     <form class="profileForm" name="profileForm" action="" method="post">
+                                         <input type="hidden" name="address_id" value="<?php echo isset($work_address['id'])?$work_address['id']:''; ?>" >
+                                         <input type="hidden" name="user_id" value="<?php echo isset($content['id'])?$content['id']:''; ?>" >
+                                         <input type="hidden" name="detail_id" value="<?php echo isset($details['id'])?$details['id']:''; ?>" >
+                                         <input type="hidden" name="action" value="profile" >
+                                         <!--<div class="row">
+                                             <div class="about-label">Designation</div>
+                                             <div class="about-data" ><input type="text" name="designation" class="profileData" rel="designation" placeholder="Designation" /></div>
+                                         </div>-->
+                                         <div class="row">
+                                             <div class="about-label">Company Name</div>
+                                             <div class="about-data" ><input type="text" name="company_name" class="profileData" rel="company_name" placeholder="Company Name" /></div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Specialties</div>
+                                             <div class="about-data" ><input type="text" name="specialties" class="profileData" rel="specialties" placeholder="Specialties" /></div>
+                                         </div>
+                                         <!--<div class="row">
+                                             <div class="about-label">Main Education</div>
+                                             <div class="about-data" >
+                                                 <select name="education[]" multiple="multiple" class="profileData" rel="education">
+                                                     <?php if (isset($AllEducations) && count($AllEducations) > 0) { ?>
+                                                         <?php foreach ($AllEducations as $key => $value) { ?>
+                                                             <option value='<?php echo $key; ?>'><?php echo $value; ?></option>
+                                                         <?php } ?>
+                                                     <?php } ?>
+                                                 </select>
+                                             </div>
+                                         </div>-->
+                                         <div class="row">
+                                             <div class="about-label">Degrees</div>
+                                             <div class="about-data" ><input type="text" name="degrees" class="profileData" rel="degrees" /></div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Years of experiences</div>
+                                             <div class="about-data" ><input type="text" name="years_of_experience" class="profileData" rel="years_of_experience" /> </div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Languages spoken</div>
+                                             <div class="about-data" >
+                                                 <select name="language[]" multiple="multiple" class="profileData" rel="language">
+                                                     <?php if (isset($languages) && count($languages) > 0) { ?>
+                                                         <?php foreach ($languages as $key => $value) { ?>
+                                                             <option value='<?php echo $key; ?>'><?php echo $value; ?></option>
+                                                         <?php } ?>
+                                                     <?php } ?>
+                                                 </select>
+                                             </div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Professional Memberships</div>
+                                             <div class="about-data" ><input type="text" name="prof_membership" class="profileData" rel="prof_membership" /></div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Professional License Number</div>
+                                             <div class="about-data" ><input type="text" name="professional_license_number" class="profileData" rel="professional_license_number" /></div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Date of Birth</div>
+                                             <div class="about-data" ><input type="text" name="dob" class="profileData" data-beatpicker="true" data-beatpicker-position="['*','*']" data-beatpicker-format="['DD','MM','YYYY']" data-beatpicker-module="icon,clear" rel="dob" readonly="readonly" /></div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Age</div>
+                                             <div class="about-data" ><input type="text" name="age" class="profileData" rel="age" /></div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Gender</div>
+                                             <div class="about-data" >
+                                                 <select name="gender" class="profileData" rel="gender" >
+                                                     <option value="M">Male</option>
+                                                     <option value="F">Female</option>
+                                                 </select>
+                                             </div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Main Award and publication</div>
+                                             <div class="about-data" ><input type="text" name="awards_and_publication" class="profileData" rel="awards_and_publication" /></div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Authorized to provide insurance receipt</div>
+                                             <div class="about-data" >
+                                                 <input type="radio" name="auth_to_issue_insurence_rem_receipt" class="profileData" rel="auth_to_issue_insurence_rem_receipt" value='1' ><label>Yes</label> 
+                                                 <input type="radio" name="auth_to_issue_insurence_rem_receipt" class="profileData" rel="auth_to_issue_insurence_rem_receipt" value='0' ><label>No</label> 
+                                             </div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Authorized to bill insurance companies for reimbursement of services performed</div>
+                                             <div class="about-data" >
+                                                 <input type="radio" name="auth_to_bill_insurence_copany" class="profileData" rel="auth_to_bill_insurence_copany" value='1' ><label>Yes</label> 
+                                                 <input type="radio" name="auth_to_bill_insurence_copany" class="profileData" rel="auth_to_bill_insurence_copany" value='0' ><label>No</label> 
+                                             </div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Treatment for physically disabled individuals</div>
+                                             <div class="about-data" >
+                                                 <input type="radio" name="treatment_for_physically_disabled_person" class="profileData" rel="treatment_for_physically_disabled_person" value='1' ><label>Yes</label> 
+						 <input type="radio" name="treatment_for_physically_disabled_person" class="profileData" rel="treatment_for_physically_disabled_person" value='0' ><label>No</label> 
+                                             </div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Offering at home service</div>
+                                             <div class="about-data">
+                                                 <input type="radio" name="offering_at_home" class="profileData" rel="offering_at_home" value='1' ><label>Yes</label> 
+						 <input type="radio" name="offering_at_home" class="profileData" rel="offering_at_home" value='0' ><label>No</label> 
+                                             </div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Offering service at your work office</div>
+                                             <div class="about-data" id="offering_at_work_office">
+                                                 <input type="radio" name="offering_at_work_office" class="profileData" rel="offering_at_work_office" value='1' ><label>Yes</label> 
+						 <input type="radio" name="offering_at_work_office" class="profileData" rel="offering_at_work_office" value='0' ><label>No</label> 
+                                             </div>
+                                         </div>
+                                     </form>
+                                 </div>
+                             </div>
+
+                             <div class="aboutme-edit-wrapper">
+                                 <div class="edit-head">
+                                     <h3>TELL US ABOUT YOU </h3>
+                                     <span class="comm-edit-button" id="description">Edit</span>
+                                 </div>
+                                 <div class="aboutme-text">
+                                     <h4>Introduce yourself </h4>
+                                     <div class="yourself-dis" id="description">
+                                         <?php echo (isset($details['description']) && $details['description'] != '' && $details['description'] != 'None') ? $details['description'] : 'Describe why people should choose you to render a treatment.' ; ?> 
+                                     </div>
+                                 </div>
+                                 <div class="aboutme-form" style="display:none;">
+                                     <h4>Introduce yourself <span id="words">(200  words max)</span></h4>
+                                     <form>
+                                         <input type="hidden" name="detail_id" value="<?php echo isset($details['id'])?$details['id']:''; ?>" >
+                                         <input type="hidden" name="action" value="about" >
+                                         <div class="yourself-form">
+                                             <textarea name="description" class="description" id="description" rel="description">
+                                                 <?php echo (isset($details['description']) && $details['description'] != '' && $details['description'] != 'None') ? str_replace(array('<br>', '<br />'),"\r\n",$details['description']) : 'Describe why people should choose you to render a treatment.' ; ?>
+                                             </textarea>
+                                         </div>
+                                     </form>
+                                 </div>
+                             </div>
+
+                             <div class="aboutme-edit-wrapper">
+                                 <div class="edit-head">
+                                     <h3>PHONE NUMBER AND E-MAIL ADDRESS</h3>
+                                     <span class="comm-edit-button" id="contact_data">Edit</span>
+                                 </div>
+                                 <div class="aboutme-text">
+                                     <div class="row">
+                                         <div class="about-label">Main Phone number </div>
+                                         <div class="about-data" id="cellphone"><?php echo (isset($contact['cellphone']) && $contact['cellphone'] != 'None')?$contact['cellphone']:'Not Available'; ?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">Office Phone number </div>
+                                         <div class="about-data" id="phone_number"><?php echo (isset($contact['phone_number']) && $contact['phone_number'] != 'None')?$contact['phone_number']:'Not Available'; ?></div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="about-label">E-mail Address</div>
+                                         <div class="about-data"><?php echo isset($content['email'])?$content['email']:'Not Available'; ?></div>
+                                     </div>
+                                 </div>
+                                 <div class="aboutme-form" style="display:none;">
+                                     <form>
+                                         <input type="hidden" name="contact_id" value="<?php echo isset($contact['id'])?$contact['id']:''; ?>" >
+                                         <input type="hidden" name="action" value="contact" >
+                                         <div class="row">
+                                             <div class="about-label">Main Phone number </div>
+                                             <div class="about-data"><input type="text" name="cellphone" rel="cellphone" class="contact_data" /></div>
+                                         </div>
+                                         <div class="row">
+                                             <div class="about-label">Office Phone number </div>
+                                             <div class="about-data"><input type="text" name="phone_number" rel="phone_number" class="contact_data"  /> </div>
+                                         </div>
+                                         <!--<div class="row">
+                                             <div class="about-label">E-mail Address</div>
+                                             <div class="about-data"><input type="text" placeholder="kanekedy2@hotmail.com" /> </div>
+                                         </div>-->
+                                     </form>
+                                 </div>
+
+                             </div>
+                            
+                            <div class="textWithBorder">
+                                1. Once the update of the workplaces is completed (changes of information in current address and/or addition of new addresses), please update below workdays section by clicking on ''Update'' button. Then select the appropriated workplace for each day.
+                                <br />
+                                2. For Canadian practitioners only, please enter a space between the 3 first digits and the 3 last digits of your zip code ( ex : ''J3Y 0B7'')
+                            </div>
+                            <?php if (isset($work_address) && is_array($work_address) && count($work_address) > 0) {?>
+                                <?php $i = 1; foreach ($work_address as $address) { ($i==1)?$bussAddress = $address:'';?>
+                                    <div class="aboutme-edit-wrapper">
+                                        <div class="edit-head">
+                                            <h3>WORKPLACE ADDRESS <?php echo $i?></h3>
+                                            <span class="remove_address" id="<?php echo (isset($address['id']) && !empty($address['id']))?$address['id']:'';?>">Remove</span>
+                                            <span class="comm-edit-button" id="sp_address">Edit</span>
+                                        </div>
+                                        <div class="aboutme-text">
+                                            <div class="row">
+                                                <div class="about-label">Address </div>
+                                                <div class="about-data" id="workplace<?php echo $i?>_address"><?php echo (isset($address['street1_address']) && !empty($address['street1_address']))?$address['street1_address']:'Not Available';?></div>
+                                            </div>
+                                            <!--<div class="row">
+                                                <div class="about-label">Neighborhood </div>
+                                                <div class="about-data">Lorem Lorem</div>
+                                            </div>-->
+                                            
+                                            <div class="row">
+                                                <div class="about-label">City </div>
+                                                <div class="about-data" id="workplace<?php echo $i?>_city"><?php echo (isset($address['city']) && !empty($address['city']))?$address['city']:'Not Available';?></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="about-label">Zip code </div>
+                                                <div class="about-data" id="workplace<?php echo $i?>_zipcode"><?php echo (isset($address['zip_code']) && !empty($address['zip_code']))?$address['zip_code']:'Not Available';?></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="about-label">Country </div>
+                                                <div class="about-data" id="workplace<?php echo $i?>_country"><?php echo (isset($address['country_name']) && !empty($address['country_name']))?$address['country_name']:'Not Available';?></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="about-label">State </div>
+                                                <div class="about-data" id="workplace<?php echo $i?>_state"><?php echo (isset($address['state_name']) && !empty($address['state_name']))?$address['state_name']:'Not Available';?></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="about-label">Type of Place </div>
+                                                <div class="about-data" id="workplace<?php echo $i?>_type"><?php echo (isset($address['location_type']) && !empty($address['location_type']))?$address['location_type']:'Not Available';?></div>
+                                            </div>
+                                        </div>
+                                        <div class="aboutme-form" style="display:none;">
+                                            <form>
+                                                <input type="hidden" name="action" value="sp_address" />
+                                                <input type="hidden" name="address_id" value="<?php echo (isset($address['id']) && !empty($address['id']))?$address['id']:'';?>">
+                                                <div class="row">
+                                                    <div class="about-label">Address</div>
+                                                    <div class="about-data"><input type="text" class="sp_address" name="street1_address" rel="workplace<?php echo $i?>_address" /></div>
+                                                </div>
+                                                <!--<div class="row">
+                                                    <div class="about-label">Neighborhood</div>
+                                                    <div class="about-data"><input type="text" placeholder="Lorem Lorem" /> </div>
+                                                </div>-->
+                                                <div class="row">
+                                                    <div class="about-label">City</div>
+                                                    <div class="about-data"><input type="text" class="sp_address"  name="city" rel="workplace<?php echo $i?>_city" id="workplace<?php echo $i?>_city" /></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="about-label">Zip code </div>
+                                                    <div class="about-data"><input type="text" class="sp_address address-autofill" name="zip_code" id='workplace<?php echo $i?>_zipcode' rel="workplace<?php echo $i?>_zipcode" /> </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="about-label">Country</div>
+                                                    <div class="about-data">
+                                                        <select name="country_id" class="sp_address" rel="workplace<?php echo $i?>_country" id='workplace<?php echo $i?>_country' onchange="getStates(this.value, 'select[rel=workplace<?php echo $i?>_state]');" >
+                                                            <option value="">-Select country-</option>
+                                                            <?php 
+                                                            if (isset($countries) && is_array($countries) && count($countries) > 0) {
+                                                                foreach ($countries as $country_id => $country) {
+                                                                    $selected = (isset($address['country_id']) && $address['country_id'] != '' && $country_id == $address['country_id'] )?'selected="selected"':'';
+                                                                    echo '<option value="'.$country_id.'" '.$selected.'>'.$country.'</option>';
+                                                                }
+                                                            }?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row"> 
+                                                    <div class="about-label">State</div>
+                                                    <div class="about-data">
+                                                        <select name="state_id" class="sp_address" id='workplace<?php echo $i?>_state' rel="workplace<?php echo $i?>_state" >
+                                                            <option value="">-Select state-</option>
+                                                            <?php 
+                                                            if (isset($states) && is_array($states) && count($states) > 0) {
+                                                                foreach ($states as $state) {
+                                                                    $selected = (isset($address['state_id']) && $address['state_id'] != '' && $state['id'] == $address['state_id'] )?'selected="selected"':'';
+                                                                    echo '<option value="'.$state['id'].'" '.$selected.'>'.$state['value'].'</option>';
+                                                                }
+                                                            }?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row"> 
+                                                    <div class="about-label">Type of Place</div>
+                                                    <div class="about-data">
+                                                        <select name="location_type_id" class="sp_address" rel="workplace<?php echo $i?>_type" >
+                                                            <option value="">-Select type of place-</option>
+                                                            <?php 
+                                                            if (isset($location_types) && is_array($location_types) && count($location_types) > 0) {
+                                                                foreach ($location_types as $location_type) {
+                                                                    $selected = (isset($address['location_type_id']) && $address['location_type_id'] != '' && $location_type['id'] == $address['location_type_id'])?'selected="selected"':'';
+                                                                    echo '<option value="'.$location_type['id'].'" '.$selected.'>'.$location_type['location_type'].'</option>';
+                                                                }
+                                                            }?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <?php $i++;}?>
+                            <?php }?>
+                            
+                            <?php if (isset($addresses) && is_array($addresses) && count($addresses) < 4) {?>
+                             <div class="add-workplace">
+                                 <span class="btn-add-place">ADD  WORKPLACES </span>
+                             </div>
+                            <?php }?>
+                            
+                            <!--<div class="aboutme-edit-wrapper">
+                                <div class="edit-head">
+                                     <h3>Organization</h3>
+                                     <span class="comm-edit-button" id="organization">Edit</span>
+                                </div>
+                                <div class="aboutme-text">
+                                     <div class="row">
+                                         <div class="about-label">Organization</div>
+                                         <div class="about-data" id="organization"><?php echo (isset($details['organization']) && $details['organization'] != '' && $details['organization'] != 'None')?$details['organization']:'Not Available';?></div>
+                                     </div>
+                                </div>
+                                <div class="aboutme-form" style="display:none;">
+                                     <form>
+                                         <input type="hidden" name="action" value="organization" >
+                                         <div class="row">
+                                             <div class="about-label">Organization </div>
+                                             <div class="about-data">
+                                                 <select name="organization" class="organization" rel="organization">
+                                                     <option value="">- Select Organization-</option>
+                                                     <?php if (isset($organizations) && is_array($organizations) && count($organizations)):?>
+                                                        <?php foreach ($organizations as $orgaization):?>
+                                                            <option value="<?php echo $orgaization['organization_id']?>"><?php echo $orgaization['organization_name']?></option>
+                                                        <?php endforeach;?>
+                                                     <?php endif;?>
+                                                 </select>
+                                             </div>
+                                         </div>
+                                     </form>
+                                </div>
+                             </div>-->
+                            
+                             <div class="aboutme-edit-wrapper">
+                                 <div class="edit-head">
+                                     <h3>WORKDAYS</h3>
+                                     <span class="comm-update-button" id="updateWorkdays">Update</span>
+                                 </div>
+                                 <div class="aboutme-text">
+                                     <div class="row">
+                                         <div class="about-label">Workdays </div>
+                                         <div class="about-data" id="workdays"><?php echo isset($workdays)?$workdays:'Not Available';?></div>
+                                     </div>
+                                 </div>
+                             </div>
+                            
+                            <?php if (isset($features) && is_array($features) && in_array(14, $features)) {?>
+                             <div class="aboutme-edit-wrapper">
+                                 <div class="edit-head">
+                                     <h3>BUSINESS CARD</h3>
+                                     <span class="comm-update-button" onclick=" $('div#business-overlay').fadeIn('slow'); scrollTo('div#business-overlay', 100, 'top');">VIEW  YOUR BUSINESS CARD</span>
+                                 </div>
+                                 <div class="aboutme-text">
+
+                                 </div>
+                             </div>
+                            <?php }?>
+
+                             <div class="aboutme-edit-wrapper">
+                                 <div class="edit-head">
+                                     <h3>GALLERY</h3>
+                                     <span class="comm-update-button upload" rel="image_upload">Upload</span>
+                                 </div>
+                                 <div class="textWithBorder">
+                                    All pictures will be submitted to approval within 48 hours before being displayed on ovessence.com
+                                 </div>
+                                 <div class="aboutme-text">
+                                     <div class="about-gallery-wrapper">
+                                         <ul class="slider slides">
+                                             <?php if (isset($image_list) && count($image_list) > 0) { ?>
+                                                 <?php foreach ($image_list as $image) { ?>
+                                                     <li>
+                                                         <a>
+                                                             <img src="<?php echo str_replace('Media', 'Media_thumb', $image['media_url']); ?>" alt="<?php echo $image['media_title']; ?>" />
+                                                             <div class="over-lay">
+                                                                 <span class="dProfile" id="<?php echo $image['id']; ?>"></span>
+                                                                 <?php if ($image['status_id'] == '9') { ?><span class="mProfile" id="<?php echo $image['id']; ?>"></span><?php }?>
+                                                                 <span class="eProfile" id="<?php echo $image['id']; ?>" data-title="<?php echo $image['media_title']; ?>" data-desc="<?php echo $image['media_description']; ?>"></span>
+                                                             </div>
+                                                         </a>
+                                                     </li>
+                                                 <?php } ?>
+                                             <?php } ?>
+                                         </ul>
+                                     </div>
+                                 </div>
+                                 <div class="upload-image-form" id="image_upload">
+                                     <div class="upload-close-btn">X</div>
+                                     <form name="uploadImage" method="post" id="imageform" action="<?php echo $this->url('practitioner', array('action' => 'update'));?>">
+                                         <input type="hidden" name="action" value="image" >
+                                         <input type="hidden" name="id" id="image_id" value="" >
+                                         <input type="text" name="media_title" id="media_title" data-fieldname="Title" placeholder="Title" required="required" />
+                                         <input type="file" name="image" required="required" data-fieldname="File" />
+                                         <span>Image size should be less than 2MB</span>
+                                         <input type="submit" id="uploadImage" value="submit">
+                                     </form>
+                                 </div>
+                             </div>
+
+                             <div class="aboutme-edit-wrapper">
+                                 <div class="edit-head">
+                                     <h3>VIDEOS</h3>
+                                     <span class="comm-update-button upload" rel="video_upload">Upload</span>
+                                 </div>
+                                 <div class="textWithBorder">
+                                    All videos will be submitted to approval within 48 hours before being displayed on ovessence.com
+                                 </div>
+                                 <div class="aboutme-text">
+                                     <div class="about-video-wrapper">
+                                         <ul class="slider slides">
+                                             <?php if (isset($video_list) && count($video_list) > 0) { $count = 1;?>
+                                                <?php foreach ($video_list as $video) {?>
+                                                    <li>
+                                                        <a>
+                                                            <?php if (is_numeric($video['media_url'])) {?><iframe id="player_1" style="width:100%" src="https://player.vimeo.com/video/<?php echo isset($video['media_url']) ? $video['media_url'] : '' ; ?>?api=1&amp;player_id=player_1" width="540" height="232" frameborder="0"></iframe>
+                                                            <?php } else { ?>
+                                                            <!--<video id="<?php echo isset($video['media_title'])?$video['media_title'].'_'.$count:'New Video_'.$count;?>" class="abc" src='<?php echo str_replace('./public', $this->basePath(), $video['media_url']);?>' ></video>-->
+                                                            <video id="example_video_1" class="video-js vjs-default-skin" controls preload="auto" width="200" height="200" data-setup=''>
+                                                                <source src="<?php echo str_replace('./public', $this->basePath(), $video['media_url']);?>" type="video/mp4" />
+                                                            </video>
+                                                            <?php }?>
+                                                        </a>
+                                                        <?php if (!is_numeric($video['media_url'])) {?><a class="comm-update-button del-video" style="margin:48px" id="<?php echo isset($video['id'])?$video['id']:'';?>">Delete</a><?php }?>
+                                                     </li>
+                                                <?php $count++;}?>
+                                             <?php }?>
+                                         </ul>
+                                     </div>
+                                 </div>
+                                 <div class="upload-image-form" id="video_upload">
+                                     <div class="upload-close-btn">X</div>
+                                     <form name="uploadVideo" method="post" id="videoform" action="<?php echo $this->url('practitioner', array('action' => 'update'));?>">
+                                         <input type="hidden" name="action" value="video" >
+                                         <input type="text" name="media_title" placeholder="Title" data-fieldname="Title" required="required" />
+                                         <input type="file" name="video" required="required" data-fieldname="File" />
+                                         <span>Video size should be less than 30MB</span>
+                                         <input type="submit" id="uploadVideo" value="submit">
+                                     </form>
+                                 </div>
+                             </div>
+                        </div>
+                        <!-- / about me tab-->
+
+                        <!-- services-tab-->
+                        <div class="services-tab">
+                            <div class="textWithBorder">
+                                Please note that a deposit of <?php echo (isset($commission) && $commission != '')?$commission:0; ?> $ will be paid by your future customer. This represents  our administration fee on confirmed bookings. The amount that will be paid to you in person  is the service price you will enter below. We keep the <?php echo (isset($commission) && $commission != '')?$commission:0; ?> $ deposit as administration fee.
+                                <br /><strong>NO BOOKING, NO FEE!</strong>
+                            </div>
+                            <div class="select-form">
+                                <form>
+                                    <label for="select-all">
+                                        <input type="checkbox" id="checkAllservices" value="" /><span></span> Select All
+                                        <input type="hidden" id="page" value="0" >
+                                    </label>
+                                    
+                                    <select name="service_status" id="service_status">
+                                        <option value="">Select status</option>
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
+                                    
+                                    <!--<input type="submit" id="deleteSpservices" value="" />-->
+                                </form>
+                            </div>
+                            <div class="services-data">
+                                <table id="tbl_Splist">
+                                    <thead>
+                                        <tr>
+                                            <th>Services</th>
+                                            <th>Duration (Minutes)</th>
+                                            <th>Price ($)</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="5">No services to list</td>
+                                        </tr>	
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="add-button">
+                                    <span class="btn-add" rel="add-Services">Add Services</span>
+                                    <!-- <span class="btn-add" rel="add-Category">Add Category</span> --->
+                                </div>
+                                <div class="pagination-list" id="services-pagination" >
+                                    <ul>
+                                        <!--<li><a href="javascript:;"><<</a></li>
+                                        <li><a href="javascript:;">1</a></li>
+                                        <li><a class="active" href="javascript:;">2</a></li>
+                                        <li><a href="javascript:;">3</a></li>
+                                        <li><a href="javascript:;">4</a></li>
+                                        <li><a href="javascript:;">5</a></li>-->
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="errorMsg" style="text-align:center;color:red;"></div>
+                                <div id="successMsg" style="text-align:center;color:green;"></div>
+                                <div class="add-Services" id="add-Services">
+                                    <div class="add-head" id="service-head">
+                                        <h3>Add New Services</h3>
+                                        <span>X</span>
+                                    </div>
+                                    <?php echo $this->form()->openTag($addservice_form); ?>
+                                    <div class="row">
+                                        <ul>
+                                            <li>
+                                                <?php $service_id = $addservice_form->get('service_id'); ?>
+                                                <?php echo $this->formLabel($service_id); ?>
+                                                <?php echo $this->formSelect($service_id); ?>
+                                                <?php echo strip_tags($this->formElementErrors($service_id)); ?>
+                                            </li>
+                                            <li>
+                                                <?php $duration = $addservice_form->get('duration'); ?>
+                                                <?php echo $this->formLabel($duration); ?>
+                                                <?php echo $this->formInput($duration); ?>
+                                                Mins
+                                                <?php echo strip_tags($this->formElementErrors($duration)); ?>
+                                            </li>
+                                            <li>
+                                                <?php $price = $addservice_form->get('price'); ?>
+                                                <?php echo $this->formLabel($price); ?>
+                                                <?php echo $this->formInput($price); ?>$
+                                                <?php echo strip_tags($this->formElementErrors($price)); ?>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="row button">
+                                        <input type="submit" value="Submit" />
+                                        <input type="reset" value="Reset" />
+                                        <input type="hidden" name="sp_edit_id" id="sp_edit_id" value="">
+                                        <input type="hidden" name="sp_action" id="sp_action" value="add">
+                                    </div>
+<?php echo $this->form()->closeTag(); ?>
+                                </div>
+                            </div>
+                            <!---
+                            <div class="row">
+                                    <div class="add-Services" id="add-Category">
+                                            <div class="add-head" id="service-head">
+                                                    <h3>Add New Category</h3>
+                                                    <span>X</span>
+                                            </div>
+                                            <form>
+                                                    <div class="row">
+                                                            <ul>
+                                                                    <li>
+                                                                            <label>Service</label>
+                                                                            <select>
+                                                                                    <option>
+                                                                                            Select Services
+                                                                                    </option>
+                                                                            </select>		
+                                                                    </li>
+                                                                    <li>
+                                                                            <label>Duration</label>
+                                                                            <input type="text" />		
+                                                                    </li>
+                                                                    <li>
+                                                                            <label>Price</label>
+                                                                            <input type="text" />		
+                                                                    </li>
+                                                            </ul>
+                                                    </div>
+                                                    <div class="row button">
+                                                            <input type="submit" value="Submit" />
+                                                            <input type="reset" value="Reset" />
+                                                    </div>
+                                            </form>
+                                    </div>
+                            </div>
+                            ----->
+                        </div>
+                        <!-- / services-tab-->
+                        <!-- booking tab-->
+                        <div class="booking" <?php echo ($_GET['tab'] == "booking") ? 'style="display:block;"' : ''; ?>>
+                            <div class="textWithBorder">
+                                Please note that you  will be able to change date and time of a booking  up to 48 hours prior to the appointment.
+                            </div>
+                            <?php if (isset($features) && is_array($features) && in_array(9, $features)) {?>
+                            <div class="select-form">
+                                <!--<form>
+                                    <label for="select-all">
+                                        <input type="checkbox" id="checkAllbookings" value="yes"><span></span> Select All
+                                        <input type="hidden" id="page" value="0" >
+                                    </label>
+                                    <select id="status">
+                                        <option value="">Change Status</option>
+                                        <option value="4">Confirmed</option>
+                                        <!--<option value="5">Pending Approval</option>
+                                        <option value="6">Cancelled</option>
+                                    </select>
+                                    <input type="submit" id="changeStatus" value="">
+                                </form>-->
+                            </div>
+                            
+                            <div class="services-data">
+                                <table id="bookingTable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Customer</th>
+                                            <th>Date & Time of Appointment</th>
+                                            <th>Services</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Booking data should come here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="pagination-list" id="booking-pagination">
+                                    <ul>
+                                        <!--<li><a href="javascript:;">&lt;&lt;</a></li>
+                                        <li><a href="javascript:;">1</a></li>
+                                        <li><a href="javascript:;" class="active">2</a></li>
+                                        <li><a href="javascript:;">3</a></li>
+                                        <li><a href="javascript:;">4</a></li>
+                                        <li><a href="javascript:;">5</a></li>-->
+                                    </ul>
+                                </div>
+                            </div>
+                            <?php } else {?>
+                            <div class="success-msg" ><label><a href="<?php echo $this->url('membership');?>"><u>Upgrade your membership plan and have access to this feature.</u></a></label></div>
+                            <?php }?>
+                        </div>
+                            
+                        <!-- /booking tab-->
+                        <!-- reviews -->
+                        <div class="reviews" <?php echo ($_GET['tab'] == "review") ? 'style="display:block;"' : ''; ?>>
+                            
+                            <?php if (isset($features) && is_array($features) && in_array(13, $features)) {?>
+                            <div class="select-form" style="display:inline-block;">
+                                <!--<div class="review-status">
+                                    <span class="approved">Approved</span>
+                                    <span class="decline">Decline</span>
+                                </div>-->
+                                <!--<form>
+                                        <label for="select-all">
+                                                <input type="checkbox" value="yes"><span></span> Select All
+                                        </label>
+                                        <select>
+                                                <option>Decline</option>
+                                                <option>Active</option>
+                                        </select>
+                                        <input type="submit" value="">
+                                </form>-->
+                            </div>		
+                            <div class="services-data" style="clear: both;">
+                                <table class="dashReview">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="pagination-list" id="feedback-pagination">
+                                    <ul>
+                                        <!--<li><a href="javascript:;">&lt;&lt;</a></li>
+                                        <li><a href="javascript:;">1</a></li>
+                                        <li><a href="javascript:;" class="active">2</a></li>
+                                        <li><a href="javascript:;">3</a></li>
+                                        <li><a href="javascript:;">4</a></li>
+                                        <li><a href="javascript:;">5</a></li>-->
+                                    </ul>
+                                </div>
+                            </div>
+                            <?php } else {?>
+                            <div class="success-msg" ><label><a href="<?php echo $this->url('membership');?>"><u>Upgrade your membership plan and have access to this feature.</u></a></label></div>
+                            <?php }?>
+                        </div>
+                        <!-- /reviews -->
+                        <!-- Newsletter tab-->
+                        <div class="newsletter">
+                            <?php if (isset($features) && is_array($features) && in_array(8, $features)) {?>
+                            <div class="select-form">
+                                <!--<form>
+                                    <label for="select-all">
+                                        <input type="checkbox" id="checkAllnewsletter" value="yes"><span></span> Select All
+                                        <input type="hidden" id="page" value="0" >
+                                    </label>
+                                    <select id="newsletterStatus">
+                                        <option value="">Select Status</option>
+                                        <option value="1">Active</option>
+                                        <option value="2">Inactive</option>
+                                    </select>
+                                    <input type="submit" id="changeStatusNewsletter" value="">
+                                </form>-->
+                            </div>
+                            <div class="services-data">
+                                <table id="newsletterTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Subject</th>
+                                            <th>Message</th>
+                                            <th>Send Date</th>
+                                            <!--<th>Status</th>-->
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="add-button">
+                                    <span class="btn-add" rel="add-Newsletter">Add Newsletter</span>
+                                </div>
+                                <div class="pagination-list" id="newsletter-pagination">
+                                    <ul>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row editnewslettor">
+                                <div class="add-Newsletter" id="add-Newsletter">
+                                    <div class="add-head">
+                                        <h3>Add New Newsletter</h3>
+                                        <span onclick="$('div#add-Newsletter').slideUp('slow');">X</span>
+                                    </div>
+                                    <form name="newsletterform" id="newsletterform" action="<?php echo $this->url('practitioner', array('action' => 'update')); ?>" method="post">
+                                        <input type="hidden" name="action" value="newsletters">
+                                        <input type="hidden" name="id" id="newsletter_id" value="">
+                                        <input type="hidden" name="user" id="user" value="<?php echo isset($content['id']) ? $content['id'] : ''; ?>">
+                                        <div class="row">
+                                            <ul>
+                                                <li>
+                                                    <label>Subject</label>
+                                                    <input type="text" name="subject" id="subject" />		
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="editor">
+                                            <p><label>Message</label></p>
+                                            <textarea name="message" id="message" class="tinymce"></textarea>		
+                                        </div>
+                                        <div class="row button">
+                                            <input type="submit" value="Save" id="add" class="saveNewsletter" />
+                                            <input type="submit" value="Save and Send" id="send" class="saveNewsletter" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <?php } else {?>
+                                <div class="success-msg" ><label><a href="<?php echo $this->url('membership');?>"><u>Upgrade your membership plan and have access to this feature.</u></a></label></div>
+                            <?php }?>
+                        </div>
+                        <!-- /Newsletter tab-->
+                        <!-- calendar tab -->
+                        <div class="calendar">
+                            <div class="textWithBorder">
+                                Please note that you are able to use the calendar to enter bookings manually, by clicking on the desired time and filling  booking detail form. The availability that is displayed on your public profile will be updated.
+                            </div>
+                            <?php if (isset($features) && is_array($features) && in_array(7, $features)) {?>
+                            <div class="calendar-section" >
+                                <div id="bookings_calendar"></div>
+                                <div class="confirm">
+                                    <div class="row"><span class="confirm"></span>Confirmed </div>
+                                    <div class="row"><span class="pending"></span>Pending approval  </div>
+                                </div>
+                            </div>
+                            <?php } else {?>
+                                <div class="success-msg" ><label><a href="<?php echo $this->url('membership');?>"><u>Upgrade your membership plan and have access to this feature.</u></a></label></div>
+                            <?php }?>
+                        </div>
+                        <!-- /calendar tab-->
+						
+                    </div>
+                    <input type="hidden" name="sp_id" id="sp_id" value="<?php echo isset($content['id']) ? $content['id'] : ''; ?>">
+                </div>
+
+                <!-- Tab block end -->
+
+            </div>
+            <!-- start profile right panel here-->
+
+        </div>
+        <!-- /Practitioner Section-->
+    </div>
+</div>
+<!-- CONTENT END HERE -->
+
+<!-- Workdays popup start here -->
+<div id="rating-overlay" class="responsive" style="display: none">
+    <div class="rating-wrapper day-sheet">
+        <div class="rating-head">
+            <h3>Work Days</h3>
+            <span class="remove">x</span>
+        </div>
+        <form name="updateWorkdays" id="workdaysform" action="<?php echo $this->url('practitioner', array('action' => 'update')) ?>" method="post">
+            <input type="hidden" name="action" value="workdays" />
+            <input type="hidden" name="user_id" value="<?php echo $content['id'] ?>" />
+            <div class="rating-value">
+                <ul>
+                    <li class="desktop">
+                        <label>&nbsp;</label>
+                        <div class="input-box">
+                            <label>Start Time</label>
+                            <label>End Time</label>
+                            <label>Lunch Start</label>
+                            <label>Lunch End</label>
+                            <label>Workplace</label>
+                        </div>
+                    </li>
+                    <?php 
+                    if (isset($available_days) && count($available_days) > 0):
+
+                        /* generating time slots start */
+                        $h = 12;
+                        $m = 00;
+                        $i = 0;
+                        $timeSlots = array();
+
+                        while ($i <= 23) {
+                            $h = ($h < 10 && strstr($h, '0') == false) ? '0' . $h : $h;
+                            $m = ($m < 10 && strstr($m, '0') == false) ? '0' . $m : $m;
+                            $time = ($i > 11) ? $h . ':' . $m . ' PM' : $h . ':' . $m . ' AM';
+                            $timeSlots[$time] = $time;
+
+                            $m = $m + 15;
+                            if ($m == 60) {
+                                $h = ($h == 12) ? 1 : $h + 1;
+                                $m = 0;
+                                $i++;
+                            }
+                        }
+                        /* generating time slots end */
+                        ?>
+                        <?php (is_array($addresses))?array_push($addresses, $work_address):''; foreach ($available_days as $id => $day):?>
+                            <input type="hidden" name="<?php echo "id[" . $id . "]"; ?>" value="<?php echo isset($availability[$id]['id']) ? $availability[$id]['id'] : ''; ?>" />
+                            <li>
+                                <label><?php echo ucfirst($day); ?></label>
+                                <div class="input-box mobile">
+                                    <label>Start Time</label>
+                                    <select name="<?php echo "start_time[" . $id . "]"; ?>" >
+                                        <option value="">Select</option>
+                                            <?php foreach ($timeSlots as $key => $value) { ?>
+                                            <option value="<?php echo $key; ?>" <?php echo (isset($availability[$id]['start_time']) && $availability[$id]['start_time'] != "00:00:00" && $availability[$id]['start_time'] != "None" && $availability[$id]['start_time'] != "" && $key == date('h:i A', strtotime($availability[$id]['start_time']))) ? 'selected' : ''; ?> ><?php echo $value; ?></option>
+                                            <?php } ?>
+                                    </select>
+                                    <label>End Time</label>
+                                    <select name="<?php echo "end_time[" . $id . "]"; ?>" >
+                                        <option value="">Select</option>
+                                            <?php foreach ($timeSlots as $key => $value) { ?>
+                                            <option value="<?php echo $key; ?>" <?php echo (isset($availability[$id]['end_time']) && $availability[$id]['end_time'] != "00:00:00" && $availability[$id]['end_time'] != "None" && $availability[$id]['end_time'] != "" && $key == date('h:i A', strtotime($availability[$id]['end_time']))) ? 'selected' : ''; ?>><?php echo $value; ?></option>
+                                            <?php } ?>
+                                    </select>
+                                    <label>Lunch Start</label>
+                                    <select name="<?php echo "lunch_start_time[" . $id . "]"; ?>" >
+                                        <option value="">Select</option>
+                                            <?php foreach ($timeSlots as $key => $value) { ?>
+                                            <option value="<?php echo $key; ?>" <?php echo (isset($availability[$id]['lunch_start_time']) && $availability[$id]['lunch_start_time'] != "00:00:00" && $availability[$id]['lunch_start_time'] != "None" && $availability[$id]['lunch_start_time'] != "" && $key == date('h:i A', strtotime($availability[$id]['lunch_start_time']))) ? 'selected' : ''; ?>><?php echo $value; ?></option>
+                                            <?php } ?>
+                                    </select>
+                                    <label>Lunch End</label>
+                                    <select name="<?php echo "lunch_end_time[" . $id . "]"; ?>" >
+                                        <option value="">Select</option>
+                                            <?php foreach ($timeSlots as $key => $value) { ?>
+                                            <option value="<?php echo $key; ?>" <?php echo (isset($availability[$id]['lunch_end_time']) && $availability[$id]['lunch_end_time'] != "00:00:00" && $availability[$id]['lunch_end_time'] != "None" && $availability[$id]['lunch_end_time'] != "" && $key == date('h:i A', strtotime($availability[$id]['lunch_end_time']))) ? 'selected' : ''; ?>><?php echo $value; ?></option>
+                                            <?php } ?>
+                                    </select>
+                                    <label>Workplace</label>
+                                    <select name="<?php echo "address_id[" . $id . "]"; ?>" class="workdays_address" >
+                                        <option value="">Select</option>
+                                            <?php foreach ($work_address as $address) {?>
+                                            <option value="<?php echo isset($address['id'])?$address['id']:'';?>" <?php echo (isset($availability[$id]['address_id']) && $availability[$id]['address_id'] == $address['id']) ? 'selected' : ''; ?>><?php echo  ucwords($address['street1_address'] . ', ' . $address['city'] . ', ' . $address['state_name'] . ' ' . $address['zip_code'] . ', ' . $address['country_name']);?></option>
+                                            <?php }?>
+                                    </select>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+                </ul>
+            </div>
+            <div class="bottom-button">
+                <div class="appointment">
+                    <input type="hidden" name="delay_id" value="<?php echo isset($appointment_delay['id']) ? $appointment_delay['id'] : ''; ?>" />
+                    <div class="row"><label>Appointment Delay</label> <input type="text" name="appointment_delay" value="<?php echo isset($appointment_delay['delay_time']) ? $appointment_delay['delay_time'] : ''; ?>"></div>
+                    <div class="row submit"><input type="submit" value="submit" class="black" id="updateAvailability"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Workdays popup end here -->
+
+<!-- Business card popup-->
+<div class="business-card" id="business-overlay" style="display:none;">
+    <div class="business-wrapper">
+        <div class="rating-head">
+            <h3>Business Card</h3>
+            <span class="remove" onclick='$("div#business-overlay").fadeOut("slow")'>x</span>
+        </div>
+        <div class='bc-msg'></div>
+        <div id= "bcard-container" >
+            <input type="hidden" name="bg_name" id="bg_name" value="recto"/>
+            <div class="card-container" id="businesscard" style="padding:5px; border:3px solid #77BE32; width:400px; margin:0 auto; background:url('https://s3-us-west-2.amazonaws.com/ovessence/img/bg_verso.jpg') no-repeat center center; display: none;">
+                <table style="border-collapse:collapse;  width:100%; text-align:center; font-family:roboto;"> 
+                    <tr>
+                        <td>
+                            <h2 style="margin:10px; text-align:left; color:#539b0d; font-size:18px;">ID: <?php echo $content['id']; ?></h2>
+                        </td>
+                        <td style="text-align:right;"><img src="https://s3-us-west-2.amazonaws.com/ovessence/img/business-logo.png" alt="" /></td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <h2 style="margin:10px; color:#000; font-size:16px;"><?php echo (isset($content['first_name']) && isset($content['last_name'])) ? $content['first_name'] . ' ' . $content['last_name'] : ''; ?></h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="servicename" style="margin:0 10px 20px; padding:10px; color:#000; font-weight:300; font-size:12px; border:1px dashed #000;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="margin:0 10px 10px; color:#000; font-weight:300; font-size:13px;"><a href="<?php echo $baseurl; ?>practitioner/view/<?php echo $content['id']; ?>">url:<?php echo $baseurl; ?>practitioner/view/<?php echo $content['id']; ?></a></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="card-container" style="border:1px solid #77BE32; width:490px; margin:0 auto;">
+                
+                <table style="border-collapse:collapse;  width:100%; text-align:center; font-family:roboto; margin: 0px;">
+                    <tr style="background:rgba(0,0,0,0.9);">
+                        <td style="padding:5px 0px 5px 20px; text-align:left;">
+                            <img src="<?php echo $this->basePath()?>/img/logo.png" alt="" />
+                        </td>
+                        <td style="text-align:right; padding:5px;">
+                            <div style="padding:10px 15px; border:1px solid #000; color:#fff; text-align:center; border-radius:4px;">
+                                <?php echo isset($bussCategoryName)?$bussCategoryName:'';?>
+                            </div>
+                        </td>	
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <h2 style="margin:15px 0 0; padding:7px; color:#fff; font-size:18px; background:#77be32; width: 100%"><?php echo (isset($content['first_name']) && isset($content['last_name'])) ? $content['first_name'] . ' ' . $content['last_name'] : ''; ?></h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="padding-left:50px; color:#000; font-weight:300; font-size:15px; text-align:left; font-weight:bold;">
+                                <p style="margin:10px 0 ; color: #000000; font-size: 14px;"><span style="display:inline-block; width:30px; vertical-align:middle; text-align:center"><img src="<?php echo $this->basePath()?>/img/phone.png" alt="" /></span><?php echo (isset($contact['cellphone']) && $contact['cellphone'] != 'None')?$contact['cellphone']:'Not Available'; ?></p>
+                                <p style="margin:10px 0 ; color: #000000; font-size: 14px;"><span style="display:inline-block; width:30px; vertical-align:middle; text-align:center;"><img src="<?php echo $this->basePath()?>/img/user.png" alt="" /></span>Ovessence ID : <?php echo isset($content['id'])?$content['id']:'Not Available'; ?></p>
+                                <p style="margin:10px 0 ; color: #000000; font-size: 14px;"><span style="display:inline-block; width:30px; vertical-align:middle; text-align:center;"><img src="<?php echo $this->basePath()?>/img/home.png" alt="" /></span><?php echo $bussAddress['city'].', '.$bussAddress['state_name'];?></p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="padding:12px; color:#77be32; font-weight:300; font-size:14px; background:rgba(0,0,0,0.9);">url: http:<?php echo $this->basePath().$this->url('practitioner', array('action' => 'view', 'id' => $content['id']))?></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="card-send">
+                <a id="viewBusinessCard" href="javascript:void(0)">view verso</a> <!-- id="savepdf" -->
+                <a id="businessmail" href="javascript:void(0)">Send mail</a> <!-- id="savepdf" -->
+                <a id="savepdf" href="<?php echo $this->url('practitioner', array('action' => 'savepdfbusinesscard', '')); ?>" target='_blank' >Save as pdf</a>
+            </div>
+            <div class="send-business-card">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Business card popup end here -->
+
+<!-- Booking details popup-->
+<div class="booking-details" id="booking-overlay" style="display:none;">
+    <div class="business-wrapper">
+        <div class="rating-head">
+            <h3>Booking Details</h3>
+            <span class="remove" onclick='$("div#booking-overlay").fadeOut("slow")'>x</span>
+        </div>
+        <div class='bc-msg'></div>
+        <form id="mannualBooking">
+            <input type="hidden" name="booking_id" id="booking_id" value="" />
+        <div id= "bcard-container" >
+            <div class="booking-detail">
+                <div class="row">
+                    <div class="label">
+                        Customer Name
+                    </div>
+                    <div class="input">
+                        <input type="text" name="username" id="username">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="label">
+                        Type of Service
+                    </div>
+                    <div class="input">
+                        <select name="service_id" id="service_id" onchange="getServiceduration($('#sp_id').data('spid'), this.value)">
+                            <option value="">-Select Service-</option>
+                            <?php if (isset($service_list) && is_array($service_list) && count($service_list) > 0) {?>
+                                <?php foreach ($service_list as $service) {?>
+                                    <option value="<?php echo isset($service['service_id'])?$service['service_id']:'';?>"><?php echo isset($service['service_name'])?$service['service_name']:'';?></option>
+                                <?php }?>
+                            <?php }?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="label">
+                        Service Duration
+                    </div>
+                    <div class="input">
+                        <select name="service_provider_service_id" id="duration_list" onchange="getEndTime(this, $('input#booking_time').val(), $('#end_time'))">
+                            <option value="">-Select Duration-</option>
+                            <?php if (isset($service_list) && is_array($service_list) && count($service_list) > 0) {?>
+                                <?php foreach ($service_list as $service) {?>
+                                    <option value="<?php echo isset($service['id'])?$service['id']:'';?>"><?php echo isset($service['service_name'])?$service['service_name']:'';?></option>
+                                <?php }?>
+                            <?php }?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="label">
+                        Start Time
+                    </div>
+                    <div class="input">
+                        <input type="text" name="booking_time" id="booking_time">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="label">
+                        Duration
+                    </div>
+                    <div class="input">
+                        <input type="text" name="duration" id="duration">
+                    </div>
+                </div>
+                <!--<div class="row">
+                    <div class="label">
+                        End Time
+                    </div>
+                    <div class="input">
+                        <input type="text" name="end_time" id="end_time">
+                    </div>
+                </div>-->
+                <div class="row">
+                    <div class="label">
+                        Location
+                    </div>
+                    <div class="input">
+                        <select name="service_address_id" id="service_address_id">
+                            <?php if (isset($work_address) && is_array($work_address) && count($work_address) > 0) {?>
+                                <?php foreach ($work_address as $address) {?>
+                                    <option value="<?php echo isset($address['id'])?$address['id']:'';?>"><?php echo  ucwords($address['street1_address'] . ', ' . $address['city'] . ', ' . $address['state_name'] . ' ' . $address['zip_code'] . ', ' . $address['country_name']);;?></option>
+                                <?php }?>
+                            <?php }?>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="label">
+                        Status
+                    </div>
+                    <div class="input">
+                        <select name="booking_status" id="booking_status">
+                            <option value="5">Pending Approval</option>
+                            <option value="4">Confirmed</option>
+                            <option value="6">Canceled</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row btn">
+                    <div class="label">
+                        &nbsp;
+                    </div>
+                    <div class="input">
+                        <input type="submit" name="submit" id="submit" value="Save" >
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<!-- Booking details popup end here -->

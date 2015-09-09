@@ -1,0 +1,241 @@
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home'); ?>">Home</a>
+            </li>
+            <li>
+                <a href="<?php echo $this->url('practitioner', array('action' => 'dashboard')); ?>">Dashboard</a>
+            </li>
+            <li>
+                Membership
+            </li>
+        </ul>
+        <article class="section-block">
+            <h2>
+                Membership
+                <span>
+                    <small>
+                        &nbsp;
+                    </small>
+                </span>
+            </h2>
+            <div class="membership-plan">
+                <table  width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <colgroup>
+                        <col>
+                        <col <?php echo ($subscription_id=="1") ? "class='active'" : '' ; ?> >
+                        <col <?php echo ($subscription_id=="2") ? "class='active'" : '' ; ?> >
+                        <col <?php echo ($subscription_id=="3") ? "class='active'" : '' ; ?> >
+                        <col>
+                    </colgroup>
+                    <tr>
+                        <th class="none">
+                    <h2>
+                        Pricing 
+                    </h2>
+                    </th>
+                    <?php //echo '<pre>'; print_r($membership); exit;
+                    if (count($membership) > 0) {
+                        foreach ($membership as $data) {
+                            ?>				
+                            <th>
+                            <h3>
+                                <?php echo isset($data['subscription_name']) ? $data['subscription_name'] : ''; ?>
+                                    <small>$ <?php echo isset($currency)?$currency:'';?></small>
+                            </h3>
+                            
+                            <span class="plan-rate">
+                                <?php
+                                if (isset($data['duration'])) {
+                                    foreach ($data['duration'] as $d) {
+                                        $duration = json_decode($d, true);
+                                        ?>
+                                        <strong>
+                                            <?php echo ($duration['price'] != '0') ? $duration['price'] : 'Free'; ?>		
+                                        </strong>
+                                        <small>
+                                            <?php
+                                            if ($duration['duration_in'] == "1") {
+                                                echo "yearly plan";
+                                            } else if ($duration['duration_in'] == "2") {
+                                                echo "monthly plan";
+                                            } else if ($duration['duration_in'] == "4") {
+                                                echo "default plan";
+                                            } else {
+                                                echo "daily plan";
+                                            }
+                                            ?>		
+                                        </small>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                            </span>
+                            </th>
+                            <?php
+                        }
+                    }
+                    ?>
+                    </tr>
+                    <?php
+                    if (count($site_features_list) > 0) {
+                        foreach ($site_features_list as $sf) {
+                            ?>
+                            <?php
+                            if ($sf['id'] == "1") { ?>
+                                <tr class='td-bg'>
+                                    <td>
+                                        <h6>Get Noticed</h6>
+                                    </td>
+                                    <?php
+                                    if (count($membership) > 0) {
+                                        foreach ($membership as $activeData) {
+                                            foreach ($activeData['duration'] as $d) {
+                                                $duration = json_decode($d, true);
+                                            ?>
+                                            <td <?php echo ($subscription_id == $duration['id']) ? "class='active-bg'" : '' ; ?> ></td>
+                                        <?php
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                </tr>
+                            <?php    
+                            } else if ($sf['id'] == "5") { ?>
+                                <tr class='td-bg'>
+                                    <td>
+                                        <h6>Get in Touch</h6>
+                                    </td>
+                                    <?php
+                                    if (count($membership) > 0) {
+                                        foreach ($membership as $activeData) {
+                                            foreach ($activeData['duration'] as $d) {
+                                                $duration = json_decode($d, true);
+                                            ?>
+                                            <td <?php echo ($subscription_id == $duration['id']) ? "class='active-bg'" : '' ; ?> ></td>
+                                        <?php
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                </tr>
+                            <?php    
+                            } else if ($sf['id'] == "7") { ?>
+                                <tr class='td-bg'>
+                                    <td>
+                                        <h6>Manage your bookings</h6>
+                                    </td>
+                                    <?php
+                                    if (count($membership) > 0) {
+                                        foreach ($membership as $activeData) {
+                                            foreach ($activeData['duration'] as $d) {
+                                                $duration = json_decode($d, true);
+                                            ?>
+                                            <td <?php echo ($subscription_id == $duration['id']) ? "class='active-bg'" : '' ; ?> ></td>
+                                        <?php
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                </tr>
+                            <?php    
+                            } else if ($sf['id'] == "14") { ?>
+                                <tr class='td-bg'>
+                                    <td>
+                                        <h6>Get your electronic Business Card</h6>
+                                    </td>
+                                    <?php
+                                    if (count($membership) > 0) {
+                                        foreach ($membership as $activeData) {
+                                            foreach ($activeData['duration'] as $d) {
+                                                $duration = json_decode($d, true);
+                                            ?>
+                                            <td <?php echo ($subscription_id == $duration['id']) ? "class='active-bg'" : '' ; ?> ></td>
+                                        <?php
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                </tr>
+                            <?php } ?>
+                            <tr>
+                                <td class="left-align">
+                                    <h6><?php echo isset($sf['feature_name']) ? $sf['feature_name'] : ''; ?></h6>
+                                    <dfn><?php echo isset($sf['description']) ? $sf['description'] : ''; ?></dfn>
+                                </td>
+                                <?php
+                                if (count($membership) > 0) {
+                                    foreach ($membership as $data) {
+                                        ?>
+                                        <td>
+                                            <?php
+                                            if (count($data['site_feature']) > 0) {
+                                                $flag = '';
+                                                foreach ($data['site_feature'] as $sf_con) {
+                                                    $con_sf = json_decode($sf_con, true);
+                                                    if ($sf['id'] == $con_sf['id']) {
+                                                        $flag = "yes";
+                                                        break;
+                                                    } else {
+                                                        $flag = "no";
+                                                    }
+                                                }
+                                            }
+
+                                            if ($flag == "yes") {
+                                                ?>
+                                                <a href="#">
+                                                    <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/check.png" alt="">
+                                                </a>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <a href="#">
+                                                    <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/close.png" alt="">
+                                                </a>		
+                                                <?php
+                                            }
+                                            ?>	
+                                        </td>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                            </tr>
+                            <?php
+                        }
+                    }
+                    ?>
+                    <tr>
+                        <td class="left-align">&nbsp;
+                        </td>
+                        <?php
+                        if (count($membership) > 0) {
+                            foreach ($membership as $buttonData) {
+                                foreach ($buttonData['duration'] as $d) {
+                                    $duration = json_decode($d, true);
+                                    ?>
+                                    <td <?php echo ($subscription_id != $duration['id']) ? "class='active'" : ''; ?> >
+                                        <a href="<?php echo $this->url('membership', array('action' => 'checkout', 'id' => $duration['id'])) ?>" class="green-btn">
+                                            <?php echo ($subscription_id != $duration['id']) ? 'Start Now' : 'Renew'; ?>
+                                        </a>
+                                    </td>
+                                <?php
+                                }
+                            }
+                        }
+                        ?>
+                    </tr>
+                </table>
+            </div>
+        </article>
+    </div>
+</div>
+<!-- CONTENT END HERE --> 

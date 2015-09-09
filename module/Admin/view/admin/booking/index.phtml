@@ -1,0 +1,99 @@
+<?php $status = (isset($status) && count($status)>0)?$status->toArray():array();
+$statusArray = array('4' => 'success', '5' => 'warning', '6' => 'danger');
+$invoiceStatusArray= array('0' => 'danger', '1' => 'success', '2' => 'warning');
+?>
+<div class="row"> 
+  <div class="col-md-12 col-sm-12">
+	  <?php if (isset($successMsgs) && count($successMsgs)>0): ?>
+		<div class="note note-success">
+			<?php foreach ($successMsgs as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<?php if (isset($errors) && count($errors)>0): ?>
+		<div class="note note-danger">
+			<?php foreach ($errors as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+	<div class="note" id="error" style="display:none;"></div>
+    <div class="portlet grey box">
+      <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-book"></i>Bookings List </div>
+        <div class="actions"> 
+			<a class="btn default btn-sm" href="<?php echo (count($this->postedData) > 0)?$this->url('admin/bookings', array('action'=>'export')).'?'.http_build_query($this->postedData):$this->url('admin/bookings', array('action'=>'export'));?>"> <i class="fa fa-download"></i> Export </a>
+			<a class="btn default btn-sm" href="<?php echo $this->url('admin/bookings', array('action'=>'add'));?>"> <i class="fa fa-pencil"></i> Add New Booking </a> 
+        </div>
+		<div class="table-group-actions pull-right" style="margin: -4px 10px 0 0;">
+			<?php if (isset($status)  &&  count($status)>0) { 
+				echo '<select class="table-group-action-input form-control input-inline input-medium input-sm action" id="" ><option value="" >--Select Status--</option>';
+					foreach ($status as $value) { echo '<option value="'.$value['status_id'].'" >'.ucwords($value['status']).'</option>';}
+				echo '</select>';
+			}?>
+			<button class="btn btn-sm default table-group-action-submit changeStatus" data-path='<?php echo $this->url('admin/bookings', array('action'=>'changestatus'));?>'><i class="fa fa-check"></i>Apply</button>
+		</div>
+      </div>
+      <div class="portlet-body">
+        <div class="table-responsive">
+			
+          <table class="table table-hover table-bordered table-striped" id='booking_table' data-path='<?php echo $this->url('admin/bookings');?>'>
+            <thead>
+              <tr>
+                <th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'user') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='user'>Consumer</th>
+                <th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'service_provider') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='service_provider'>Practitioner</th>
+                <th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'service') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='service'>Service</th>
+                <th>Duration</th>
+                <th>Price</th>
+                <th width='100'>Site Commission</th>
+                <th width='100'>Currency</th>
+                <th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'booked_date') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='booked_date' width='210'>Appointment Date</th>
+                <th>Date Of Booking</th>
+                <th width='100'>Payment Status</th>
+                <th>Status </th>
+                <th class="table-checkbox" >Action <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"/>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php if (isset($bookings) && count($bookings)>0) :?>
+                <?php foreach ($bookings as $booking) : $suggestions = $model->getAllSuggestions($booking->id, true); $booking_suggestion = '';
+                    if (isset($suggestions) && is_array($suggestions) && count($suggestions) > 0) {
+                        foreach ($suggestions as $suggestion) {
+                            $booking_suggestion .= date('d-m-Y h:i A', strtotime($suggestion['booking_time'])).' - '.$suggestion['name'].'<br />';
+                        }
+                    }
+                ?>
+                    <tr>
+                        <td><?php echo $this->escapeHtml($booking->first_name . " " . $booking->last_name); ?></td>
+                        <td><?php echo $this->escapeHtml($booking->sp_first_name . " " . $booking->sp_last_name); ?></td>
+                        <td><?php echo $this->escapeHtml($booking->category_name); ?></td>
+                        <td><?php echo $this->escapeHtml($booking->duration . " mins"); ?></td>
+                        <td><?php echo $this->escapeHtml($booking->price); ?></td>
+                        <td><?php echo $this->escapeHtml($booking->site_commision); ?></td>
+                        <td><?php echo $this->escapeHtml($booking->currency); ?></td>
+                        <td><?php echo $this->escapeHtml(date('d-m-Y h:i A', strtotime($booking->booking_time))); ?> <span style="display:inline-block; width:35%;" class="badge badge-danger popovers" data-trigger="hover" data-placement="right" data-content="<?php echo $booking_suggestion;?>" data-original-title="<?php echo 'Booking Suggestions'; ?>">Suggestions</span></td>
+                        <td><?php echo $this->escapeHtml(date('d-m-Y h:i:s A', strtotime($booking->created_date))); ?></td>
+                        <td><span class="label label-sm label-<?php echo (array_key_exists($booking->invoice_status, $invoiceStatusArray)) ? $invoiceStatusArray[$booking->invoice_status] : 'default'; ?>" ><?php echo $this->escapeHtml(ucwords($booking->PaymentStatus)); ?></span></td>
+                        <td><span class="label label-sm status label-<?php echo (array_key_exists($booking->booking_status, $statusArray)) ? $statusArray[$booking->booking_status] : 'default'; ?>" id="<?php echo $booking->id; ?>"><?php echo $this->escapeHtml(ucwords($booking->status)); ?></span></td>
+                        <td>
+                            <a class="btn default btn-xs default" href="<?php echo $this->url('admin/bookings', array('controller' => 'booking', 'action' => 'reschedule', 'id' => $booking->id)); ?>" id="<?php echo $booking->id; ?>" ><i class="fa fa-clock-o" title="reschedule"></i></a>
+                            <a class="btn default btn-xs default" href="<?php echo $this->url('admin/bookings', array('controller' => 'booking', 'action' => 'edit', 'id' => $booking->id)); ?>"><i class="fa fa-edit" title="edit"></i></a>
+                            <a class="btn default btn-xs default" href="<?php echo $this->url('admin/bookings', array('controller' => 'booking', 'action' => 'delete', 'id' => $booking->id)); ?>"><i class="fa fa-trash-o" title="delete" ></i></a>
+                            <input class="checkboxes" type="checkbox" value="<?php echo $booking->id; ?>">
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+              <?php endif; ?>
+            </tbody>
+          </table>
+          <?php
+          echo $this->paginationControl(
+                  $bookings, // the paginator object
+                  'sliding', // the scrolling style; see http://zf2.readthedocs.org/en/release-2.1.4/modules/zend.paginator.usage.html#rendering-pages-with-view-scripts
+                  array('partial/paginator.phtml', 'Admin'), // the partial to use to render the control
+                  array('route' => 'admin/bookings', 'routeParams' => $this->postedData)  // the route to link to when a user clicks a control link
+          );
+          ?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

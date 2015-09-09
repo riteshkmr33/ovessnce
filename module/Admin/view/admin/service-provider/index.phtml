@@ -1,0 +1,136 @@
+<?php
+$form->setAttribute('action', '/admin/serviceproviders/');
+$form->setAttribute('method', 'post');
+$form->setAttribute('id', 'sp_filter');
+$form->prepare();
+$status = (isset($status) && count($status)>0)?$status->toArray():array();
+$statusArray = array('9' => 'success', '5' => 'warning', '10' => 'danger', '3' => 'danger');
+?>
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+	  <?php if (isset($successMsgs) && count($successMsgs)>0): ?>
+		<div class="note note-success">
+			<?php foreach ($successMsgs as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<?php if (isset($errors) && count($errors)>0): ?>
+		<div class="note note-danger">
+			<?php foreach ($errors as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<div class="note" id="error" style="display:none;"></div>
+    <div class="portlet grey box">
+      <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-user"></i>Service Providers List </div>
+        <div class="actions"> 
+			<a class="btn default btn-sm" href="<?php echo (count($this->postedData) > 0)?$this->url('admin/serviceproviders', array('action'=>'export')).'?'.http_build_query($this->postedData):$this->url('admin/serviceproviders', array('action'=>'export'));?>"> <i class="fa fa-download"></i> Export </a> 
+			<a class="btn default btn-sm" href="<?php echo $this->url('admin/serviceproviders', array('action'=>'add'));?>"> <i class="fa fa-pencil"></i> Add New Service Provider </a> 
+        </div>
+        
+        <div class="table-group-actions pull-right" style="margin: -4px 10px 0 0;">
+			<?php if (isset($status)  &&  count($status)>0) { 
+				echo '<select class="table-group-action-input form-control input-inline input-medium input-sm action" id="" ><option value="" >--Select Status--</option>';
+					foreach ($status as $value) { echo '<option value="'.$value['status_id'].'" >'.ucwords($value['status']).'</option>';}
+				echo '</select>';
+			}?>
+			<button class="btn btn-sm default table-group-action-submit changeStatus" data-path='<?php echo $this->url('admin/serviceproviders', array('action'=>'changestatus'));?>'><i class="fa fa-check"></i>Apply</button>
+		</div>
+      </div>
+      <div class="portlet-body">
+        <div class="table-responsive">
+		<table class="table table-hover table-bordered table-striped" id="sp_table" data-path='<?php echo $this->url('admin/serviceproviders');?>'>
+            <thead>
+				<tr>
+					<th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'name') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='name'>Name</th>
+					<th>Avtar</th>
+					<th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'date') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='date' width="170">Date of Registration</th>
+					<th width="175">Services</th>
+					<th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'country') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='country' width="184">Country</th>
+					<th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'state') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='state' width="165">State</th>
+					<th class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'city') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='city'>City</th>
+					<th width="171" class='<?php if (isset($this->postedData) && $this->postedData['sort_field'] == 'status') { echo strtolower('sorting_'.$this->postedData['sort_order']); } else { echo 'sorting'; }?>' data-field='status'>Status</th>
+					<th width="185" class="table-checkbox" >Action <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"/></th>
+				</tr>
+				<tr class="filter" role="row">
+				<?php  echo $this->form()->openTag($form); ?>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formInput($form->get('provider_name')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						&nbsp;
+					</td>
+					<td rowspan="1" colspan="1">
+						<div class="input-group date date-picker margin-bottom-5" data-date-format="dd-mm-yyyy">
+							<?php  echo $this->formInput($form->get('from')); ?>
+							<span class="input-group-btn">
+								<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
+							</span>
+						</div>
+						<div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+							<?php  echo $this->formInput($form->get('to')); ?>
+							<span class="input-group-btn">
+								<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
+							</span>
+						</div>
+					</td>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formSelect($form->get('serviceType')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formSelect($form->get('country')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formSelect($form->get('state')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formInput($form->get('city')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						<?php  echo $this->formSelect($form->get('status_id')); ?>
+					</td>
+					<td rowspan="1" colspan="1">
+						<button class="btn btn-sm default filter-submit margin-bottom search" data-form="sp_filter" data-tbl="sp_table" data-path='<?php echo $this->url('admin/serviceproviders');?>'><i class="fa fa-search"></i> Search</button>
+						<button class="btn btn-sm default filter-cancel" type="reset" onclick="$('input, select').val(''); $('.select2').select2('val', '');"><i class="fa fa-times"></i> Reset</button>
+					</td>
+				<?php  echo $this->form()->closeTag();?>
+				</tr>
+            </thead>
+            <tbody>
+			<?php if (isset($serviceproviders) && count($serviceproviders)>0) : ?>
+				<?php foreach ($serviceproviders as $serviceprovider) : ?>
+				<tr>
+                                    <td><?php echo $this->escapeHtml(ucwords(stripcslashes($serviceprovider->first_name." ".$serviceprovider->last_name)));?></td>
+					<td><?php echo ($serviceprovider->avtar_url != "")?'<img src="'.$serviceprovider->avtar_url.'" height="50" width="50" />':'No Avtar';?></td>
+					<td><?php echo $this->escapeHtml(date('d-m-Y H:i:s',strtotime($serviceprovider->created_date)));?></td>
+					<td><button class="btn popovers label-info" data-trigger="hover" data-placement="right" data-content="<?php $services = $model->getServicesByName($serviceprovider->id,true); echo $services;?>" data-original-title="<?php echo $serviceprovider->first_name.' Services'; ?>">Services</button></td>
+					<td><?php echo $this->escapeHtml($serviceprovider->country_name);?></td>
+					<td><?php echo $this->escapeHtml($serviceprovider->state_name);?></td>
+					<td><?php echo $this->escapeHtml($serviceprovider->city);?></td>
+					<td><span class="label label-sm status label-<?php echo (array_key_exists($serviceprovider->status_id, $statusArray))?$statusArray[$serviceprovider->status_id]:'default';?>" id="<?php echo $serviceprovider->id;?>"><?php echo $this->escapeHtml(ucwords($serviceprovider->status));?></span></td>
+					<td>
+						<a class="btn default btn-xs default" href="<?php echo $this->url('admin/serviceproviderservices',array('id' => $serviceprovider->id));?>"><i class="fa fa-briefcase" title="Manage Services" ></i></a>
+						<a class="btn default btn-xs default" href="<?php echo $this->url('admin/serviceprovidercommisions',array('user_id' => $serviceprovider->id));?>"><i class="fa fa-money" title="Manage Commission" ></i></a>
+						<a class="btn default btn-xs default" href="<?php echo $this->url('admin/serviceprovidermedia',array('user_id' => $serviceprovider->id));?>"><i class="fa fa-picture-o" title="Manage Media" ></i></a>
+						<a class="btn default btn-xs default" href="<?php echo $this->url('admin/serviceprovideravailability',array('user_id' => $serviceprovider->id));?>"><i class="fa fa-calendar" title="Manage Availability" ></i></a>
+						<a class="btn default btn-xs default" href="<?php echo $this->url('admin/serviceproviders',array('controller'=>'page','action'=>'edit', 'id' => $serviceprovider->id));?>"><i class="fa fa-edit" title="Edit" ></i></a>
+						<a class="btn default btn-xs default" href="<?php echo $this->url('admin/serviceproviders',array('controller'=>'page','action'=>'delete', 'id' => $serviceprovider->id));?>"><i class="fa fa-trash-o" title="Delete" ></i></a>
+						<input class="checkboxes" type="checkbox" value="<?php echo $serviceprovider->id;?>">
+					</td>
+				</tr>
+				<?php endforeach; ?>
+			<?php endif; ?>
+			</tbody>
+		</table>
+		<?php 
+		echo $this->paginationControl(
+						$serviceproviders,  // the paginator object
+						'sliding',   // the scrolling style; see http://zf2.readthedocs.org/en/release-2.1.4/modules/zend.paginator.usage.html#rendering-pages-with-view-scripts
+						array('partial/paginator.phtml', 'Admin'),  // the partial to use to render the control
+						array('route' => 'admin/serviceproviders', 'routeParams' => $this->postedData)  // the route to link to when a user clicks a control link
+					);
+		?>
+		</div>
+      </div>
+    </div>
+  </div>
+</div>

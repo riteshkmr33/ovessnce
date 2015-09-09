@@ -1,0 +1,894 @@
+<?php
+$form_review = $this->form_review;
+$form_review->setAttribute('action', $this->url(null, array('controller' => 'practitioner', 'action' => 'addreview', 'id' => $content['id'])) . '?tab=review&review=1&s_id=' . $s_id);
+$form_review->prepare();
+
+$form_ask = $this->form_ask;
+$form_ask->setAttribute('action', $this->url(null, array('controller' => 'practitioner', 'action' => 'submitquestion', 'id' => $content['id'])));
+$form_ask->prepare();
+
+?>
+<!-- CONTENT START HERE -->
+<div id="content">
+    <div id="banner">
+        <?php if (isset($banners) && is_array($banners) && count($banners) > 0):?>
+        <img src="<?php echo isset($banners[0]['banner_url'])?$banners[0]['banner_url']:'';?>" alt="" />
+        <?php endif;?>
+    </div>
+    <div class="main practitioner-Profile">
+        <ul id="breadcrumb">
+            <li>
+                <a href="<?php echo $this->url('home'); ?>">Home</a>
+            </li>
+            <li>
+                <a href="<?php echo $this->url('practitioner', array('action' => 'list')); ?>">Find Practitioner</a>
+            </li>
+            <li>
+                Practitioner Profile
+            </li>
+        </ul>
+        <div class="search main">
+            <?php
+            $search_form->setAttribute('action', $this->url('practitioner', array('action' => 'list')));
+            $search_form->prepare();
+            echo $this->form()->openTag($search_form);
+            ?>
+            <ul> 
+                <li>
+                    <?php
+                    $location = $search_form->get('location');
+                    echo $this->formInput($location);
+                    ?>
+
+                </li>
+                <li>
+                    <?php
+                    $treatment = $search_form->get('treatment');
+                    echo $this->formSelect($treatment);
+                    ?>
+
+                </li>
+                <li>
+                    <?php
+                    $when = $search_form->get('datetime');
+                    echo $this->formInput($when);
+                    ?>
+                    <i class="time icon"></i>						
+                </li>
+                <li>
+                    <input type="submit" class="black" value="Search" name="set_filter">
+
+                </li>
+            </ul>
+            <?php echo $this->form()->closeTag(); ?>
+        </div>
+
+        <h2>
+            practitioner Profile
+            <span>
+                <small>
+                    <!-- Lorem ispum sit -->
+                </small>
+            </span>
+        </h2>
+
+        <!-- Practitioner Section-->
+        <div class="practitioner-section">
+            <div class="success-msg" style="display: none;"></div>
+            <div class="error-msg" <?php echo (isset($errors) && count($errors) > 0) ? '' : 'style="display: none;"'; ?> >
+                <?php if (isset($errors) && count($errors) > 0): ?>
+                    <?php
+                    foreach ($errors as $msg) {
+                        echo '<label> ' . $msg . ' </label>';
+                    }
+                    ?>
+                <?php endif; ?>
+            </div>
+            <!-- start profile right panel here-->
+            <div class="profile-add-left">
+                <div class="profile-wrapper">
+                    <img src="<?php echo!empty($content['avtar_url']) ? $content['avtar_url'] : $this->basePath() . '/img/profile-pic.jpg'; ?>" alt="" />
+                    <div class="social-icon">
+                        <ul>
+                            <div class="addthis_sharing_toolbox" data-url="<?php echo $baseurl; ?>practitioner/view/<?php echo $content['id']; ?>"></div>
+                            <!--<li><a class="facebook" href="javascript:;"></a></li>
+                            <li><a class="twitter" href="javascript:;"></a></li>
+                            <li><a class="google" href="javascript:;"></a></li>
+                            <li><a class="linkdin" href="javascript:;"></a></li> -->
+                        </ul>
+                    </div>
+                </div>
+				<input type="hidden" id="booked_days" value="" />
+                <input type="hidden" id="working_days" value="" />
+                <div class="add-chat">
+                    <div class="chat-tab">
+                        <?php
+                        if ((isset($features) && is_array($features) && in_array(6, $features)) || (isset($chat) && $chat == "1")) {
+                            ?>
+                            <!-- <button class="chat">Chat with me</button> --->
+                            <a class="chat" onclick="if (navigator.userAgent.toLowerCase().indexOf('opera') != -1 && window.event.preventDefault)
+                                        window.event.preventDefault();
+                                    this.newWindow = window.open('<?php echo isset($chat_url) ? $chat_url : ''; ?>index.php?p=start&lang=en&user=<?php echo $content['id']; ?>', 'lsr', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=540,height=550,resizable=1');
+                                    this.newWindow.focus();
+                                    this.newWindow.opener = window;
+                                    return false;" target="_blank" href="<?php echo isset($chat_url) ? $chat_url : ''; ?>index.php?p=start&lang=en&user=<?php echo $content['id']; ?>"> 
+                                <img alt="" src="<?php echo isset($chat_url) ? $chat_url : ''; ?>index.php?p=b&i=blue&lang=en&user=<?php echo $content['id']; ?>">
+                            </a>
+                            <?php /*if ($auth->hasIdentity(4)) {?>
+                            <a class="chat" onclick="if (navigator.userAgent.toLowerCase().indexOf('opera') != -1 && window.event.preventDefault)
+                                        window.event.preventDefault();
+                                    this.newWindow = window.open('<?php echo isset($chat_url) ? $chat_url : ''; ?>index.php?p=start&lang=en', 'lsr', 'toolbar=0,scrollbars=1,location=0,status=1,menubar=0,width=540,height=550,resizable=1');
+                                    this.newWindow.focus();
+                                    this.newWindow.opener = window;
+                                    return false;" target="_blank" href="<?php echo isset($chat_url) ? $chat_url : ''; ?>index.php?p=start&lang=en"> 
+                                <img alt="" src="<?php echo isset($chat_url) ? $chat_url : ''; ?>index.php?p=b&i=blue&lang=en">
+                            </a>
+                            <?php } else {?>
+                            <a class="chat" href="<?php echo $this->url('login');?>"><img alt="" src="<?php echo isset($chat_url) ? $chat_url : ''; ?>index.php?p=b&i=blue&lang=en"></a>
+                            <?php }*/?>
+                        <?php } ?>
+                        <?php
+                        if ($auth->hasIdentity()) {
+                            //$forWishlist->last_url = '';
+                            ?>
+                            <button class="add" <?php if ($auth->hasIdentity(4)) { ?> onclick="$('div#mesg').html('');
+                                        $('div#mesg').css({'display': 'none'});
+                                        $('div#wishlist-overlay').fadeIn('slow');" <?php } ?> >Add to wish list</button>
+                                    <?php
+                                } else {
+                                    //$forWishlist->last_url = '/practitioner/view/'.$content['id'];
+                                    ?>
+                            <a href="<?php echo $this->basePath(); ?>/login?last_url=/practitioner/view/<?php echo $content['id']; ?>"><button class="add" onclick="javascript:void(0)">Add to wish list</button></a>
+                        <?php } ?>
+                    </div>
+                    <div class="tab-data">
+                        <ul>
+                            <li><div class="head">Verified ID</div>
+                                <div class="display-data">
+                                    <div class="row">
+                                        <div class="label"><strong>Email</strong></div>
+                                        <div class="status">
+                                            <?php
+                                            if (isset($varification['email'])) {
+                                                echo ($varification['email']['verification_status'] == 1) ? "Verified" : "Not Verified";
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="label"><strong>Phone</strong></div>
+                                        <div class="status">
+                                            <?php
+                                            if (isset($varification['phone'])) {
+                                                echo ($varification['phone']['verification_status'] == 1) ? "Verified" : "Not Verified";
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="label"><strong>License Number</strong></div>
+                                        <div class="status">
+                                            <?php echo $varification['licence'];?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="label"><strong>Professional Mermbership</strong></div>
+                                        <div class="status">
+                                            <?php echo $varification['membership'];?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><div class="head">Practitioner's Response </div>
+                                <div class="display-data">
+                                    <div class="row">
+                                        <div class="label"><strong>Response Rate</strong></div>
+                                        <div class="status"><?php echo (isset($response['rate']) && $response['rate'] != 0) ? $response['rate'] . '%' : 'Not Available'; ?></div>
+                                    </div>
+                                    <!--<div class="row">
+                                        <div class="label"><strong>Response Time</strong></div>
+                                        <div class="status">
+                                            <?php echo (isset($response['time']))?$response['time']:0;?>
+                                        </div>
+                                    </div>-->
+                                </div>
+                            </li>
+                            <li><div class="head">Available Options</div>
+                                <div class="display-data">
+                                    <div class="row">
+                                        <div class="label"><strong>Email reminder for appointment</strong></div>
+                                        <div class="status">
+                                            <?php echo ((isset($options['email']) && $options['email'] == "1") || (isset($features) && is_array($features) && in_array(11, $features))) ? "Available" : "Not Available"; ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="label"><strong>SMS reminder for appointment</strong></div>
+                                        <div class="status">
+                                            <?php echo ((isset($options['sms']) && $options['sms'] == "1") || (isset($features) && is_array($features) && in_array(12, $features))) ? "Available" : "Not Available"; ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="label"><strong>Livechat with practitoner</strong></div>
+                                        <div class="status">
+                                            <?php echo ((isset($options['chat']) && $options['chat'] == "1") || (isset($features) && is_array($features) && in_array(6, $features))) ? "Available" : "Not Available"; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="add-image">
+                    <!-- start Basic Jquery Slider -->
+                    <ul class="bjqs">
+                        <?php if (isset($advertisement) && is_array($advertisement)) {
+                            foreach ($advertisement as $ad) {?>
+                                <li><a href="<?php echo isset($ad['url'])?$ad['url']:'';?>" target="_blank"><img src="<?php echo isset($ad['image'])?$ad['image']:'';?>" ></a></li>
+                        <?php }}?>
+                        
+                    </ul>
+                    <!-- end Basic jQuery Slider -->
+                </div>
+
+            </div>
+            <!-- end profile left panel here-->
+            <div class="profile-add-right">
+                <div class="book-block">
+                    <div class="rating-top">
+                        <div class="head">
+                            <h3><?php echo $content['first_name'] . ' ' . $content['last_name']; ?>
+                                <span>
+                                    <!--<small><?php echo (isset($details['designation']) && $details['designation'] != '' && $details['designation'] != 'None')?$details['designation']:'Not Available';?></small>-->
+                                </span>
+                            </h3>
+                            <?php if (isset($varification['verified']) && $varification['verified'] == '1') { ?> 
+                                <span class="verify"><img src="/img/verifed-40.png" alt="" /> </span> 
+                            <?php }?>
+                        </div>
+                        <div class="rating">
+                            <form>
+                                <input type="radio" class="rating-input"
+                                       disabled="disabled" id="rating-input-1-5" name="rating-input-1" <?php echo (isset($ratings['average']) && $ratings['average'] == 5) ? 'checked="checked"' : ''; ?>>
+                                <label for="rating-input-1-5" class="rating-star"></label>
+                                <input type="radio" class="rating-input"
+                                       disabled="disabled" id="rating-input-1-4" name="rating-input-1" <?php echo (isset($ratings['average']) && $ratings['average'] == 4) ? 'checked="checked"' : ''; ?>>
+                                <label for="rating-input-1-4" class="rating-star"></label>
+                                <input type="radio" class="rating-input"
+                                       disabled="disabled" id="rating-input-1-3" name="rating-input-1" <?php echo (isset($ratings['average']) && $ratings['average'] == 3) ? 'checked="checked"' : ''; ?>>
+                                <label for="rating-input-1-3" class="rating-star"></label>
+                                <input type="radio" class="rating-input"
+                                       disabled="disabled" id="rating-input-1-2" name="rating-input-1" <?php echo (isset($ratings['average']) && $ratings['average'] == 2) ? 'checked="checked"' : ''; ?>>
+                                <label for="rating-input-1-2" class="rating-star"></label>
+                                <input type="radio" class="rating-input"
+                                       disabled="disabled" id="rating-input-1-1" name="rating-input-1" <?php echo (isset($ratings['average']) && $ratings['average'] == 1) ? 'checked="checked"' : ''; ?>>
+                                <label for="rating-input-1-1" class="rating-star"></label>
+                            </form>
+                            <div class="view-all">
+                                <?php if (isset($ratings['average']) && $ratings['average'] > 0) { ?>
+                                    <a href="javascript:;" onclick='$("div#rating-overlay").fadeIn("slow")'>view all rating</a>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <div class="booking-reviews">
+                            <span class="booking" onclick="$('li#calendar').trigger('click')">
+                                <label><?php echo isset($booking_count) ? $booking_count : '0'; ?></label>
+                                <small>Booking</small>
+                            </span>
+                            <span class="review" onclick="$('li#reviews').trigger('click')">
+                                <label><?php echo!empty($feedback_count) ? $feedback_count : 'No'; ?></label>
+                                <small>Reviews</small>
+                            </span>
+                        </div>
+                    </div>
+                    <?php if (isset($work_address) && isset($service_list) && count($service_list) > 0 && count($work_address) > 0) { ?>
+                        <div class="booking-form">
+                            <?php
+                            $form_booking->setAttribute('action', $this->url('booking', array('action' => 'schedule', 'id' => $content['id'])));
+                            $form_booking->setAttribute('method', 'post');
+                            echo $this->form()->openTag($form_booking);
+                            ?>
+                            <div class="amount-wrapper">
+                                <div class="amount bubble">
+                                    <!--<div class="price" id="price"><?php echo isset($currency) ? $currency : ''; ?> 0</div>
+                                    <small>Service price</small>
+                                    <br />
+                                    <br />
+                                    <div class="price" id=""><?php echo isset($currency) ? $currency : ''; ?> <?php echo isset($commission) ? $commission : 0; ?></div>
+                                    <small>Amount to be paid for booking</small>-->
+                                    
+                                    <div>Reserve your spot now </div>
+                                    <div class="price"><?php echo isset($commission) ? $commission : 0; ?> $ <?php echo isset($currency) ? $currency : ''; ?> </div>
+                                    <div>Deposit paid on booking </div>
+                                </div>
+                                <div class="amount bubble bgBlack">
+                                    <div class="price" id="price">0 $ <?php echo isset($currency) ? $currency : ''; ?></div>
+                                    <div>Balance to be paid in person to practitioner</div>
+                                </div>
+                            </div>
+
+                            <div class="book-form">
+                                <div class="input-field">
+                                    <?php
+                                    $service_location = $form_booking->get('service_location');
+                                    echo $this->formSelect($service_location);
+                                    ?>
+                                    <?php
+                                    $service_id = $form_booking->get('service_id');
+                                    echo $this->formSelect($service_id);
+                                    ?>
+                                    <?php
+                                    $duration = $form_booking->get('duration')->setAttributes(array('data-div' => 'price'));
+                                    echo $this->formSelect($duration);
+                                    ?>
+                                    <?php
+                                    $service_date = $form_booking->get('service_date')->setAttributes(array('disabled' => 'disabled'));
+                                    echo $this->formInput($service_date);
+                                    ?>
+                                </div>
+                                <div class="btn-submit">
+                                    <input class="submit" id="submitBooking" type="submit" value="" />
+                                </div>		
+                            </div>
+                            <?php echo $this->form()->closeTag(); ?>
+                        </div>
+                    
+                    <?php /*?><div class="booking-form">
+                            <?php
+                            $form_booking->setAttribute('action', $this->url('booking', array('action' => 'schedule', 'id' => $content['id'])));
+                            $form_booking->setAttribute('method', 'post');
+                            echo $this->form()->openTag($form_booking);
+                            ?>
+                            <div class="amount-wrapper">
+                                <div class="amount bubble">
+                                    <div class="price" id="price"><?php echo isset($currency) ? $currency : ''; ?> 0</div>
+                                    <small>Service price</small>
+                                    <br />
+                                    <br />
+                                    <div class="price" id=""><?php echo isset($currency) ? $currency : ''; ?> <?php echo isset($commission) ? $commission : 0; ?></div>
+                                    <small>Amount to be paid for booking</small>
+                                </div>
+                            </div>
+
+                            <div class="book-form">
+                                <div class="input-field">
+                                    <?php
+                                    $service_location = $form_booking->get('service_location');
+                                    echo $this->formSelect($service_location);
+                                    ?>
+                                    <?php
+                                    $service_id = $form_booking->get('service_id');
+                                    echo $this->formSelect($service_id);
+                                    ?>
+                                    <?php
+                                    $duration = $form_booking->get('duration')->setAttributes(array('data-div' => 'price'));
+                                    echo $this->formSelect($duration);
+                                    ?>
+                                    <?php
+                                    $service_date = $form_booking->get('service_date')->setAttributes(array('disabled' => 'disabled'));
+                                    echo $this->formInput($service_date);
+                                    ?>
+                                </div>
+                                <div class="btn-submit">
+                                    <input class="submit" id="submitBooking" type="submit" value="" />
+                                </div>		
+                            </div>
+                            <?php echo $this->form()->closeTag(); ?>
+                        </div><?php */?>
+                    
+                    
+                    <?php } ?>
+                </div>
+
+                <!-- Tab block start -->
+                <div class="tab-block">
+                    <ul class="tab-menu">
+                        
+                        <li <?php echo ($tab == "" && $posted_zip == '') ? 'class="active arow"' : ''; ?> id="about-me">About me</li>
+                        <li <?php echo ($tab == "videos") ? 'class="active arow"' : ''; ?> id="more-video">more videos</li>
+                        <li <?php echo ($tab == "map" || $posted_zip != '') ? 'class="active arow"' : ''; ?> id="map">Map</li>
+                        <?php if (isset($features) && is_array($features) && in_array(7, $features)) {?>
+                        <li id="calendar">Calendar</li>
+                        <?php }?>
+                        <input type="hidden" id="total_recommended" value="<?php echo isset($total_referred_from) ? $total_referred_from : 0; ?>" >
+                        <li id="recommended">Recommended by</li>
+                        <!--<li id="ask-question">Ask a Question</li>-->
+                        <li id="reviews" <?php echo ($tab == "review") ? 'class="active arow"' : ''; ?> >Reviews</li>
+                    </ul>
+                    <div class="tab-content">
+                        
+                        <!-- about me tab-->
+                        <div class="about-me" <?php echo ($tab == "" && $posted_zip == '') ? 'style="display:block;"' : ''; ?> >
+                            <div class="edit-head">
+                                <h3>GENERAL INFORMATION </h3>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">Specialties</div>
+                                <div class="about-data"><?php echo (isset($details['specialties']) && $details['specialties'] != '') ? $details['specialties'] : 'No Speciality'; ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">Work Days</div>
+                                <div class="about-data"><?php echo isset($workdays) ? $workdays : 'Not Available'; ?></div>
+                            </div>
+                            <!--<div class="row">
+                                <div class="about-label">Main Education</div>
+                                <div class="about-data" id="education"><?php echo (isset($educations) && count($educations) > 0 && implode(', ', $educations) != "") ? implode(', ', $educations) : 'Not Available'; ?></div>
+                            </div>-->
+                            <div class="row">
+                                <div class="about-label">Degrees</div>
+                                <div class="about-data"><?php echo (isset($details['degrees']) && $details['degrees'] != '') ? $details['degrees'] : 'Not Available'; ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">Years of experiences</div>
+                                <div class="about-data"><?php echo isset($details['years_of_experience']) ? $details['years_of_experience'] . ' Years' : 'Not Available'; ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">Professional Memberships</div>
+                                <div class="about-data"><?php echo $varification['membership_title'];?></div>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">Professional Licence Number</div>
+                                <div class="about-data"> <?php echo $varification['licence_number'];?> </div>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">Main Award and publication</div>
+                                <div class="about-data"><?php echo isset($details['awards_and_publication']) ? $details['awards_and_publication'] : 'Not Available'; ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">Languages spoken</div>
+                                <div class="about-data"><?php echo!empty($language) ? $language : 'Not Available'; ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">Authorized to provide insurance receipt</div>
+                                <div class="about-data">
+                                    <?php
+                                    if (isset($details['auth_to_issue_insurence_rem_receipt'])) {
+                                        if ($details['auth_to_issue_insurence_rem_receipt'] == true) {
+                                            echo "Yes";
+                                        } else {
+                                            echo "No";
+                                        }
+                                    } else {
+                                        echo "&nbsp;";
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">Treatment for physically disabled individuals</div>
+                                <div class="about-data"><?php echo (isset($details['treatment_for_physically_disabled_person']) && $details['treatment_for_physically_disabled_person'] == 1) ? 'Yes' : 'No'; ?></div>
+                            </div>
+                            
+                            <div class="edit-head">
+                                <h3>CONTACT INFORMATION </h3>
+                            </div>
+                            <?php if (isset($features) && is_array($features) && in_array(1, $features)) {?>
+                            <div class="row">
+                                <div class="about-label">Phone Number</div>
+                                <div class="about-data"><?php echo isset($contact['phone_number']) ? $contact['phone_number'] : 'Not Available'; ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">Email</div>
+                                <div class="about-data"><?php echo isset($content['email']) ? $content['email'] : 'Not Available'; ?></div>
+                            </div>
+                            <?php }?>
+                            <div class="row btn-center"><span style="float: none;" class="comm-edit-button edit" onclick="getContactDetails(<?php echo isset($content['id'])?$content['id']:'0';?>,'<?php echo isset($content['email'])?$content['email']:'';?>','<?php echo isset($contact['phone_number'])?'0'.$contact['phone_number']:'';?>',null);">Contact Me</span></div>
+                            
+                            <div class="edit-head">
+                                <h3>wORKPLACE ADDRESSES </h3>
+                            </div>
+                            <div class="row btn-center"><span style="float: none;" class="comm-edit-button edit" onclick="$('li#map').trigger('click')">View Workplace Addresses</span></div>
+                            <!--
+                            <div class="row">
+                                <div class="about-label">Workplace Address</div>
+                                <div class="about-data">
+                                    <?php echo ($work_address['street1_address'] != 'None') ? $work_address['street1_address'] : 'Not Available'; ?>
+                                    <?php echo ($work_address['street2_address'] != 'None') ? ' ,' . $work_address['street2_address'] : 'Not Available'; ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">Neighborhood</div>
+                                <div class="about-data">&nbsp;</div>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">Postal code</div>
+                                <div class="about-data"><?php echo isset($work_address['zip_code']) ? $work_address['zip_code'] : 'Not Available'; ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">City</div>
+                                <div class="about-data"><?php echo isset($work_address['city']) ? $work_address['city'] : 'Not Available'; ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">State</div>
+                                <div class="about-data"><?php echo isset($work_address['state_name']) ? $work_address['state_name'] : 'Not Available'; ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="about-label">Country</div>
+                                <div class="about-data"><?php echo isset($work_address['country_name']) ? $work_address['country_name'] : 'Not Available'; ?></div>
+                            </div>
+                            
+                            <div class="row">
+                                <label>&nbsp;</label>
+                            </div>
+                            -->
+                            
+                            
+                            <div class="edit-head">
+                                <h3>MAIN DEMO VIDEO</h3>
+                            </div>
+                            <div class="flexslider">
+                                <ul class="slides">
+                                    <?php
+                                    if (count($video_list) > 0) {
+                                        foreach ($video_list as $video) {
+                                            ?>
+                                            <li>
+                                                <?php if (is_numeric($video['media_url'])) { ?><iframe id="player_1" style="width:100%" src="//player.vimeo.com/video/<?php echo isset($video['media_url']) ? $video['media_url'] : ''; ?>?api=1&amp;player_id=player_1" width="540" height="304" frameborder="0"></iframe>
+                                                <?php } else { ?><video id="<?php echo isset($video['media_title']) ? $video['media_title'] : 'New Video'; ?>_more" class="abc" src='<?php echo str_replace('./public', '', $video['media_url']); ?>' style="width:100%;"></video>
+                                                <?php } ?>
+                                            </li>												
+                                            <?php
+                                        }
+                                    } else {  echo "No videos for this practitioner"; 
+                                    }
+                                    ?>
+                                </ul>
+                            </div>
+                            
+                            <div class="edit-head">
+                                <h3>ABOUT ME</h3>
+                            </div>
+                            <div class="therapists">
+                                <?php echo isset($details['description']) ? $details['description'] : ''; ?>
+                            </div>
+                        </div>
+                        
+                        <!-- / about me tab-->
+                        <!-- / more vide tab-->
+                        <div class="more-video" <?php echo ($tab == "videos") ? 'style="display:block;"' : ''; ?>>
+                            <ul>
+                                <?php
+                                if (count($video_list) > 0) {
+                                    foreach ($video_list as $video) {
+                                        ?>
+                                        <li>
+                                            <a href="javascript:;">
+                                                <div class="video-wrapper">
+                                                    <div class="thumb">
+
+                                                        <?php if (is_numeric($video['media_url'])) { ?><iframe id="player_1" style="width:100%" src="//player.vimeo.com/video/<?php echo isset($video['media_url']) ? $video['media_url'] : ''; ?>?api=1&amp;player_id=player_1" width="540" height="304" frameborder="0"></iframe>
+                                                        <?php } else { ?><video id="<?php echo isset($video['media_title']) ? $video['media_title'] : ''; ?>" class="abc" src='<?php echo str_replace('./public', '', $video['media_url']); ?>' style="width:100%;"></video>
+                                                        <?php } ?>
+
+                                                    </div>
+                                                    <div class="name"><?php echo isset($video['media_title']) ? $video['media_title'] : ''; ?></div>
+
+                                                </div>
+                                            </a>
+                                        </li>												
+                                        <?php
+                                    }
+                                } else {
+                                    echo "No videos for this practitioner";
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                        <!-- map tab-->
+                        <div class="map" <?php echo ($tab == "map" || $posted_zip != '') ? 'style="display:block;"' : ''; ?>>
+                            <form name="distanceForm" method="POST" action="">
+                                <div class="zipcodeLabel">Enter your zip code</div><div class="zipcodeInput"><input type="text" name="zip_code" value="<?php echo $posted_zip;?>"> <input type="submit" name="submit" class="comm-edit-button" value="Find Distance"></div>
+                                <span>*For canadian client only: Please enter your zip code with a space between 3 first digits and 3 last digits / Example : J3Y 0B7</span>
+                            </form>
+                            <?php 
+                            if (isset($distances) && is_array($distances) && count($distances) > 0) {
+                                foreach ($distances as $distance) {
+                                    echo '<div class="addwrap"><div class="mapaddress">'.$distance['address'].'</div><div class="mapdistance">DISTANCE FROM YOUR AREA: '.$distance['distance'].' Miles</div></div>';
+                                }
+                            }
+                            ?>
+                        
+                            <!--<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
+                                eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo</p><br /> 
+                            <p><small>Distance from your area</small><span>20.5 km</span></p>-->
+                            <div class="map-data">
+                                <?php echo isset($map) ? $map : ''; ?>
+                            </div>
+                        </div>
+                        <!-- /map tab-->
+                        <?php if (isset($features) && is_array($features) && in_array(7, $features)) {?>
+                        <!-- Calendar tab-->
+                        <div class="calendar" style="display:none;">
+                            <div class="calendar-section">
+                                <div id="bookings_calendar"></div>
+                                <!--<div class="confirm">
+                                    <div class="row"><span class="confirm"></span>Confirmed </div>
+                                    <div class="row"><span class="pending"></span>Pending approval  </div>
+                                </div>-->
+                            </div>
+                        </div>
+                        <!-- /Calendar tab-->
+                        <?php }?>
+                        <!-- ask question -->
+                        <div class="ask-question"> 
+                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
+                                eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo</p><br />								
+                            <div class="question-wrapper">
+                                <ul>
+                                    <?php
+// print_r($faq_list);die;
+                                    if (count($faq_list) > 0) {
+                                        foreach ($faq_list as $list) {
+                                            ?>
+                                            <li>
+                                                <div class="ques">
+                                                    <div class="ques-icon">Q.</div>
+                                                    <div class="ques-head">
+                                                        <?php echo isset($list['question']) ? $list['question'] : ''; ?>
+                                                        <small>(Lorem ipusm sit)</small>
+                                                    </div>
+                                                </div>
+                                                <div class="ans">
+                                                    <div class="ans-icon">A.</div>
+                                                    <div class="ans-data">
+                                                        <?php echo isset($list['answer']) ? $list['answer'] : ''; ?>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <?php
+                                        }
+                                    }
+                                    ?>		
+                                </ul>
+                            </div>
+
+                            <div class="ques-form">
+                                <?php if ($auth->hasIdentity(4)) { ?>
+                                    <?php echo $this->form()->openTag($form_ask); ?>
+
+                                    <div class="ask-your">Ask Your Question</div>
+
+                                    <?php $question = $form_ask->get('question'); ?>
+                                    <?php echo $this->formTextarea($question); ?>
+
+                                    <?php
+                                    $captcha = $form_ask->get('captcha');
+                                    echo $this->formCaptcha($captcha);
+                                    echo $this->formElementErrors($captcha);
+                                    ?>
+
+                                    <input type="submit" value="Submit Question" />		
+                                    <input type="hidden" name="user_id" value="<?php echo isset($loggedin_userid) ? $loggedin_userid : ''; ?>" />
+                                    </form>
+                                <?php } ?>
+                            </div>			
+                        </div>
+                        <!-- /ask question -->
+                        <!-- reviews -->
+                        <div class="reviews" <?php echo ($tab == "review") ? 'style="display:block;"' : ''; ?> >
+
+                            <div class="review-data">
+                                <ul>
+                                    <?php
+                                    if (count($feedback) > 0) {
+                                        foreach ($feedback as $list) {
+                                            ?>
+                                            <li>
+                                                <div class="review-icon">
+                                                    <div class="review-shape"></div>
+                                                </div>
+                                                <div class="review-record">
+                                                    <h4><?php echo isset($list['user_name']) ? $list['user_name'] : ''; ?></h4>
+                                                    <p><?php echo isset($list['comments']) ? $list['comments'] : ''; ?></p>
+                                                    <div class="record-info">
+                                                        <small class="left">Already booked on Ovessence </small>
+                                                        <small class="right"><?php echo isset($list['created_date']) ? date("d-m-Y", strtotime($list['created_date'])) : ''; ?></small>
+                                                    </div>
+                                                </div> 
+                                            </li>
+                                            <?php
+                                        }
+                                    } else {
+                                        echo "<li>No feedback available</li>";
+                                    }
+                                    ?>
+                                </ul>
+                            </div>
+                            <div class="ques-form">
+
+                                <?php /* if (isset($successMsgs) && count($successMsgs) > 0): ?>
+                                  <br /><br />
+                                  <div class="note note-success">
+                                  <?php
+                                  foreach ($successMsgs as $msg) {
+                                  echo '<p> ' . $msg . ' </p>';
+                                  }
+                                  ?>
+                                  </div>
+                                  <?php endif; ?>
+                                  <?php if (isset($errors) && count($errors) > 0): ?>
+                                  <div class="note note-danger">
+                                  <?php
+                                  foreach ($errors as $msg) {
+                                  echo '<p> ' . $msg . ' </p>';
+                                  }
+                                  ?>
+                                  </div>
+                                  <?php endif; */ ?>
+
+                                    <?php if ($auth->hasIdentity(4) && $reviewFlag == true && $s_id != '') { ?>
+                                        <?php echo $this->form()->openTag($form_review); ?>
+
+                                    <div class="ask-your">Add Your Review</div>
+
+                                    <?php $service_id = $form_review->get('service_id')->setAttributes(array('value' => $s_id, 'selected' => true, 'disabled' => 'true')); ?>
+                                    <?php echo $this->formSelect($service_id); ?>
+
+                                    <?php $comment = $form_review->get('comment'); ?>
+                                    <?php echo $this->formTextarea($comment); ?>
+
+                                    <?php
+                                    $captcha = $form_review->get('captcha');
+                                    echo '<span>'.$this->formCaptcha($captcha).'</span>';
+                                    echo $this->formElementErrors($captcha);
+                                    ?>
+                                    <input type="submit" value="Add Review" value="submit" >
+                                    <input type="hidden" id="user_id" name="user_id" value="<?php echo isset($loggedin_userid) ? $loggedin_userid : ''; ?>" />
+                                    </form>
+                                    <?php
+                                } else {
+                                    
+                                }
+                                ?>
+                                <input type="hidden" id="sp_id" value="<?php echo $content['id']; ?>">
+
+                            </div>
+                        </div>
+                        <!-- /reviews -->
+                         <!-- Recommended tab-->
+                         <div class="recommended">
+                             <div class="services-data">
+                                 <table id="recommendedTable">
+                                     <input type="hidden" id="page" value="0" >
+                                     <thead>
+                                         <tr>
+                                             <th style="width: 50%">Recommended by peer</th>
+                                             <th>Service</th>
+                                         </tr>
+                                     </thead>
+                                     <tbody>
+                                     </tbody>
+                                 </table>
+                             </div>
+                             <div class="row">
+                                 <div class="pagination-list" id="recommended-pagination">
+                                     <ul>
+                                     </ul>
+                                 </div>
+                             </div>
+
+                         </div>
+                        <!-- /Recommended tab-->
+                    </div>
+                </div>
+
+                <!-- Tab block end -->
+
+            </div>
+            <!-- start profile right panel here-->
+
+        </div>
+        <!-- /Practitioner Section-->
+    </div>
+</div>
+<!-- CONTENT END HERE -->
+<div id="rating-overlay" style="display:none;">
+    <div class="rating-wrapper">
+        <div class="rating-head">
+            <h3>Ratings</h3>
+            <span class="remove" onclick='$("div#rating-overlay").fadeOut("slow")'>x</span>
+        </div>
+        <!--<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>-->
+        <div class="rating-value">
+            <ul>
+                <?php if (isset($ratings['details']) && count($ratings['details']) > 0) { ?>
+                    <?php foreach ($ratings['details'] as $key => $value) { ?>
+                        <?php if ($key != '') { ?>
+                            <li><label><?php echo $key; ?></label><div class="rate"><span style="width:<?php echo $ratePer = round(($value / 5) * 100); ?>%"></span></div><?php echo $ratePer . '%'; ?></li>
+                        <?php } ?>
+    <?php } ?>
+<?php } ?>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- STAR :- Wish List Content -->
+<div id="wishlist-overlay" style="display:none;">
+    <div class="wishlist-wrapper">
+        <div class="rating-head">
+            <h3>Wish List</h3>
+            <span class="remove" onclick='$("div#wishlist-overlay").fadeOut("slow")'>x</span>
+        </div>
+        <div class="message" style="display:none;" id="mesg"></div>
+        <div class="rating-value">
+            <ul>
+                <div class="booking-form">
+                    <?php
+//$wishlistform->setAttribute('action', $this->url('wishlist',array('action' => 'wishlist', 'id' => $content['id'])));
+                    $wishlistform->setAttribute('method', 'post');
+                    echo $this->form()->openTag($wishlistform);
+                    echo $this->formHidden($wishlistform->get('priceDel'));
+                    ?>
+
+                    <div class="amount-wrapper">
+                        <div class="amount bubble">
+                            <div class="price" id="wishlistPrice"><?php echo $currency; ?>$<?php echo isset($commission) ? $commission : 0; ?></div>
+                            <small>*Total service price excluding the deposit</small>
+                        </div>
+                    </div>
+
+                    <div class="book-form">
+                        <div class="input-field">
+
+                            <?php
+                            $service_id = $wishlistform->get('service_id');
+                            echo $this->formSelect($service_id);
+                            ?>
+                            <?php
+                            $duration = $wishlistform->get('duration')->setAttributes(array('data-div' => 'wishlistPrice'));
+                            echo $this->formSelect($duration);
+                            ?>
+
+                        </div>
+
+                        <div>
+                            <input class="submit" type="submit" value="Add To Wishlist" />
+                        </div>		
+                    </div>
+<?php echo $this->form()->closeTag(); ?>
+                </div>
+
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END :- Wish List Content -->
+
+<!-- Contact Details -->
+    <div id="contact-overlay" style="display:none;">
+        <input type="hidden" name="emailId" id="emailId" value=""/>
+        <input type="hidden" name="number" id="number" value=""/>
+        <input type="hidden" name="id" id="id" value=""/>
+        <div class="rating-wrapper contact-overlay">
+            <?php if ($auth->hasIdentity()) {
+                ?>
+                <div class="rating-head ">
+
+                    <h3>Contact</h3>
+                    <span class="remove" onclick='$("div#contact-overlay").fadeOut("slow")'>x</span>
+                </div>
+                <div style="display:none;" id="mesg"></div>
+               <!--<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.</p>-->
+                <div class="rating-value">
+
+                    <ul>
+                        <li>Message</li> 
+                        <li><textarea cols="4" rows="4" name="message" id="message" placeholder="Type your message here" ></textarea></li>
+                    </ul>
+                    <ul>
+                        <li class="btn-center"><input type="submit" name="contactdetail" id="contactdetail"/></li>
+                    </ul>
+                </div>
+                <?php } else {
+                ?>
+                <div class="rating-head ">
+                    <span class="remove" onclick='$("div#contact-overlay").fadeOut("slow")'>x</span>
+                </div>
+                <div class="over-lay-error">Please <a href="<?php echo $this->basePath(); ?>/login"> Login/Register</a> to contact any practitioner.</div>
+
+            <?php } ?>
+
+        </div>
+    </div>
+    <!-- End Contact Details -->

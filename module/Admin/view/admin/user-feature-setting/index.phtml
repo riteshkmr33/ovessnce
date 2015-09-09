@@ -1,0 +1,75 @@
+<?php 
+$status = (isset($status) && count($status)>0)?$status->toArray():array();
+$statusArray = array('1' => 'success', '2' => 'warning', '3' => 'danger');
+	$settingArray = array('1' => 'success', '0' => 'danger', '' => 'danger','3' => 'danger');
+	//echo "get status:--:".$feature->email; die;
+?>
+<div class="row">
+  <div class="col-md-12 col-sm-12">
+	  <?php if (isset($successMsgs) && count($successMsgs)>0): ?>
+		<div class="note note-success">
+			<?php foreach ($successMsgs as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<?php if (isset($errors) && count($errors)>0): ?>
+		<div class="note note-danger">
+			<?php foreach ($errors as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+		<?php endif;?>
+		<div class="note" id="error" style="display:none;"></div>
+    <div class="portlet grey box">
+      <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-briefcase"></i><?php echo isset($name)?$name:'';?>'s Feature Setting </div>
+        <div class="actions"> 
+			<a class="btn default btn-sm" href="<?php echo $this->url('admin/users');?>"> <i class="fa fa-list"></i> Users </a>
+			
+        </div>
+        <div class="table-group-actions pull-right" style="margin: -4px 10px 0 0;">
+			<?php if (isset($status)  &&  count($status)>0) { 
+				echo '<select class="table-group-action-input form-control input-inline input-medium input-sm action" id="" ><option value="" >--Select Status--</option>';
+					
+				echo '<option value="enablechat" >Enable Chat</option>
+					  <option value="disablechat" >Disable Chat</option>
+					  <option value="enablesms" >Enable Sms</option>
+					  <option value="disablesms" >Disable Sms</option>
+					  <option value="enableemail" >Enable Email</option>
+					  <option value="disableemail" >Disable Email</option>
+					  <option value="enablenewsletter" >Enable Newsletter</option>
+					  <option value="disablenewsletter" >Disable Newsletter</option>
+					  </select>';
+			}?>
+			<button class="btn btn-sm default table-group-action-submit changeStatus" data-path='<?php echo $this->url('admin/users', array('action'=>'changestatus'));?>'><i class="fa fa-check"></i>Apply</button>
+		</div>
+      </div>
+      <div class="portlet-body">
+        <div class="table-responsive">
+			<table class="table table-hover table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>Chat</th>
+						<th>Sms</th>
+						<th>Email</th>
+						<th>Newsletter</th>
+						<th width="220" class="table-checkbox" >Action</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php if (isset($feature) && count($feature)>0) : ?>
+					
+					<tr>
+						<td><span class="label label-sm enablechat disablechat label-<?php echo (array_key_exists($feature->chat, $settingArray))?$settingArray[$feature->chat]:'default';?>" id="<?php echo $id;?>"><?php echo ($feature->chat == 1)?'Enabled':'Disabled'; ?></span></td>
+						<td><span class="label label-sm enablesms disablesms label-<?php echo (array_key_exists($feature->sms, $settingArray))?$settingArray[$feature->sms]:'default';?>" id="<?php echo $id;?>"><?php echo ($feature->sms == 1)?'Enabled':'Disabled'; ?></span></td>
+						<td><span class="label label-sm enableemail disableemail label-<?php echo (array_key_exists($feature->email, $settingArray))?$settingArray[$feature->email]:'default';?>" id="<?php echo $id;?>"><?php echo ($feature->email == 1)?'Enabled':'Disabled'; ?></span></td>
+						<td><span class="label label-sm enablenewsletter disablenewsletter label-<?php echo (array_key_exists($feature->newsletter, $settingArray))?$settingArray[$feature->newsletter]:'default';?>" id="<?php echo $id;?>"><?php echo ($feature->newsletter == 1)?'Enabled':'Disabled'; ?></span></td>
+						<td><input class="checkboxes" type="checkbox" value="<?php echo $id;?>"></td>
+					</tr>
+					
+				<?php endif; ?>
+				</tbody>
+			</table>
+		
+		</div>
+      </div>
+    </div>
+  </div>
+</div> 

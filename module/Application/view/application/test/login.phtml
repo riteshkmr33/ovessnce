@@ -1,0 +1,15 @@
+<!-- CONTENT START HERE -->
+<div id="content" style="clear:both; float:left; padding-left:100px; width:100%;height:550px;position:relative;background-color:#ffffff;">
+				<div style="clear:both;height:200px;">&nbsp;</div>
+    <?php
+    $socialSignIn = true;
+    foreach ($this->options->getEnabledProviders() as $provider) {
+        if ($socialSignIn) {
+            $socialSignIn = false;
+        }
+        echo '<p>' . $this->socialSignInButton($provider) . '</p>';
+    }
+    ?>
+                
+</div>
+			<!-- CONTENT END HERE -->

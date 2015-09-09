@@ -1,0 +1,107 @@
+<div class="aboutme-edit-wrapper">
+    <div class="edit-head">
+        <h3>WORKPLACE ADDRESS <?php echo $id ?></h3>
+        <span class="remove_address" id="">Remove</span>
+        <span class="comm-edit-button" id="sp_address" data-action='save'>Add</span>
+    </div>
+    <div class="aboutme-text" style="display:none;">
+        <div class="row">
+            <div class="about-label">Address </div>
+            <div class="about-data" id="workplace<?php echo $id ?>_address">Not Available</div>
+        </div>
+        <!--<div class="row">
+            <div class="about-label">Neighborhood </div>
+            <div class="about-data">Lorem Lorem</div>
+        </div>-->
+        <div class="row">
+            <div class="about-label">City </div>
+            <div class="about-data" id="workplace<?php echo $id ?>_city">Not Available</div>
+        </div>
+        <div class="row">
+            <div class="about-label">Zip code </div>
+            <div class="about-data" id="workplace<?php echo $id ?>_zipcode">Not Available</div>
+        </div>
+        <div class="row">
+            <div class="about-label">Country </div>
+            <div class="about-data" id="workplace<?php echo $id ?>_country">Not Available</div>
+        </div>
+        <div class="row">
+            <div class="about-label">State </div>
+            <div class="about-data" id="workplace<?php echo $id ?>_state">Not Available</div>
+        </div>
+        <div class="row">
+            <div class="about-label">Type of Place </div>
+            <div class="about-data" id="workplace<?php echo $i?>_type">Not Available</div>
+        </div>
+    </div>
+    <div class="aboutme-form" >
+        <form>
+            <input type="hidden" name="action" value="sp_address" />
+            <input type="hidden" name="address_id" value="">
+            <div class="row">
+                <div class="about-label">Address</div>
+                <div class="about-data"><input type="text" class="sp_address" name="street1_address" rel="workplace<?php echo $id ?>_address" /></div>
+            </div>
+            <!--<div class="row">
+                <div class="about-label">Neighborhood</div>
+                <div class="about-data"><input type="text" placeholder="Lorem Lorem" /> </div>
+            </div>-->
+            <div class="row">
+                <div class="about-label">City</div>
+                <div class="about-data"><input type="text" class="sp_address"  name="city" rel="workplace<?php echo $id ?>_city" /></div>
+            </div>
+            <div class="row">
+                <div class="about-label">Zip code </div>
+                <div class="about-data"><input type="text" class="sp_address address-autofill" name="zip_code" id='workplace<?php echo $id?>_zipcode' rel="workplace<?php echo $id ?>_zipcode" /> </div>
+            </div>
+            <div class="row">
+                <div class="about-label">Country</div>
+                <div class="about-data">
+                    <select name="country_id" class="sp_address" rel="workplace<?php echo $id ?>_country" id='workplace<?php echo $id?>_country' onchange="getStates(this.value, 'select[rel=workplace<?php echo $id ?>_state]');" >
+                        <option value="">-Select country-</option>
+                        <?php
+                        if (isset($countries) && is_array($countries) && count($countries) > 0) {
+                            foreach ($countries as $country_id => $country) {
+                                $selected = (isset($address['country_id']) && $address['country_id'] != '' && $country_id == $address['country_id'] ) ? 'selected="selected"' : '';
+                                echo '<option value="' . $country_id . '" ' . $selected . '>' . $country . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="row"> 
+                <div class="about-label">State</div>
+                <div class="about-data">
+                    <select name="state_id" class="sp_address" id='workplace<?php echo $id?>_state' rel="workplace<?php echo $id ?>_state" >
+                        <option value="">-Select state-</option>
+                        <?php
+                        if (isset($states) && is_array($states) && count($states) > 0) {
+                            foreach ($states as $state) {
+                                $selected = (isset($address['state_id']) && $address['state_id'] != '' && $state['id'] == $address['state_id'] )?'selected="selected"':'';
+                                echo '<option value="'.$state['id'].'" '.$selected.'>'.$state['value'].'</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="row"> 
+                <div class="about-label">Type of Place</div>
+                <div class="about-data">
+                    <select name="location_type_id" class="sp_address" rel="workplace<?php echo $i?>_type" >
+                        <option value="">-Select type of place-</option>
+                        <?php 
+                        if (isset($location_types) && is_array($location_types) && count($location_types) > 0) {
+                            foreach ($location_types as $location_type) {
+                                $selected = (isset($address['location_type_id']) && $address['location_type_id'] != '' && $location_type['id'] == $address['location_type_id'])?'selected="selected"':'';
+                                echo '<option value="'.$location_type['id'].'" '.$selected.'>'.$location_type['location_type'].'</option>';
+                            }
+                        }?>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

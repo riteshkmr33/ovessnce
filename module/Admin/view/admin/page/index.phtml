@@ -1,0 +1,97 @@
+<?php
+$status = (isset($status) && count($status) > 0) ? $status->toArray() : array();
+$statusArray = array('1' => 'success', '2' => 'warning', '3' => 'danger');
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+
+        <?php if (isset($successMsgs) && count($successMsgs) > 0): ?>
+            <div class="note note-success">
+                <?php
+                foreach ($successMsgs as $msg) {
+                    echo '<p> ' . $msg . ' </p>';
+                }
+                ?>
+            </div>
+        <?php endif; ?>
+        <?php if (isset($errors) && count($errors) > 0): ?>
+            <div class="note note-danger">
+                <?php
+                foreach ($errors as $msg) {
+                    echo '<p> ' . $msg . ' </p>';
+                }
+                ?>
+            </div>
+        <?php endif; ?>
+        <div class="note" id="error" style="display:none;"></div>
+
+        <div class="portlet grey box">
+            <div class="portlet-title">
+                <div class="caption"> <i class="fa fa-file-text"></i>Pages List</div>
+                <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->url('admin/page', array('action' => 'add')); ?>"> <i class="fa fa-pencil"></i> Add New Page </a> </div>
+                <div class="table-group-actions pull-right" style="margin: -4px 10px 0 0;">
+                    <?php
+                    if (isset($status) && count($status) > 0) {
+                        echo '<select class="table-group-action-input form-control input-inline input-medium input-sm action" id="" ><option value="" >--Select Status--</option>';
+                        foreach ($status as $value) {
+                            echo '<option value="' . $value['status_id'] . '" >' . ucwords($value['status']) . '</option>';
+                        }
+                        echo '</select>';
+                    }
+                    ?>
+                    <button class="btn btn-sm default table-group-action-submit changeStatus" data-path='<?php echo $this->url('admin/page', array('action'=>'changestatus'));?>'><i class="fa fa-check"></i>Apply</button>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Title</th>
+                                <th>Slug</th>
+                                <th>Content</th>
+                                <th>Status</th>
+                                <th width="161" class="table-checkbox" >Action <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (isset($pages) && count($pages) > 0) : ?>
+                                <?php foreach ($pages as $page) : ?>
+                                    <tr>
+                                        <td><?php echo $this->escapeHtml($page->page_id); ?></td>
+                                        <td><?php echo $this->escapeHtml($page->title); ?></td>
+                                        <td><?php echo $this->escapeHtml($page->slug); ?></td>
+                                        <td><?php echo substr($this->escapeHtml($page->content), 0, 100); ?></td>
+                                        <td>
+                                            <span class="label label-sm status label-<?php echo (array_key_exists($page->page_status, $statusArray)) ? $statusArray[$page->page_status] : 'default'; ?>" id="<?php echo $page->page_id; ?>">
+                                                <?php
+                                                if ($page->page_status == 1) {
+                                                    echo "Active";
+                                                } else if ($page->page_status == 2) {
+                                                    echo "Inactive";
+                                                }
+                                                ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a class="btn default btn-xs" href="<?php echo $this->url('admin/page', array('controller' => 'page', 'action' => 'edit', 'id' => $page->page_id)); ?>"><i class="fa fa-edit" title="edit" ></i></a>
+                                            <a class="btn default btn-xs" href="<?php echo $this->url('admin/page', array('controller' => 'page', 'action' => 'delete', 'id' => $page->page_id)); ?>"><i class="fa fa-trash-o" title="delete" ></i></a>
+                                            <input class="checkboxes" type="checkbox" value="<?php echo $page->page_id; ?>">
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                    <?php
+                    echo
+                    $this->paginationControl(
+                            $pages, 'sliding', array('partial/paginator.phtml', 'Admin'), array('route' => 'admin/page')
+                    );
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

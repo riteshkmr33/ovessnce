@@ -1,0 +1,88 @@
+<?php
+$title = 'Add New Page';
+$this->headTitle($title);
+
+$form = $this->form;
+$form->setAttribute('action', $this->url('admin/page', array('action' => 'add')));
+$form->prepare();
+
+?>
+<div class="portlet box grey">
+  <div class="portlet-title">
+    <div class="caption"> <i class="fa fa-reorder"></i> <?php echo $this->escapeHtml($title); ?> </div>
+    <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->basePath()?>/admin/page"> <i class="fa fa-pencil"></i>Pages List</a> <a class="btn default btn-sm" href="javascript: history.go(-1);"> <i class="fa fa-pencil"></i> Back</a> </div>
+  </div>
+  <div class="portlet-body form">
+    <div class="form-body">
+	    <!--PAGE CONTENT BEGINS-->
+		<?php if (isset($errors) && count($errors)>0): ?>  
+		<div class="alert alert-danger"><button class="close" data-close="alert"></button>
+			<?php foreach ($errors as $field => $msg) {echo ucfirst(strtolower(strip_tags($this->formLabel($form->get($field)).' '.end($msg)))).'<br />';}?>
+		</div>
+		<?php endif;?>
+		
+		<?php echo $this->form()->openTag($form); echo $this->formHidden($form->get('page_id')); ?>
+		<div class="form-body">
+			<h3 class="form-section">Page Info</h3>
+			<div class="row">
+				<?php $title = $form->get('title'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($title) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($title); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formInput($title); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($title); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<?php $page_meta = $form->get('page_meta'); ?>
+				<div class="form-group <?php echo ($this->formElementErrors($page_meta) != "")?"has-error":"";?>">   
+					<label class="control-label col-md-1"><?php echo $this->formLabel($page_meta); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formSelect($page_meta);?>
+						<span class="help-block">
+							 <?php echo strip_tags($this->formElementErrors($page_meta));?>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<?php $content = $form->get('content'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($content) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo $this->formLabel($content); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formTextarea($content); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($content); ?>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<?php $page_status = $form->get('page_status'); ?>		
+				<div class="form-group  <?php echo ($this->formElementErrors($page_status) != "")?"has-error":"";?>">
+					<label class="control-label col-md-1"><?php echo strip_tags($this->formLabel($page_status)); ?></label>
+					<div class="col-md-11">
+						<?php echo $this->formRadio($page_status); ?>	
+						<span class="help-block">
+							 <?php echo $this->formElementErrors($page_status); ?>
+						</span>
+					</div>
+				</div>			
+			</div>
+        </div>        
+		<div class="form-actions fluid">
+			<div class="row">
+				<div class="col-md-offset-3 col-md-9">
+					<button type="submit" class="btn green">Submit</button>
+					<button type="reset" class="btn default">Reset</button>
+				</div>
+			</div>				
+		</div>
+		<?php  echo $this->form()->closeTag();?>
+		<!-- END FORM-->
+	  </div>
+	</div>
+</div>

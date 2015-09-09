@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="col-md-12 col-sm-12">	  
+	<?php if (isset($successMsgs) && count($successMsgs)>0): ?>
+		<div class="note note-success">
+			<?php foreach ($successMsgs as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+	<?php endif;?>
+	<?php if (isset($errors) && count($errors)>0): ?>
+		<div class="note note-danger">
+			<?php foreach ($errors as $msg) {echo '<p> '.$msg.' </p>';}?>
+		</div>
+	<?php endif;?>
+	<div class="note" id="error" style="display:none;"></div>
+	
+    <div class="portlet grey box">
+      <div class="portlet-title">
+        <div class="caption"> <i class="fa fa-file-text"></i>Inbox</div>
+        <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->url('admin/messages', array('action'=>'compose'));?>"> <i class="fa fa-pencil"></i> Compose Message </a> </div>  
+       </div>
+      <div class="portlet-body">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered ">
+            <thead>
+              <tr>
+                  <th>From</th>
+                  <th>Date</th>
+                  <th>Subject</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                <?php if (isset($messages) && count($messages)>0) { ?>
+                <?php foreach ($messages as $message) : ?>
+                <tr <?php echo ($message->readFlag!="1") ? "class='active'" : '' ?> >
+                    <td><?php echo $this->escapeHtml($message->from_user);?></td>
+                    <td><?php echo $this->escapeHtml(date('d-m-Y H:i:s',strtotime($message->created_date)));?></td>
+                    <td><?php echo $this->escapeHtml($message->subject);?></td>
+                    <td>
+                        <a class="btn default btn-xs" href="<?php echo $this->url('admin/messages',array('controller'=>'messages','action'=>'view', 'id' => $message->id));?>"><i class="fa fa-envelope" title="view" ></i></a>
+			<a class="btn default btn-xs" href="<?php echo $this->url('admin/messages',array('controller'=>'messages','action'=>'delete', 'id' => $message->id));?>"><i class="fa fa-trash-o" title="trash" ></i></a>
+                    </td>
+                </tr>
+		<?php endforeach; ?>
+		<?php }else{ ?>
+                <tr>
+                    <td colspan="4"> Inbox is empty ( No New Messages ) </td>
+                </tr>
+		<?php } ?>
+            </tbody>
+          </table>
+          <?php 
+				echo 
+				$this->paginationControl(
+						$messages,  
+						'sliding',   
+						array('partial/paginator.phtml', 'Admin'),  
+						array('route' => 'admin/messages')  
+					);
+					
+			?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

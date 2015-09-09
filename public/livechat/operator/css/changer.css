@@ -1,0 +1,99 @@
+/* Style Changer */
+.styleChanger {
+	font-family:"Trebuchet MS", Arial, sans-serif;
+	color:#333;
+}
+
+.styleChanger h4 {
+	font-size: 14px;
+	margin-bottom: 3px;
+}
+
+.styleChanger .siteChanger, .styleChanger .bgChanger, .styleChanger .stCols, .styleChanger .stCols2, .styleChanger .buts {
+	position:relative;
+	overflow:hidden;
+}
+
+.styleChanger .siteChanger, .styleChanger .bgChanger {
+	min-width:35px;
+	min-height:100px;
+}
+
+.styleChanger a {color:#010101;}
+
+.styleChanger a:hover {text-decoration:none;}
+
+.styleChanger .blockChanger {
+	width:150px;
+	padding:0 35px 5px 0;
+}
+
+.styleChanger .stBlock {
+	border-top:1px solid #b7b7b7;
+	margin:0 -8px 0 -10px;
+	padding:4px 8px 4px 10px;
+	position:relative;
+}
+
+.styleChanger .stCols span, .styleChanger .stCols2 span {
+	text-decoration:none;
+	width:21px;
+	height:21px;
+	float:left;
+	padding:0;
+	margin:0 4px 4px 0;
+	cursor:pointer;
+}
+
+.styleChanger .stCols span, .styleChanger .stCols2 span {text-indent:-9999px;}
+
+.styleChanger .stCols span.current, .styleChanger .stCols2 span.current {
+	border:1px solid #b7b7b7;
+	width:21px;
+	height:21px;
+}
+
+.styleChanger a.stColor {
+	color:#7c7c7c;
+	display:block;
+	height:23px;
+	padding:0 2px 0 30px;
+	margin:7px 0;
+	position:relative;
+	overflow:hidden;
+}
+
+.styleChanger a.stColor span {
+	border:1px solid #b7b7b7;
+	width:21px;
+	height:21px;
+	float: left;
+	padding:0;
+	margin:1px 0 0;
+}
+
+.styleChanger .stColorParent {
+	position:relative;
+	overflow:hidden;
+}
+
+.styleChanger a.stColor2 {
+	color:#7c7c7c;
+	display:block;
+	width:21px;
+	height:21px;
+	float:left;
+	padding:0 2px 0 0;
+	margin:8px 0 5px;
+	position:relative;
+	overflow:hidden;
+}
+
+.styleChanger a.stColor2 span {
+	border:1px solid #b7b7b7;
+	width:21px;
+	height:21px;
+	float:right;
+	padding:0;
+	margin:0;
+}

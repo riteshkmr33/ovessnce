@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms csstransforms3d preserve3d no-ie">
+    <head>
+        <?php // echo $action; die; ?> 
+        <?php echo $this->headTitle()->prepend('OvEssence')->setSeparator(' - '); ?>
+        <?php
+        $allMetaTag = (array) $this->headMeta()->getContainer();
+        if (empty($allMetaTag)) {
+            $this->headMeta()->prependName('keywords', 'Ovessence')->appendName('description', 'Ovessence');
+        } else {
+            foreach ($allMetaTag as $metaTag) {
+                $meta = (array) $metaTag;
+                $metaTags[] = $meta['name'];
+            }
+
+            if (!in_array('keywords', $metaTags)) {
+                $this->headMeta()->prependName('keywords', 'Ovessence');
+            }
+
+            if (!in_array('description', $metaTags)) {
+                $this->headMeta()->appendName('description', 'Ovessence');
+            }
+        }
+        ?>
+        <meta charset="utf-8" />
+        <?php echo $this->headMeta(); ?>
+        <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+        Remove this if you use the .htaccess -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+        <!-- Le styles -->
+        <!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+        <?php
+        /*
+         * Added by Bade lal <badelalk@clavax.us>
+         */
+
+use Application\Model\FrontEndAuth;
+use Zend\Session\Container;
+
+$auth = new FrontEndAuth();
+        $google_login = new Container('google');
+        echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/logo.png'))
+                ->prependStylesheet($this->basePath() . '/css/main.css')
+                ->prependStylesheet($this->basePath() . '/css/responsive.css')
+                ->prependStylesheet($this->basePath() . '/css/career.css')
+                ->prependStylesheet($this->basePath() . '/css/style.css')
+                ->prependStylesheet($this->basePath() . '/css/global.css')
+                ->prependStylesheet($this->basePath() . '/css/reset.css')
+                ->prependStylesheet('//fonts.googleapis.com/css?family=Roboto:400,300')
+                //->prependStylesheet($this->basePath() . '/plugins/fullcalendar/fullcalendar/fullcalendar.css')
+                ->prependStylesheet($this->basePath() . '/css/internationalnumber/css/intlTelInput.css')
+                ->prependStylesheet($this->basePath() . '/plugins/select2/select2.css')
+                
+
+        ?>
+        
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/css/bjqs.css">
+		<link type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+		<!--<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/select2/select2.css"/>-->
+        <?php if (isset($controller) && ($controller == "Application\Controller\Consumer")) { ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/css/jquery.datetimepicker.css">
+            <?php if (isset($action) && ($action == "view")) { ?>
+                <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/css/addThis.css">
+            <?php } else if (isset($action) && ($action == "compose")) { ?>    
+                <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/select2/select2.css"/>
+            <?php } else if (isset($action) && ($action == "dashboard")) { ?>    
+                <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/css/jquery.datetimepicker.css">
+                <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/fullcalendar/fullcalendar/fullcalendar.css">
+            <?php } ?>
+        <?php } ?>
+
+        <?php if (isset($controller) && $controller == "Application\Controller\Practitioner") { // include css for practitioner controller  ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/css/addThis.css">
+            <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/css/jquery.datetimepicker.css">
+            <?php if (isset($action) && $action == "view") { // for list view only  ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/fullcalendar/fullcalendar/fullcalendarView.css">
+            <?php } else if (isset($action) && $action == "dashboard") { // for dashboard view only  ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/videojs/video-js.css">
+            <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/css/BeatPicker.css">
+            <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/fullcalendar/fullcalendar/fullcalendar.css">
+            <?php } else if (isset($action) && $action == "compose") { // for compose message view only  ?>
+                <!-- for select starts --->
+                <!--
+                <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/bootstrap-select/bootstrap-select.min.css"/>
+                ---->
+                <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/select2/select2.css"/>
+                <!--<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/select2/select2-metronic.css"/>
+                <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/jquery-multi-select/css/multi-select.css"/>
+                ---->
+                <!-- for select ends --->
+            <?php } else if (isset($action) && $action == "list") { // for list view only  ?>
+                <link type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+                <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/css/jquery-ui-slider-pips.css">
+                <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/css/newSlider.css">	
+                <!--<link rel="stylesheet" href="<?php echo $this->basePath(); ?>/plugins/slider/css/jslider.css" type="text/css">-->
+                <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/select2/select2.css"/>
+               <!-- <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/css/addThis.css">-->
+                <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/css/prettify.css">
+                <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/css/jquery.timepicker.css">
+            <?php } ?>
+        <?php } ?>
+
+        <!-- SET BASEURL -->
+        <script>
+            var OVEconfig = {
+                'BASEURL': '<?php echo $this->basePath(); ?>'
+            };
+        </script>
+
+        <!-- Fb logout code--->
+    <span id='fb-root'></span>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId: '757876460925154',
+                cookie: true,
+                xfbml: true,
+                oauth: true
+            });
+            FB.Event.subscribe('auth.login', function(response) {
+                window.location.reload();
+            });
+
+            FB.Event.subscribe('auth.logout', function(response) { //console.log(response);
+                FB.Auth.setAuthResponse(null, 'unknown');
+                window.location.reload();
+            });
+
+        };
+        (function() {
+            var e = document.createElement('script');
+            e.async = true;
+            e.src = document.location.protocol +
+                    '//connect.facebook.net/en_US/all.js';
+            document.getElementById('fb-root').appendChild(e);
+        }());
+        function logout() {
+            //	FB.Event.subscribe('auth.logout', function(response) {
+            //FB.Auth.setAuthResponse(null, 'unknown');
+            // window.location.reload();
+            //    });
+            window.location = "<?php echo $this->basePath(); ?>/logout";
+
+        }
+        function facebook_logout() {
+
+            FB.getLoginStatus(function(response) {
+                if (response && response.status != 'unknown') {
+
+                    FB.logout(function(response) {
+
+                        if (!response.authResponse) {
+                            window.location = '<?php echo $this->basePath(); ?>/logout';
+                        }
+                    })
+                }
+                else {
+                    window.location = '<?php echo $this->basePath(); ?>/logout';
+                }
+            });
+        }
+
+
+
+    </script>
+
+
+    <!-- End fb logout code --->
+
+
+    <?php if (isset($controller) && ($controller == "Application\Controller\Practitioner" || $controller == "Application\Controller\Index")) { ?>
+        <script src="//jwpsrv.com/library/swzEvP0YEeOreSIACyaB8g.js"></script>
+        <!--<script src="<?php echo $this->basePath(); ?>/plugins/jwplayer/jwplayer.js"></script>
+        <script type="text/javascript">jwplayer.key = "iwXHN/KSysGKkAB4c8f1+w4aEZNlBdA//hJCkQ==";</script>-->
+    <?php } ?>
+
+</head>
+<body>
+    <div class="trigger"></div>
+    <!-- WRAPPER START HERE -->
+    <div id="wrapper">
+        <!-- HEADER START HERE -->
+        <header id="header">
+            <div class="main">
+                <a href="<?php echo $this->basePath(); ?>" id="logo">
+                    <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/logo.png" alt="">
+                </a>
+                <a href="javascript:void(0);" class="menu-open"></a>
+
+                <div class="menu-wrapper">
+                    <div class="top-login">
+                        <?php if ($auth->hasIdentity()) { ?>
+
+                            <a class="icon-message" href="<?php echo ($auth->hasIdentity(3))?$this->url('practitioner', array('action'=>'inbox')):$this->url('consumer', array('action'=>'inbox'));?>"><span><?php echo (isset($notifications['inbox']) && $notifications['inbox'] > 0)?$notifications['inbox']:'0'; ?></span></a>	
+                            <a class="icon-flag" href="<?php echo ($auth->hasIdentity(3))?$this->url('practitioner', array('action'=>'dashboard')):$this->url('consumer', array('action'=>'dashboard'));?>"><span><?php echo (isset($notifications['total']) && $notifications['total'] > 0)?$notifications['total']:'0'; ?></span></a>
+                        <?php
+                            $fb_login = new Container('facebook');
+
+                            if (isset($fb_login->social_id) && $fb_login->social_id != '') {
+
+                                $logoutcondition = "javascript:facebook_logout()";
+                            } else {
+                                $logoutcondition = "logout();";
+                            }
+                            if (isset($google_login->social_id)) {
+                                ?>
+                                <a href="https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http:<?php echo $this->basePath(); ?>/logout" class="dashboard-link">Logout</a>
+                            <?php } else { ?>
+                                <a href="javascript:void(0);" onclick="<?php echo $logoutcondition; ?>" class="dashboard-link" >Logout</a> 
+                            <?php } ?>
+                        <?php } else { ?>
+                            <a href="<?php echo $this->basePath(); ?>/login" class="dashboard-link">Login / Register</a>
+                        <?php } ?>
+
+                        <?php if ($auth->hasIdentity(3)) { ?>
+
+                            <a href="<?php echo $this->basePath(); ?>/practitioner/dashboard" class="dashboard-link" href="javascript;;">Your Dashboard</a>
+                        <?php } else if ($auth->hasIdentity(4)) { ?>
+
+                            <a href="<?php echo $this->basePath(); ?>/consumer/dashboard" class="dashboard-link" href="javascript;;">Your Dashboard</a>
+                        <?php } ?>
+                    </div>
+                    <ul class="btn">
+                        <li>
+                            <a href="<?php echo $this->basePath(); ?>/practitioner/list">Find a Practitioner</a>
+                        </li>
+                        <li>
+                            <?php if ($auth->hasIdentity(3)) { ?>
+                                <a href="<?php echo $this->url('practitioner', array('action' => 'dashboard')); ?>">Post Your Services</a>
+                            <?php } else if (!$auth->hasIdentity()) { ?>
+                                <a href="<?php echo $this->basePath(); ?>/login">Post Your Services</a>
+                            <?php } ?>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <div class="default-load"></div> 
+        <!-- HEADER END HERE -->
+        <?php echo $this->content; ?>
+
+        <div style="text-align: center;">
+            <div class="gallery para common-down">
+                <div class="main" id="gallery">
+                    <h2 class="fast">
+                        Our Partners
+                        <span>
+                            <small></small>
+                        </span>
+                    </h2>
+                    <ul class="slider slides"> 
+                        <!--- code to get partners list : starts here ----->
+                        <?php
+
+                        use Application\Model\Api;
+                        $api = new Api();
+                        $api_session = new Container('api_url');
+                        $url = $api_url . "/api/partners/?status_id=1";
+                        $res = $api->curl($url, array(), "GET");
+                        if ($res->getStatusCode() == 200) {
+                            $content = json_decode($res->getBody(), true);
+                            if (count($content) > 0) {
+                                foreach ($content as $data) {
+                                    ?>
+                                    <li>
+                                        <a target="_blank" href="<?php echo isset($data['url']) ? $data['url'] : '#'; ?>">
+                                            <img src="<?php echo isset($data['logo']) ? $data['logo'] : ''; ?>" alt="" height="235" width="205">
+                                        </a>
+                                    </li>		
+                                    <?php
+                                }
+                            }
+                        }
+                        ?>
+                        <!--- code to get partners list : Ends here ---->
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT END HERE -->
+        <!-- FOOTER START HERE -->
+        <footer id="footer" class="para common-down">
+            <div class="success-msg-subs" style="display: none;">
+            </div>
+            <div class="error-msg-subs" style="display: none;">
+            </div>
+            <div class="main clearfix">
+                <div class="span-17 fast">
+                    <h4>Company</h4>
+                    <nav>
+                        <ul> 
+                            <li>
+                                <a href="http://blog.<?php echo str_replace('//', '',$this->basePath()); ?>">Blog</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath(); ?>/page/about-us">About OvEssence</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath(); ?>/testimonials">Testimonials</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath(); ?>/page/career">Careers</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath(); ?>/page/terms-conditions">Terms Of Use</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath(); ?>/page/privacy-policy">Privacy Policy</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath(); ?>/page/advertising">Advertising on OvEssence</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath(); ?>/partners">Partners</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="span-17 slow">
+                    <h4>Discover</h4>
+                    <nav>
+                        <ul>
+                            <li>
+                                <a href="<?php echo $this->basePath(); ?>/helpcenter/consumer">Help Center</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $this->basePath(); ?>/contact">Contact Us</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="span-42 fast">
+                    <h4>Sign up for OvEssence updates</h4>
+                    <p>
+                        The Latest News &  Special Offers
+                    </p>
+                    <div class="clearfix">
+                        <form name="subscribe" id="subscribe" method="post">
+                            <input type="text" id="subscribeEmail" placeholder="e-mail@ovessence.com" required="required">
+                            <input id="sendSubscribe" type="submit" value="Send">
+                        </form>
+                    </div>
+                    <a href="<?php echo $this->basePath(); ?>" id="footer-logo">
+                        <img src="https://s3-us-west-2.amazonaws.com/ovessence/img/footer-logo.png" alt="">
+                    </a>
+                </div>
+                <div class="span-24 very-slow">
+                    <h4>Get in Touch</h4>
+                    <ul class="social-link">
+                        <li class="facebook">
+                            <a href="https://www.facebook.com/pages/OvEssence/779367952147946?ref=hl" target="__blank" title="Visit ovessence ">  <!--https://www.facebook.com/pages/Ovessencecom/825329577485944-->
+                                <i></i>Facebook
+                            </a>
+                        </li>
+                        <li class="g-plus">
+                            <a href="https://plus.google.com/u/0/b/115379512883299455698/115379512883299455698/about" target="__blank" title="Visit ovessence ">  <!--https://plus.google.com/u/0/114807310632774682206/posts-->
+                                <i></i>Google Plus
+                            </a>
+                        </li>
+                        <li class="twitter">
+                            <a href="https://twitter.com/ovessence" target="__blank" title="Visit ovessence ">
+                                <i></i>Twitter
+                            </a>
+                        </li>
+                        <li class="youtube">
+                            <a href="https://www.youtube.com/channel/UC3KFLaxp8dwQG1ahsQxsQHg" target="__blank" title="Visit ovessence ">  <!--https://www.youtube.com/channel/UCbh3L9UwMMwFhcXSFZd7TZQ-->
+                                <i></i>Youtube
+                            </a>
+                        </li>
+                        <li class="linkedin"> 
+                            <a href="https://www.linkedin.com/company/ovessence?report%2Esuccess=KJ_KkFGTDCfMt-A7wV3Fn9Yvgwr02Kd6AZHGx4bQCDiP6-2rfP2oxyVoEQiPrcAQ7Bf" target="__blank" title="Visit ovessence ">  <!--http://ca.linkedin.com/pub/ov-essence/a0/678/131-->
+                                <i></i>LinkedIn
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <span class="copyright">@ <?php echo date('Y') ?> OvEssence.com All right reserved</span>
+        </footer>
+        <!-- FOOTER END HERE -->
+    </div>
+    <!-- WRAPPER END HERE -->
+    <?php if (isset($controller) && $controller == "Application\Controller\Index"):?>
+    <!-- VIDEO POPUP START HERE -->
+    <div class="popup" id="video">
+        <iframe id="player_1" style="width:100%;height: 100%;" src="https://player.vimeo.com/video/104377070?api=1&player_id=player_1" width="540" height="304" frameborder="0"></iframe>
+        <a onclick="javascript:void(0)" class="close" id="close_video"></a>
+    </div>
+    <div id="overlay"></div>
+    <!-- VIDEO POPUP END HERE -->
+    <?php endif;?>
+
+    <input type="hidden" name="action" id="action" value="<?php echo isset($action) ? $action : ''; ?>">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> 
+
+    <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="<?php echo $this->basePath(); ?>/plugins/jquery.ui.position.js"></script>
+    <script src="<?php echo $this->basePath(); ?>/plugins/jquery.auto-complete.js"></script>
+    <script src="<?php echo $this->basePath(); ?>/js/address-auto-complete.js"></script>
+    <script defer src="<?php echo $this->basePath(); ?>/js/jquery.flexslider.js"></script>
+    <script src="<?php echo $this->basePath(); ?>/js/common.js"></script>
+    <script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/bjqs.min.js"></script>
+    <?php if (isset($action) && $action != "dashboard") { ?>
+    <script>
+        setTimeout("applyAutoComplete('.address-autofill', '')", 5000); 
+    </script>
+    <?php }?>
+    
+    <?php if (isset($controller) && $controller == "Application\Controller\Partners") { ?>
+        <!-- only for partners page -->
+        <script src="<?php echo $this->basePath(); ?>/js/partner.js"></script>
+        <script src="<?php echo $this->basePath(); ?>/js/polyclip-p.js"></script>
+    <?php } ?>
+
+    <script src="<?php echo $this->basePath(); ?>/js/home.js"></script>
+    <script src="<?php echo $this->basePath(); ?>/js/plugins.js"></script>
+
+    <?php if (isset($controller) && $controller == "Application\Controller\Index") { ?>
+        <!-- only for homepage slider --->
+        <script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/select2/select2.min.js"></script>
+			<script>
+                $(function() { 
+                    $("#treatment").select2({width: 'resolve'});
+                    //$("#search_location").select2({width: 'resolve'});
+                });
+            </script>
+        <script type="text/javascript" src="<?php echo $this->basePath(); ?>/js/jquery-ui.multidatespicker.js"></script>
+        <script>
+        $(function() {
+            var date = $("#datetime").val();
+            $("#datetime").multiDatesPicker({ 'minDate':0 }).val(date);
+	});
+        </script>
+        <script src="<?php echo $this->basePath(); ?>/js/sly.js"></script>
+        <script src="<?php echo $this->basePath(); ?>/js/main.js"></script>
+        
+    <?php } ?>
+
+    <?php if (isset($controller) && $controller == "Application\Controller\Practitioner") { ?>
+        
+        <!-- sp jwplayer starts here-->
+        <script>
+            $(function() {
+                $('li#map').on('click', function(event, ui) {
+                    setTimeout("initialize()", 100);
+                });
+            });
+            /*$('video').each(function() {
+                var videoTitle = this.id.split('_');
+                jwplayer(this.id).setup({
+                    file: this.src,
+                    title: videoTitle[0],
+                    width: '170',
+                    height: '232',
+                    aspectratio: '16:10',
+                    autostart: 'false',
+                    primary: 'flash'
+                });
+            });*/
+
+        </script>
+        <!-- sp jwplayer ends here-->
+        <?php if (isset($action) && $action == "list") { // for list view only  ?>
+            <script>
+                $(function(){
+                    applyAutoCompleteName('#idorname', '');
+                    applyAutoCompleteName('.idorname', '');
+                    applySlider(331, 280);
+                });
+                
+                var paginateflag = true;
+            </script> 
+            <!-- scripts for sliders starts here -->
+            <script src="<?php echo $this->basePath(); ?>/js/jquery-ui-slider-pips.min.js"></script>
+            <!--<script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/slider/jshashtable-2.1_src.js"></script>
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/slider/jquery.numberformatter-1.2.3.js"></script>
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/slider/tmpl.js"></script>
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/slider/jquery.dependClass-0.1.js"></script>
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/slider/draggable-0.1.js"></script>
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/slider/jquery.slider.js"></script>
+            <script>$("#Slider1").slider({ from: 1000, to: 100000, step: 500, smooth: true, round: 0, dimension: "&nbsp;$"});</script>-->
+            <!-- scripts for sliders ends here -->
+
+            <script src="<?php echo $this->basePath(); ?>/js/scrollpagination.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/js/spList.js" type="text/javascript"></script>
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/select2/select2.min.js"></script>
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/js/jquery-ui.multidatespicker.js"></script>
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/js/jquery.timepicker.js"></script>
+            
+            <script>
+                $(function() {
+                    $("#country").select2({width: 'resolve'});
+                    //$("#state").select2({width: 'resolve'});
+                    $("#treatment").select2({width: 'resolve'});
+                    //$("#search_location").select2({width: 'resolve'});
+                    var date = $("#datetime").val();
+                    $("#datetime").multiDatesPicker({ 'minDate':0 }).val(date);
+                });
+            </script>
+           
+        <?php } else if (isset($action) && $action == "dashboard") { //for dashboard view only  ?>
+            <script src="<?php echo $this->basePath(); ?>/plugins/BeatPicker.min.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/plugins/tinymce/tinymce.min.js" type="text/javascript"></script>
+            <script>
+                /* Datepicker code starts here */
+        $( '.simple_datepicker' ).datepicker({
+        	inline: true,
+        	showOtherMonths: true,
+        	dateFormat: 'dd-mm-yy',
+                changeMonth: true,
+                changeYear: true,
+                //maxDate: new Date(),
+        }).datepicker('widget').wrap('<div class="ll-skin-cangas"/>');
+        /* Datepicker code ends here */
+        tinymce.init({
+                    selector: ".tinymce",
+                    menubar: false,
+                    plugins: [
+                        "textcolor advlist autolink lists link charmap print preview anchor",
+                        "searchreplace visualblocks code fullscreen",
+                        "insertdatetime table contextmenu paste jbimages "
+                    ],
+                    toolbar: "insertfile undo redo | styleselect | bold italic underline forecolor backcolor fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link jbimages | code",
+                    relative_urls: false
+                });
+            </script>
+            <script src="<?php echo $this->basePath(); ?>/js/jquery.datetimepicker.js" type="text/javascript" ></script>
+            <script src="<?php echo $this->basePath(); ?>/js/dateTimePicker.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/js/dashboard.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/js/spDashboard.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/js/jquery.form.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/js/jquery.pagination.js" type="text/javascript" ></script>
+            <script src="<?php echo $this->basePath(); ?>/js/businesscard.js"></script>
+            <!-- sp booking calender starts here -->
+            <script src="<?php echo $this->basePath(); ?>/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/js/spBookingsCalender.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/plugins/videojs/video.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/plugins/videojs/videojs.zoomrotate.js" type="text/javascript"></script>
+            <script type="text/javascript">
+            $(document).ready(function() {
+                $("#calendar").on("click", function() {
+                    window.setTimeout(function() {
+                        $('#bookings_calendar').fullCalendar('changeView', 'agendaWeek');
+                        //$('#bookings_calendar').fullCalendar();
+                    }, 500);
+                })
+            });
+            </script>  
+            <!-- sp booking calender ends here ---->
+        <?php } else if (isset($action) && $action == "view") { //for dashboard view only  ?>
+            <!-- sp booking calender starts here -->
+            <script src="<?php echo $this->basePath(); ?>/js/dateTimePicker.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/js/spBookingsCalender.js" type="text/javascript"></script>
+            <script type="text/javascript">
+            $(document).ready(function() {
+                $("#calendar").on("click", function() {
+                    window.setTimeout(function() {
+                        $('#bookings_calendar').fullCalendar('changeView', 'agendaWeek');
+                        //$('#bookings_calendar').fullCalendar();
+                    }, 500); 
+                });
+                
+                applySlider(447, 378);
+            });
+            </script>  
+            <!-- sp booking calender ends here ---->
+			
+        <?php } else if (isset($action) && $action == "sendnewsletter") { // for sending newsletter only  ?>
+
+            <script src="<?php echo $this->basePath(); ?>/plugins/scrollpagination.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/js/sendNewsletter.js" type="text/javascript"></script>
+
+        <?php } else if (isset($action) && $action == "referrals") { // for service provider referrals only  ?>
+
+            <script src="<?php echo $this->basePath(); ?>/js/jquery.pagination.js" type="text/javascript" ></script>
+            <script src="<?php echo $this->basePath(); ?>/js/spReferrals.js" type="text/javascript"></script>
+
+        <?php } else if (isset($action) && $action == "transactions") { // for service provider transactions only  ?>
+
+            <script src="<?php echo $this->basePath(); ?>/js/jquery.pagination.js" type="text/javascript" ></script>
+            <script src="<?php echo $this->basePath(); ?>/js/spTransactions.js" type="text/javascript"></script>
+
+        <?php } else if (isset($action) && $action == "settings") { // for settings view only  ?>
+
+
+            <script src="<?php echo $this->basePath(); ?>/js/spDashboardSettings.js" type="text/javascript"></script>
+
+        <?php } else if (isset($action) && $action == "compose") { // for compose messege view only  ?>
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/select2/select2.min.js"></script>
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/js/composemsg.js"></script>
+            <script>
+                $(function() {
+                    $("#to_user").select2({width: 'resolve'});
+                });
+            </script>
+
+        <?php } else if ($action == "sent" || $action == "inbox" || $action == "trash") { // for inbox,sent and trash view only  ?>
+
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/js/spmsgCommon.js"></script>
+
+        <?php } ?>
+        <!--<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-528de3d5369a29ac"></script>-->
+        <script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53dd191456e073b8"></script>
+    <?php } ?>
+
+    <?php if (isset($controller) && $controller == "Application\Controller\Membership") { ?>
+        <?php if (isset($action) && $action == "checkout") { ?>    
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/js/checkout.js"></script>
+        <?php } ?>    
+    <?php } ?>
+
+    <?php if (isset($controller) && $controller == "Application\Controller\Testimonials") { ?>
+		<script src="<?php echo $this->basePath(); ?>/plugins/scrollpagination.js" type="text/javascript"></script>
+		
+        <script src="<?php echo $this->basePath(); ?>/js/testimonial.js" type="text/javascript"></script>
+    <?php } ?>
+
+    <?php if (isset($controller) && ($controller == "Application\Controller\Practitioner" || $controller == "Application\Controller\Booking") && isset($action) && ($action == "view" || $action == "schedule")) { ?>
+        <script src="<?php echo $this->basePath(); ?>/js/dateTimePicker.js" type="text/javascript"></script>
+        <script src="<?php echo $this->basePath(); ?>/js/jquery.datetimepicker.js" type="text/javascript" ></script>
+        <script src="<?php echo $this->basePath(); ?>/js/bookingcalender.js"></script>
+        <script src="<?php echo $this->basePath(); ?>/js/wishlist.js"></script>
+        <script src="<?php echo $this->basePath(); ?>/js/jquery.pagination.js" type="text/javascript" ></script>
+          <script src="<?php echo $this->basePath(); ?>/js/spReferrals.js" type="text/javascript"></script>
+        <script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/select2/select2.min.js"></script>
+		<script type="text/javascript" src="<?php echo $this->basePath(); ?>/js/jquery-ui.multidatespicker.js"></script>
+		<script>
+			$(function() {
+					$("#treatment").select2({width: 'resolve'});
+                    //$("#search_location").select2({width: 'resolve'});
+					$("#datetime").multiDatesPicker({ 'minDate':0 });
+				});
+		</script>
+    <?php } ?>
+    <?php if (isset($controller) && ($controller) == "Application\Controller\Booking") { ?>
+        <script type="text/javascript" src="<?php echo $this->basePath(); ?>/js/checkout.js"></script>
+    <?php } ?>
+    <?php if (isset($controller) && ($controller) == "Application\Controller\Contactus") { ?>
+        <script type="text/javascript" src="<?php echo $this->basePath(); ?>/js/contact.js"></script>
+    <?php } ?>
+
+    <?php if (isset($controller) && ($controller == "Application\Controller\Consumer")) { ?>
+		<script type="text/javascript" src="<?php echo $this->basePath(); ?>/js/jquery-ui.multidatespicker.js"></script>
+		<script>
+			$(function() {
+					var date = $("#datetime").val();
+					$("#datetime").multiDatesPicker({ 'minDate':0 }).val(date);
+				});
+		</script>
+        <?php if (isset($action) && ($action == "view")) { ?>
+            <script src="<?php echo $this->basePath(); ?>/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+            <!--<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-528de3d5369a29ac"></script>-->
+            <script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53dd191456e073b8"></script>
+            
+           
+        <?php } else if (isset($action) && ($action == "settings")) { ?>
+            <script src="<?php echo $this->basePath(); ?>/js/consumerSettings.js"></script>
+        <?php } else if (isset($action) && ($action == "dashboard")) { ?>
+            <script src="<?php echo $this->basePath(); ?>/js/jquery.datetimepicker.js" type="text/javascript" ></script>
+            <script src="<?php echo $this->basePath(); ?>/js/dateTimePicker.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/js/dashboard.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/js/ConsumerBookingsCalender.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/js/ConsumerDashboard.js"></script> 
+            <script src="<?php echo $this->basePath(); ?>/js/jquery.form.js" type="text/javascript"></script>
+            <script src="<?php echo $this->basePath(); ?>/js/jquery.pagination.js" type="text/javascript" ></script>
+            <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath(); ?>/plugins/select2/select2.css"/>
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/select2/select2.min.js"></script>
+            <script>
+                setTimeout("applyAutoComplete('.address-autofill', '')", 5000);
+                $(function() {
+                    applyAutoCompleteName('#idorname', '');
+                    $("#treatment").select2({width: 'resolve'});
+                    //$("#search_location").select2({width: 'resolve'});
+                    applySlider(447, 378);
+                });
+            </script>
+        <?php } else if (isset($action) && ($action == "compose")) { ?>
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/plugins/select2/select2.min.js"></script>
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/js/composemsg.js"></script>
+            <script>
+                $(function() {
+                    $("#to_user").select2({width: 'resolve'});
+                });
+            </script>
+        <?php } else if ($action == "sent" || $action == "inbox" || $action == "trash") { // for inbox,sent and trash view only  ?>
+
+            <script type="text/javascript" src="<?php echo $this->basePath(); ?>/js/spmsgCommon.js"></script>
+
+        <?php } ?> 
+    <?php } ?>
+
+    <?php if (isset($controller) && ($controller == "Application\Controller\Verification")) { ?>
+        <script src="<?php echo $this->basePath(); ?>/js/intlTelInput.min.js"></script>
+        <script src="<?php echo $this->basePath(); ?>/js/intlTelInput.js"></script>
+        <script src="<?php echo $this->basePath(); ?>/js/verification.js"></script> 
+    <?php } ?>
+
+    <?php if (isset($controller) && ($controller == "Application\Controller\Consumer")) { ?>
+        <?php if (isset($action) && ($action == "ratings")) { ?>
+            <script src="<?php echo $this->basePath(); ?>/js/ConsumerDashboard.js"></script>
+        <?php } ?>
+    <?php } ?>
+
+    <!-- JS file for send subscriptions -->                
+    <script src="<?php echo $this->basePath(); ?>/js/subscribe.js"></script>        
+
+    <?php if (isset($controller) && ($controller == "Application\Controller\Index")) { ?>
+        <script>
+                /* jwplayer code start here */
+
+                $('video').each(function() {
+                    jwplayer(this.id).setup({
+                        file: this.src,
+                        image: OVEconfig.BASEURL + '/img/video-screen.png',
+                        title: this.title,
+                        width: '100%',
+                        height: 554,
+                        aspectratio: '16:10',
+                        autostart: 'false',
+                        primary: 'flash'
+                    });
+                });
+        </script>
+
+    <?php } ?>
+
+    <?php print $this->headScript(); ?>
+   
+
+</body>
+</html>

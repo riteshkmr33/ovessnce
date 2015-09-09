@@ -1,0 +1,76 @@
+<?php
+$title = 'Add New Testimonial';
+$this->headTitle($title);
+
+$form = $this->form;
+$form->setAttribute('action', $this->url('admin/testimonials', array('action' => 'add')));
+$form->prepare();
+
+?>
+<div class="portlet box grey">
+  <div class="portlet-title">
+    <div class="caption"> <i class="fa fa-reorder"></i> <?php echo $this->escapeHtml($title); ?> </div>
+    <div class="actions"> <a class="btn default btn-sm" href="<?php echo $this->basePath()?>/admin/testimonials"> <i class="fa fa-pencil"></i>Testimonials List</a> <a class="btn default btn-sm" href="javascript: history.go(-1);"> <i class="fa fa-pencil"></i> Back</a> </div>
+  </div>
+  <div class="portlet-body form">
+    <?php
+		echo $this->form()->openTag($form); 
+		echo $this->formHidden($form->get('id'));
+    ?>
+      <div class="form-body">
+        <!--PAGE CONTENT BEGINS-->
+        <?php
+        if(isset($error) && !empty($error)){  
+
+               echo '<div class="alert alert-block alert-error" id="errors">';
+               foreach($error as $key=>$val){
+                      for($i=0; $i<count($val); $i++){
+                          echo $val[$i].'<br/>';
+                      }
+                   }
+               echo '</div>';
+        }elseif (isset($success)) {
+           echo '<div class="alert alert-block alert-success" style="display:block;" id="success">'.$success.'</div>';
+        }   
+       ?>
+        <?php $created_by = $form->get('created_by'); ?>
+        <div class="form-group <?php echo ($this->formElementErrors($created_by) != "")?"has-error":"";?>">
+		  <label for="created_by" ><?php echo $this->formLabel($created_by); ?></label>
+			<?php echo $this->formSelect($created_by); ?>
+			<span class="help-block">
+				<?php echo strip_tags($this->formElementErrors($created_by));?>
+			</span>
+        </div>
+        
+        <?php $text = $form->get('text'); ?>
+        <div class="form-group <?php echo ($this->formElementErrors($text) != "")?"has-error":"";?>">
+		  <label for="content" ><?php echo $this->formLabel($text); ?></label>
+                <?php echo $this->formTextarea($text);?>
+				<span class="help-block">
+					<?php echo strip_tags($this->formElementErrors($text));?>
+				</span>
+        </div>
+        
+        <?php $status_id = $form->get('status_id'); ?>
+        <div class="form-group <?php echo ($this->formElementErrors($status_id) != "")?"has-error":"";?>">
+		<div class="row">
+          <label class="col-md-1 control-label" for="status" ><?php echo strip_tags($this->formLabel($status_id)); ?></label>
+          <div class="col-md-11">
+			<?php echo $this->formRadio($status_id);?>
+			<span class="help-block">
+				<?php echo strip_tags($this->formElementErrors($status_id));?>
+			</span>
+		  </div>
+		 </div>
+        </div>
+        
+        <div class="clearfix"></div>
+                
+        <div class="form-actions">
+            <button class="btn blue" type="submit">Submit</button>
+            <button class="btn default" type="reset">Reset</button>
+		</div>
+	</div>
+	<?php  echo $this->form()->closeTag();?>
+	</div>
+</div>
